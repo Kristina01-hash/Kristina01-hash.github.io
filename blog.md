@@ -40,19 +40,19 @@
   <ol>
      <li>
       <span class="post-icon" aria-hidden="true">🎪</span>
-      <a class="post-link" href="https://kristinap09.github.io/clown-network/chronicles/2026-05-25-navigating-ASEAN-ecommerce-saga.html"> High Standards Only: Why I Upgrade Relentlessly </a>
+      <a class="post-link" href="https://kristina01-hash.github.io/clown-network/chronicles/2026-05-25-navigating-ASEAN-ecommerce-saga.html"> High Standards Only: Why I Upgrade Relentlessly </a>
       <span class="badge new">NEW</span>
       <p class="excerpt"> High Standards Only: Why I upgrade relentlessly and how e-commerce platforms keep delivering comedy gold instead of packages. Honest reviews, CCTV receipts, and zero tolerance for low-quality experiences </p>
     </li> 
     <li>
       <span class="post-icon" aria-hidden="true">🎪</span>
-      <a class="post-link" href="https://kristinap09.github.io/clown-network/chronicles/2026-05-24-great-gallon-heist.html">The Great Gallon Heist of 2026</a>
+      <a class="post-link" href="https://kristina01-hash.github.io/clown-network/chronicles/2026-05-24-great-gallon-heist.html">The Great Gallon Heist of 2026</a>
       <span class="badge new">NEW</span>
       <p class="excerpt">There's a Ph.D. graduate, a missing gallon of water, CCTV footage, a master's program director who likes to record things, a South Korean interview panel with an unclear headcount, and an entire continent that somehow refuses to connect the dots. </p>
     </li>      
     <li>
      <span class="post-icon" aria-hidden="true">🎪</span>
-     <a class="post-link" href="https://kristinap09.github.io/clown-network/chronicles/The_IDR173984_settlement_nobody_asked_for.html">The Rp173.914 Settlement Nobody Asked For</a>
+     <a class="post-link" href="https://kristina01-hash.github.io/clown-network/chronicles/The_IDR173984_settlement_nobody_asked_for.html">The Rp173.914 Settlement Nobody Asked For</a>
      <span class="badge new">NEW</span>
      <p class="excerpt">This is the story of a tiny mistake that resulted in an e-commerce company offering me a settlement of just 173,914 Indonesian rupiah — an insultingly small amount which wouldn't even cover the cost of a cup of coffee. Not only was this settlement insulting, it also highlighted the system's lack of accountability and transparency, leaving sellers feeling frustrated and powerless.</p>
     </li>    
