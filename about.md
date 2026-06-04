@@ -324,12 +324,12 @@ function updateThemeStatus(text) {
 </script>
 
 <div class="profile-container">
-  <img src="https://kristinap09.github.io/assets/images/IMG_0249.jpeg" alt="Kristina P. Sinaga" class="profile-image">
+  <img src="https://Kristina01-hash.github.io/assets/images/IMG_0249.jpeg" alt="Kristina P. Sinaga" class="profile-image">
   <div class="profile-info">
     <h1>Kristina P. Sinaga</h1>
     <div class="profile-title">Ph.D. in Applied Mathematics, Chung Yuan Christian University (CYCU), Taiwan</div>
     <div class="social-links">
-      <a href="https://github.com/KristinaP09" class="social-link">GitHub</a>
+      <a href="https://github.com/Kristina01-hash" class="social-link">GitHub</a>
       <a href="www.linkedin.com/in/kristina-p-sinaga-0ba152309" class="social-link">LinkedIn</a>
       <a href="https://medium.com/@kristinapestaria.sinaga" class="social-link">Medium</a>
       <a href="https://scholar.google.com/citations?view_op=list_works&hl=it&hl=it&user=XoJ7EkoAAAAJ" class="social-link">Google Scholar</a>
