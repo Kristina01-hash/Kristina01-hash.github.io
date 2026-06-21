@@ -38,6 +38,12 @@
 <section class="recent-posts callout" aria-labelledby="recent-posts-title">
   <h2 id="recent-posts-title">Most Recent Posts</h2>
   <ol>
+    <li>
+      <span class="post-icon" aria-hidden="true">🎪</span>
+      <a class="post-link" href="https://kristina01-hash.github.io/clown-network/chronicles/indonesia-healthcare-rant-blogpost.html"> Indonesia’s Finest: How One Doctor, One Cop, One Bank, and a Whole Bureaucratic Circus Turned a Normal Citizen into a Mental Health Statistic </a>
+      <span class="badge new">NEW</span>
+      <p class="excerpt"> Another example of the country’s dysfunctional system, presented with a touch of sarcasm and no censorship. </p>
+    </li> 
      <li>
       <span class="post-icon" aria-hidden="true">🎪</span>
       <a class="post-link" href="https://kristina01-hash.github.io/clown-network/chronicles/2026-05-25-navigating-ASEAN-ecommerce-saga.html"> High Standards Only: Why I Upgrade Relentlessly </a>
