@@ -40,6 +40,13 @@
   <ol>
     <li>
       <span class="post-icon" aria-hidden="true">🎪</span>
+      <a class="post-link" href="https://kristina01-hash.github.io/clown-network/chronicles/bca_email_verification_bug.html"> A Bank That Contradicts Itself: BCA's Email-Verification Bug, Documented
+</a>
+      <span class="badge new">NEW</span>
+      <p class="excerpt"> When Even Your Bank Can’t Handle a Simple Email Swap: A Love Letter to BCA’s Glorious IT Chaos 😉 </p>
+    </li> 
+    <li>
+      <span class="post-icon" aria-hidden="true">🎪</span>
       <a class="post-link" href="https://kristina01-hash.github.io/clown-network/chronicles/indonesia-healthcare-rant-blogpost.html"> Indonesia’s Finest: How One Doctor, One Cop, One Bank, and a Whole Bureaucratic Circus Turned a Normal Citizen into a Mental Health Statistic </a>
       <span class="badge new">NEW</span>
       <p class="excerpt"> Another example of the country’s dysfunctional system, presented with a touch of sarcasm and no censorship. </p>
