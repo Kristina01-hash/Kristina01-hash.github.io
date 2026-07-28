@@ -77,8 +77,7 @@
      <span class="badge new">NEW</span>
      <p class="excerpt">This is the story of a tiny mistake that resulted in an e-commerce company offering me a settlement of just 173,914 Indonesian rupiah — an insultingly small amount which wouldn't even cover the cost of a cup of coffee. Not only was this settlement insulting, it also highlighted the system's lack of accountability and transparency, leaving sellers feeling frustrated and powerless.</p>
     </li>    
-  </ol>
-</section>
+
 
 <!-- Floating Emojis (improved animation) -->
 
