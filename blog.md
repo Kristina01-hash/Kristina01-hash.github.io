@@ -40,6 +40,14 @@
   <ol>
     <li>
       <span class="post-icon" aria-hidden="true">🎪</span>
+      <a class="post-link" href="https://kristina01-hash.github.io/clown-network/chronicles/2026-07-28_clustering-you-need-to-know.html"> Teaching a Computer to See in Shades of Gray
+</a>
+      <span class="badge new">NEW</span>
+      <p class="excerpt"> Finally, I'm writing back about academic stuff! 😉 Here's an example of when maths meets its application in medical image segmentation: In review.  </p>
+    </li> 
+    <li>
+    <li>
+      <span class="post-icon" aria-hidden="true">🎪</span>
       <a class="post-link" href="https://kristina01-hash.github.io/clown-network/chronicles/bca_email_verification_bug.html"> A Bank That Contradicts Itself: BCA's Email-Verification Bug, Documented
 </a>
       <span class="badge new">NEW</span>
