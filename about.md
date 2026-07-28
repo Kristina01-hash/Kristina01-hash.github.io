@@ -343,12 +343,13 @@ function updateThemeStatus(text) {
 
 ## About Me
 
-As an independent researcher, I specialise in applied mathematics, pattern recognition, machine learning and federated learning, driving advancements where academia and industry meet. I acquired a solid background as a postdoc at ISTI-CNR in Italy and the Department of Applied Mathematics at CYCU in Taiwan. I have a proven track record of developing innovative solutions that integrate theoretical research and practical applications, delivering tangible results in both domains. I speak my mind and mean what I say. 
+As an independent researcher, I specialize in applied mathematics, pattern recognition, machine learning, and federated learning. I facilitate the development of advancements at the intersection of academia and industry. I cultivated my expertise as a postdoctoral researcher at ISTI-CNR in Italy and the Department of Applied Mathematics at CYCU in Taiwan. I have a proven track record of developing innovative solutions that integrate theoretical research and practical applications, delivering tangible results in both fields. I speak my mind and mean what I say.
 
 <div class="highlight-box">
   <h3>Research Interests</h3>
   <p>
-    My research focuses on developing innovative algorithms for complex systems, with a particular emphasis on multi-view clustering, heat-kernel methods, and fuzzy clustering approaches in both centralized and decentralized environments. These methods are designed to deliver robust performance in unpredictable, real-world settings characterized by heterogeneous data sources. For example, in applications like autonomous systems or smart healthcare, where data varies widely in format and quality, my algorithms ensure reliable outcomes despite inherent uncertainties.</p>
+   My research focuses on developing innovative algorithms for complex systems, with a particular emphasis on multi-view clustering, heat-kernel methods, and fuzzy clustering approaches in both centralized and decentralized environments. These methods are designed to deliver robust performance in unpredictable, real-world settings characterized by heterogeneous data sources. For instance, in domains such as autonomous systems and smart healthcare, where data can vary significantly in format and quality, my algorithms ensure reliable outcomes despite inherent uncertainties.
+  </p>
 </div>
 
 ## Specializations
@@ -364,19 +365,22 @@ As an independent researcher, I specialise in applied mathematics, pattern recog
   <span class="badge">Edge AI</span>
 </div>
 
-I focus on unpredictable, real-world settings where systems are truly tested. My approach blends theoretical rigor with hands-on experimentation to build scalable, intelligent solutions that hold up beyond the lab. My work with heat-kernel coefficients has led to novel clustering algorithms that outperform traditional methods on heterogeneous data.
+I specialize in testing systems in unpredictable, real-world settings, where they are truly put to the test. My approach integrates theoretical rigor with hands-on experimentation to develop scalable, intelligent solutions that are durable and applicable in real-world settings. My research in the field of heat-kernel coefficients has resulted in the development of innovative clustering algorithms that demonstrate superior performance in comparison to conventional methods when dealing with heterogeneous data.
 
 ## Experience & Projects
 
 <div class="card-container">
   <div class="card">
     <h3>Algorithm Design</h3>
-    <p>The core of my work lies in creating scalable solutions that bridge theoretical rigor with practical utility. Over the past eight years, I have specialized in unsupervised learning, developing clustering algorithms that outperform traditional methods when handling diverse, multi-source data. This expertise provides a strong foundation for my current exploration into hybrid models that integrate unsupervised, supervised, and deep learning techniques. This transition represents a paradigm shift, leveraging the strengths of deep learning to enhance efficiency and accuracy in complex data environments, such as real-time analytics in IoT systems or personalized recommendation engines.</p>
+    <p>
+     The foundation of my work is the creation of scalable solutions that integrate theoretical rigor with practical utility. For the past decade, I have specialized in unsupervised learning, developing clustering algorithms that outperform traditional methods when handling diverse, multi-source data. This expertise provides a solid foundation for my current exploration into hybrid models that integrate unsupervised, supervised, and deep learning techniques. This transition signifies a paradigm shift, leveraging the strengths of deep learning to enhance efficiency and accuracy in complex data environments, such as real-time analytics in IoT systems or personalized recommendation engines.
+    </p>
   </div>
   <div class="card">
     <h3>Robustness Research</h3>
-    <p>A key aspect of this research involves adapting to modern computational tools. Transitioning from MATLAB to Python has been a significant evolution in my workflow, enabling greater flexibility and access to advanced libraries like TensorFlow and PyTorch. This shift is straightforward yet impactful: it begins with formulating core functions and progresses to leveraging Python’s extensive ecosystem of libraries, streamlining algorithm development and deployment. For instance, Python’s versatility supports rapid prototyping for industry applications while maintaining the precision required for academic research.
-This research has broad implications. For academia, it advances the theoretical understanding of clustering and learning paradigms. For industry, it offers practical, scalable solutions for data-driven decision-making in dynamic environments. For the general public, it paves the way for smarter, more reliable technologies that adapt to real-world complexities, from improved medical diagnostics to enhanced user experiences in digital platforms.</p>
+    <p>
+     A key aspect of this research involves adapting to modern computational tools. The transition from MATLAB to Python has been a substantial change in my workflow. It has given me greater flexibility and access to advanced libraries like TensorFlow and PyTorch. This shift is both straightforward and impactful. It begins with formulating core functions and progresses to leveraging Python's extensive ecosystem of libraries, streamlining algorithm development and deployment. Python's versatility allows for rapid prototyping in industry while maintaining the precision required for academic research. This research has broad implications. For academic institutions, it contributes to the advancement of theoretical understanding in the fields of clustering and learning paradigms. For industry, it offers practical, scalable solutions for data-driven decision-making in dynamic environments. For the general public, it paves the way for smarter, more reliable technologies that adapt to real-world complexities, from improved medical diagnostics to enhanced user experiences in digital platforms.
+    </p>
   </div>
   <div class="card">
     <h3>NeuralGlow.ai</h3>
@@ -395,6 +399,15 @@ This research has broad implications. For academia, it advances the theoretical 
 <div class="publication-list">
 
 <div class="publication-item">
+    <span class="pub-year">2026</span>
+    <div class="pub-details">
+      <p class="pub-title"> Multi-View Clustering Goes Federated: A Survey</p>
+      <p class="pub-authors">Sinaga, K.P.</p>
+      <p class="pub-journal"><em>Qeios</em></p>
+      <div class="pub-links">
+        <a href="https://www.qeios.com/read/PC8X49" target="_blank" class="journal-link">Preprint</a>
+      </div>
+    </div>
     <span class="pub-year">2026</span>
     <div class="pub-details">
       <p class="pub-title">Personalized Federated Heat-Kernel Enhanced Multi-View Clustering via Advanced Tensor Decomposition Techniques (v4)</p>
@@ -425,17 +438,7 @@ This research has broad implications. For academia, it advances the theoretical 
         <a href="https://github.com/KristinaP09/FedHK-MVFC" target="_blank" class="code-link">Code</a>
       </div>
     </div>
-    <span class="pub-year">2024</span>
-    <div class="pub-details">
-      <p class="pub-title">Federated Multi-View K-Means Clustering</p>
-      <p class="pub-authors">Yang, M.S., Sinaga, K.P.</p>
-      <p class="pub-journal"><em>IEEE Transactions on Pattern Analysis and Machine Intelligence</em></p>
-      <div class="pub-links">
-        <a href="https://ieeexplore.ieee.org/abstract/document/10810504" target="_blank" class="journal-link">Journal</a>
-        <a href="https://github.com/KristinaP09/Fed-MVKM" target="_blank" class="code-link">Code</a>
-      </div>
-    </div>
-  </div>
+   </div>
 
 </div>
 
@@ -443,14 +446,13 @@ This research has broad implications. For academia, it advances the theoretical 
 
 <div class="highlight-box">
   <h3>Open to New Roles</h3>
-  <p>I am currently on the global job market for research-driven or applied roles—starting <strong>October 2025</strong>—with teams that value clarity, autonomy, and creative rigor.</p>
-  <p><em>If your work is serious about outcomes (and allergic to nonsense too), let's talk.</em></p>
+  <p>I am seeking employment opportunities in the global job market, specifically in research-driven or applied roles within teams that value clarity, autonomy, and creative rigor. If you prioritize achieving tangible results and do not tolerate frivolous content, I invite you to initiate a dialogue.</p>
   <a href="mailto:kristinasinaga41@gmail.com" class="cta-button">Get in Touch</a>
 </div>
 
 ## Contact
 
-Feel free to reach out if you're interested in collaboration, research opportunities, or just want to discuss interesting problems in AI and mathematics.
+If you are interested in exploring collaboration or research opportunities, or if you simply wish to discuss intriguing problems in AI and mathematics, please do not hesitate to contact me.
 
 - Email: kristinasinaga41@gmail.com
 - Previous Affiliation: ISTI-CNR, Italy
@@ -458,5 +460,5 @@ Feel free to reach out if you're interested in collaboration, research opportuni
 ---
 
 <p style="text-align: center; color: var(--muted); font-size: 0.9em;">
-© 2025 Kristina P. Sinaga | Last updated: January 2026
+© 2025 Kristina P. Sinaga | Last updated: July 2026
 </p>
