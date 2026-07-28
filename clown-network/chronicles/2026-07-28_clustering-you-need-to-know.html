@@ -1,0 +1,1479 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Teaching a Computer to See in Shades of Gray | Fuzzy Clustering for MRI Scans</title>
+    <meta name="description" content="A plain-language tour of how fuzzy clustering helps computers read MRI scans — from the original idea to the noise-resistant, bias-correcting methods used today. Math included, but optional." />
+    <meta name="author" content="Kristina P. Sinaga" />
+    <meta name="keywords" content="fuzzy clustering, medical image segmentation, FCM, MRI segmentation, kernel FCM, bias field correction" />
+    <link rel="canonical" href="https://example.com/clustering-in-medical-image-analysis" />
+
+    <meta property="og:type" content="article" />
+    <meta property="og:title" content="Teaching a Computer to See in Shades of Gray" />
+    <meta property="og:description" content="A plain-language tour of fuzzy clustering for MRI segmentation, from fuzzy c-means to bias-corrected and kernelized variants." />
+    <meta property="og:image" content="https://www.researchgate.net/profile/Hans-Christian-Hege/publication/237802930/figure/fig1/AS:298783637295106@1448246978688/D-medical-image-data-From-pixels-to-voxels.png" />
+    <meta property="og:url" content="https://example.com/clustering-in-medical-image-analysis" />
+    <meta property="article:author" content="Kristina P. Sinaga" />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Teaching a Computer to See in Shades of Gray" />
+    <meta name="twitter:description" content="A plain-language tour of fuzzy clustering for MRI segmentation, from fuzzy c-means to bias-corrected and kernelized variants." />
+    <meta name="twitter:image" content="https://www.researchgate.net/profile/Hans-Christian-Hege/publication/237802930/figure/fig1/AS:298783637295106@1448246978688/D-medical-image-data-From-pixels-to-voxels.png" />
+
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🩻</text></svg>" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,500;0,8..60,600;1,8..60,400&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+      onload="renderMathInElement(document.body);"></script>
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BlogPosting",
+      "headline": "Teaching a Computer to See in Shades of Gray",
+      "description": "A plain-language tour of fuzzy clustering for MRI segmentation, from fuzzy c-means to bias-corrected and kernelized variants.",
+      "author": { "@type": "Person", "name": "Kristina P. Sinaga" },
+      "datePublished": "2026-07-25",
+      "image": "https://www.researchgate.net/profile/Hans-Christian-Hege/publication/237802930/figure/fig1/AS:298783637295106@1448246978688/D-medical-image-data-From-pixels-to-voxels.png"
+    }
+    </script>
+
+    <style>
+      :root {
+        --ink: #14171c;
+        --ink-soft: #4b525a;
+        --paper: #f1f3ee;
+        --panel: #ffffff;
+        --line: #dde1da;
+
+        --teal: #1f6f5c;
+        --teal-tint: #e3f0ec;
+        --plum: #6c4e85;
+        --plum-tint: #efe7f3;
+        --clay: #b5502e;
+        --clay-tint: #f7e9e2;
+        --gold: #a9791b;
+        --gold-tint: #f6eedd;
+
+        --display: "Fraunces", serif;
+        --body: "Source Serif 4", serif;
+        --ui: "IBM Plex Sans", sans-serif;
+        --mono: "IBM Plex Mono", monospace;
+      }
+
+      * { box-sizing: border-box; }
+
+      html { scroll-behavior: smooth; }
+
+      body {
+        margin: 0;
+        font-family: var(--body);
+        text-align: justify;
+        background: var(--paper);
+        color: var(--ink);
+        line-height: 1.7;
+        font-size: 1.08rem;
+      }
+
+      #progress-bar {
+        position: fixed;
+        top: 0; left: 0;
+        height: 3px;
+        width: 0%;
+        background: linear-gradient(90deg, var(--teal), var(--plum));
+        z-index: 999;
+        transition: width 0.1s ease-out;
+      }
+
+      a { color: var(--teal); }
+
+      /* ---------- Spectrum motif: the page's signature element ---------- */
+      .spectrum {
+        --stop: 50%;
+        height: 8px;
+        border-radius: 999px;
+        background: linear-gradient(90deg, var(--paper) 0%, var(--teal) 100%);
+        border: 1px solid var(--line);
+        position: relative;
+      }
+      .spectrum::after {
+        content: "";
+        position: absolute;
+        top: 50%; left: var(--stop);
+        width: 14px; height: 14px;
+        background: var(--panel);
+        border: 3px solid var(--ink);
+        border-radius: 50%;
+        transform: translate(-50%, -50%);
+      }
+      .spectrum-labels {
+        display: flex;
+        justify-content: space-between;
+        font-family: var(--mono);
+        font-size: 0.72rem;
+        color: var(--ink-soft);
+        margin-top: 6px;
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+      }
+      .divider {
+        max-width: 220px;
+        margin: 56px auto;
+      }
+
+      /* ---------- Hero ---------- */
+      .hero {
+        padding: 84px 24px 40px;
+        text-align: center;
+      }
+      .hero-inner { max-width: 760px; margin: 0 auto; }
+
+      .eyebrow {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        font-family: var(--ui);
+        font-weight: 600;
+        font-size: 0.78rem;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: var(--teal);
+        margin-bottom: 22px;
+      }
+      .eyebrow::before {
+        content: "";
+        width: 22px; height: 1px;
+        background: var(--teal);
+        display: inline-block;
+      }
+
+      h1, h2, h3 {
+        font-family: var(--display);
+        line-height: 1.15;
+        margin-top: 0;
+        color: var(--ink);
+      }
+
+      h1 {
+        font-size: clamp(2.1rem, 5vw, 3.4rem);
+        font-weight: 600;
+        margin-bottom: 20px;
+        letter-spacing: -0.01em;
+      }
+
+      .hero .dek {
+        font-family: var(--body);
+        font-size: 1.2rem;
+        color: var(--ink-soft);
+        max-width: 620px;
+        margin: 0 auto 30px;
+      }
+
+      .byline {
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 8px 14px;
+        font-family: var(--ui);
+        font-size: 0.86rem;
+        color: var(--ink-soft);
+        margin-bottom: 36px;
+      }
+      .byline .avatar {
+        width: 30px; height: 30px;
+        border-radius: 50%;
+        background: var(--ink);
+        color: var(--paper);
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        font-family: var(--display);
+        font-weight: 600;
+        font-size: 0.8rem;
+      }
+      .byline .dot { opacity: 0.5; }
+
+      /* ---------- Layout shell ---------- */
+      main { padding: 0 24px 80px; }
+      .col {
+        max-width: 660px;
+        margin: 0 auto;
+      }
+      .col-wide {
+        max-width: 760px;
+        margin: 0 auto;
+      }
+
+      /* ---------- The gist panel ---------- */
+      .gist {
+        background: var(--panel);
+        border: 1px solid var(--line);
+        border-radius: 4px;
+        padding: 26px 28px;
+        margin-bottom: 8px;
+      }
+      .gist h2 {
+        font-family: var(--ui);
+        font-size: 0.78rem;
+        font-weight: 700;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: var(--teal);
+        margin-bottom: 14px;
+      }
+      .gist ul {
+        margin: 0;
+        padding-left: 20px;
+      }
+      .gist li {
+        margin-bottom: 10px;
+        color: var(--ink-soft);
+      }
+      .gist li:last-child { margin-bottom: 0; }
+      .gist strong { color: var(--ink); }
+
+      figure.lead-image {
+        margin: 28px 0 8px;
+      }
+      figure.lead-image img {
+        width: 100%;
+        border-radius: 4px;
+        display: block;
+        border: 1px solid var(--line);
+      }
+      figure.lead-image figcaption {
+        font-family: var(--ui);
+        font-size: 0.82rem;
+        color: var(--ink-soft);
+        margin-top: 10px;
+        line-height: 1.5;
+      }
+      figure.lead-image figcaption a { color: var(--ink-soft); }
+
+      /* ---------- Table of contents ---------- */
+      nav.toc {
+        margin: 44px 0;
+        padding: 24px 0;
+        border-top: 1px solid var(--line);
+        border-bottom: 1px solid var(--line);
+      }
+      nav.toc h2 {
+        font-family: var(--ui);
+        font-size: 0.78rem;
+        font-weight: 700;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        justify-content: center;
+        color: var(--ink-soft);
+        margin-bottom: 14px;
+      }
+      nav.toc ol {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        columns: 2;
+        column-gap: 28px;
+      }
+      nav.toc li {
+        break-inside: avoid;
+        margin-bottom: 9px;
+        font-family: var(--ui);
+        font-size: 0.94rem;
+        counter-increment: toc;
+      }
+      nav.toc a {
+        color: var(--ink);
+        text-decoration: none;
+        border-bottom: 1px solid transparent;
+      }
+      nav.toc a:hover { border-bottom-color: var(--teal); }
+
+      /* ---------- Article sections ---------- */
+      article.section {
+        margin-bottom: 8px;
+      }
+      article.section h2 {
+        font-size: 1.7rem;
+        font-weight: 600;
+        margin-bottom: 6px;
+        margin-top: 56px;
+      }
+      article.section .kicker {
+        display: block;
+        font-family: var(--mono);
+        font-size: 0.74rem;
+        color: var(--ink-soft);
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        margin-bottom: 10px;
+      }
+      article.section h3 {
+        font-size: 1.2rem;
+        font-weight: 600;
+        margin-top: 30px;
+        margin-bottom: 10px;
+      }
+      article.section p {
+        color: var(--ink-soft);
+        margin: 0 0 18px;
+        text-align: justify;
+      }
+      article.section p strong { color: var(--ink); font-weight: 600; }
+      article.section ul, article.section ol.plain {
+        color: var(--ink-soft);
+        padding-left: 22px;
+        margin: 0 0 18px;
+        text-align: justify;
+      }
+      article.section li { margin-bottom: 8px; }
+
+      .tagword {
+        font-family: var(--mono);
+        font-weight: 600;
+        padding: 1px 6px;
+        border-radius: 3px;
+        white-space: nowrap;
+      }
+      .tagword.fcm   { background: var(--teal-tint); color: var(--teal); }
+      .tagword.s     { background: var(--clay-tint); color: var(--clay); }
+      .tagword.bc    { background: var(--gold-tint); color: var(--gold); }
+      .tagword.en    { background: var(--teal-tint); color: var(--teal); }
+      .tagword.k     { background: var(--gold-tint); color: var(--gold); }
+      .tagword.local { background: var(--plum-tint); color: var(--plum); }
+
+      .callout {
+        background: var(--teal-tint);
+        border-left: 3px solid var(--teal);
+        padding: 16px 20px;
+        border-radius: 0 4px 4px 0;
+        margin: 22px 0;
+        font-family: var(--body);
+        font-style: italic;
+        color: var(--ink);
+      }
+      .callout.warn { background: var(--clay-tint); border-left-color: var(--clay); }
+
+      /* ---------- Collapsible math ---------- */
+      details.mathbox {
+        border: 1px solid var(--line);
+        border-radius: 4px;
+        margin: 18px 0 26px;
+        background: var(--panel);
+      }
+      details.mathbox summary {
+        cursor: pointer;
+        list-style: none;
+        padding: 13px 18px;
+        font-family: var(--ui);
+        font-weight: 600;
+        font-size: 0.9rem;
+        color: var(--ink);
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+      details.mathbox summary::-webkit-details-marker { display: none; }
+      details.mathbox summary::before {
+        content: "+";
+        font-family: var(--mono);
+        color: var(--teal);
+        font-size: 1.1rem;
+        width: 18px;
+        text-align: center;
+      }
+      details.mathbox[open] summary::before { content: "–"; }
+      details.mathbox summary .sub {
+        font-family: var(--ui);
+        font-weight: 400;
+        color: var(--ink-soft);
+        font-size: 0.82rem;
+      }
+      .mathbox-body {
+        padding: 4px 20px 20px;
+        border-top: 1px solid var(--line);
+      }
+      .mathbox-body p { color: var(--ink-soft); }
+      .formula {
+        background: var(--paper);
+        border: 1px solid var(--line);
+        border-radius: 4px;
+        padding: 14px 18px;
+        margin: 14px 0;
+        overflow-x: auto;
+      }
+      .formula p { margin: 6px 0; color: var(--ink); }
+      .formula ol { color: var(--ink-soft); padding-left: 20px; }
+      .formula-label {
+        font-family: var(--mono);
+        font-size: 0.76rem;
+        color: var(--ink-soft);
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        margin: 0 0 8px;
+      }
+
+      /* ---------- Lineage rail ---------- */
+      .lineage {
+        list-style: none;
+        margin: 24px 0;
+        padding: 0;
+        border-left: 2px solid var(--line);
+      }
+      .lineage li {
+        position: relative;
+        padding: 2px 0 20px 24px;
+        color: var(--ink-soft);
+      }
+      .lineage li::before {
+        content: "";
+        position: absolute;
+        left: -6px; top: 6px;
+        width: 10px; height: 10px;
+        border-radius: 50%;
+        background: var(--panel);
+        border: 2px solid var(--teal);
+      }
+      .lineage li:last-child { padding-bottom: 0; }
+
+      /* ---------- Method rail ---------- */
+      .method-rail {
+        margin: 24px 0 32px;
+        display: flex;
+        flex-direction: column;
+        gap: 14px;
+      }
+      .method-row {
+        display: grid;
+        grid-template-columns: 92px 1fr;
+        gap: 16px;
+        align-items: start;
+        padding: 16px 0;
+        border-top: 1px solid var(--line);
+      }
+      .method-row:first-child { border-top: none; }
+      .method-row h3 {
+        margin: 0 0 4px;
+        font-size: 1.02rem;
+      }
+      .method-row p { margin: 0; font-size: 0.98rem; }
+
+      /* ---------- Table ---------- */
+      .table-wrap { overflow-x: auto; margin: 22px 0; border: 1px solid var(--line); border-radius: 4px; }
+      table {
+        border-collapse: collapse;
+        width: 100%;
+        font-family: var(--ui);
+        font-size: 0.86rem;
+        min-width: 720px;
+      }
+      thead th {
+        background: var(--ink);
+        color: var(--paper);
+        text-align: left;
+        font-weight: 600;
+        padding: 12px 14px;
+      }
+      tbody th {
+        text-align: left;
+        font-family: var(--mono);
+        font-weight: 600;
+        color: var(--teal);
+        white-space: nowrap;
+        padding: 12px 14px;
+        border-top: 1px solid var(--line);
+      }
+      tbody td {
+        padding: 12px 14px;
+        border-top: 1px solid var(--line);
+        color: var(--ink-soft);
+        vertical-align: top;
+      }
+      tbody tr:nth-child(even) { background: var(--panel); }
+      tbody tr:nth-child(odd) { background: #f8f9f6; }
+
+      .future-box {
+        background: var(--plum-tint);
+        border: 1px solid var(--line);
+        border-radius: 4px;
+        padding: 22px 24px;
+        margin: 26px 0;
+      }
+      .future-box h3 {
+        color: var(--plum);
+        margin-top: 0;
+        font-size: 1.1rem;
+      }
+      .future-box p { color: var(--ink-soft); }
+      .future-box p:last-child { margin-bottom: 0; }
+
+      /* ---------- Share / references / footer ---------- */
+      .share-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin-top: 40px;
+        padding-top: 24px;
+        border-top: 1px solid var(--line);
+      }
+      .share-btn {
+        font-family: var(--ui);
+        font-size: 0.86rem;
+        font-weight: 600;
+        padding: 9px 16px;
+        border-radius: 999px;
+        border: 1px solid var(--line);
+        background: var(--panel);
+        color: var(--ink);
+        text-decoration: none;
+        cursor: pointer;
+      }
+      .share-btn:hover { border-color: var(--teal); color: var(--teal); }
+
+      details.refs summary {
+        cursor: pointer;
+        font-family: var(--ui);
+        font-weight: 600;
+        font-size: 0.78rem;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        color: var(--ink-soft);
+        margin-bottom: 14px;
+      }
+      .refs ol {
+        color: var(--ink-soft);
+        font-size: 0.88rem;
+        padding-left: 20px;
+      }
+      .refs li { margin-bottom: 10px; }
+
+      footer {
+        text-align: center;
+        font-family: var(--ui);
+        font-size: 0.84rem;
+        color: var(--ink-soft);
+        padding: 40px 24px 60px;
+      }
+
+      #back-to-top {
+        position: fixed;
+        right: 22px;
+        bottom: 22px;
+        width: 42px; height: 42px;
+        border-radius: 50%;
+        border: 1px solid var(--line);
+        background: var(--ink);
+        color: var(--paper);
+        font-size: 1.1rem;
+        cursor: pointer;
+        opacity: 0;
+        pointer-events: none;
+        transform: translateY(8px);
+        transition: opacity 0.2s ease, transform 0.2s ease;
+      }
+      #back-to-top.visible { opacity: 1; pointer-events: auto; transform: translateY(0); }
+
+      @media (max-width: 640px) {
+        .hero { padding: 56px 20px 30px; }
+        nav.toc ol { columns: 1; }
+        .method-row { grid-template-columns: 1fr; gap: 4px; }
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        html { scroll-behavior: auto; }
+        #back-to-top { transition: none; }
+      }
+
+      /* ---- Academic review styling ---- */
+      body {
+        margin: 0;
+        font-family: "Inter", sans-serif;
+        text-align: left;
+        background: linear-gradient(135deg, #f7f9ff 0%, #fdf2f8 100%);
+        color: #132238;
+        line-height: 1.75;
+      }
+
+      .hero {
+        background: linear-gradient(120deg, #14213d 0%, #3b5bdb 45%, #ff5fa2 100%);
+        color: white;
+        padding: 76px 24px 96px;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .hero::after {
+        content: "";
+        position: absolute;
+        inset: auto -60px -60px auto;
+        width: 240px;
+        height: 240px;
+        background: rgba(255, 255, 255, 0.12);
+        border-radius: 50%;
+        filter: blur(2px);
+      }
+
+      .hero-inner {
+        max-width: 1100px;
+        margin: 0 auto;
+      }
+
+      .eyebrow {
+        display: inline-block;
+        background: rgba(255, 255, 255, 0.16);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        padding: 8px 14px;
+        border-radius: 999px;
+        font-size: 0.84rem;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        margin-bottom: 18px;
+      }
+
+      h1, h2, h3 {
+        font-family: "Merriweather", serif;
+        line-height: 1.25;
+        margin-top: 0;
+      }
+
+      h1 {
+        font-size: clamp(2rem, 4vw, 3.2rem);
+        margin-bottom: 16px;
+      }
+
+      .hero .dek {
+        max-width: 760px;
+        font-size: 1.06rem;
+        color: rgba(255,255,255,0.9);
+        margin-bottom: 0;
+      }
+
+      .container {
+        max-width: 1100px;
+        margin: -25px auto 62px;
+        padding: 0 24px;
+      }
+
+      .intro-grid {
+        display: grid;
+        grid-template-columns: 2fr 1fr;
+        gap: 24px;
+        margin-bottom: 28px;
+      }
+
+      .card, .sidebar, .post-section {
+        background: #ffffff;
+        border: 1px solid #e5eaf5;
+        border-radius: 24px;
+        box-shadow: 0 20px 45px rgba(15, 23, 42, 0.08);
+      }
+
+      .card, .sidebar {
+        padding: 28px;
+      }
+
+      .section-title {
+        font-size: 1.35rem;
+        margin-bottom: 12px;
+      }
+
+      .pill-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin-top: 16px;
+      }
+
+      .pill {
+        display: inline-block;
+        background: #eef2ff;
+        color: #334155;
+        border-radius: 999px;
+        padding: 7px 12px;
+        font-size: 0.85rem;
+        font-weight: 600;
+      }
+
+      .summary-list,
+      .timeline {
+        padding-left: 18px;
+        color: #132238;
+      }
+
+      .summary-list li,
+      .timeline li {
+        margin-bottom: 8px;
+      }
+
+      .content {
+        display: grid;
+        gap: 24px;
+      }
+
+      .post-section {
+        padding: 28px;
+      }
+
+      .post-section h2 {
+        font-size: 1.4rem;
+        margin-bottom: 14px;
+      }
+
+      .post-section p,
+      .post-section li {
+        color: #132238;
+      }
+
+      .highlight {
+        background: linear-gradient(135deg, rgba(91,108,255,0.10), rgba(87,3,38,0.12));
+        border-left: 4px solid #0c3cb8;
+        padding: 16px 18px;
+        border-radius: 14px;
+        margin: 16px 0;
+      }
+
+      .formula {
+        background: #f8faff;
+        border: 1px dashed #c7d2fe;
+        border-radius: 14px;
+        padding: 14px 16px;
+        font-family: "Merriweather", serif;
+        color: #374151;
+        margin: 15px 0;
+      }
+
+      .method-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 18px;
+      }
+
+      .method-card {
+        border: 1px solid #e5eaf5;
+        border-radius: 18px;
+        padding: 18px;
+        background: linear-gradient(180deg, #ffffff, #f9fbff);
+      }
+
+      .method-card h3 {
+        font-size: 1.04rem;
+        margin-bottom: 8px;
+      }
+
+      .method-card ul {
+        padding-left: 18px;
+        margin: 0;
+      }
+
+      .tag {
+        display: inline-block;
+        font-size: 0.76rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        color: white;
+        padding: 6px 10px;
+        border-radius: 999px;
+        margin-bottom: 10px;
+      }
+
+      .tag.a { background: #0c3cb8; }
+      .tag.b { background: #ff5fa2; }
+      .tag.c { background: #ffb347; color: #3b2a00; }
+      .tag.d { background: #12b886; }
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 0.92rem;
+      }
+
+      th, td {
+        border: 1px solid #dfe7f2;
+        padding: 10px 12px;
+        text-align: left;
+        vertical-align: top;
+      }
+
+      th {
+        background: #f4f6fb;
+      }
+
+      .toc {
+        margin-bottom: 28px;
+      }
+
+      .toc h2 {
+        font-size: 1.1rem;
+        margin-bottom: 10px;
+      }
+
+      .toc ol {
+        margin: 0;
+        padding-left: 20px;
+        color: #132238;
+        columns: 2;
+        column-gap: 24px;
+      }
+
+      .toc li {
+        margin-bottom: 8px;
+        break-inside: avoid;
+      }
+
+      .toc a {
+        color: #132238;
+        text-decoration: none;
+        font-weight: 500;
+      }
+
+      footer {
+        text-align: center;
+        color: #132238;
+        padding: 0 24px 48px;
+      }
+
+      @media (max-width: 860px) {
+        .intro-grid,
+        .method-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      @media (max-width: 640px) {
+        .hero { padding: 56px 20px 30px; }
+        .toc ol { columns: 1; }
+      }
+    </style>
+  </head>
+  <body>
+    <div id="progress-bar"></div>
+
+    <header class="hero">
+      <div class="hero-inner">
+        <span class="eyebrow">Explainer · Medical Imaging</span>
+        <h1>Teaching a Computer to See in Shades of Gray</h1>
+        <p class="dek">
+          MRI scans don't come with labels on them. Here's how a decades-long line of
+          "fuzzy" math has taught computers to guess, pixel by pixel, what kind of tissue
+          they're looking at — and what to do when the scan is noisy, blurry, or unevenly lit.
+        </p>
+        <div class="byline">
+          <span class="avatar">KS</span>
+          <span>Kristina P. Sinaga</span>
+          <span class="dot">&bull;</span>
+          <span>July 27, 2026</span>
+          <span class="dot">&bull;</span>
+          <span>~10 min read</span>
+        </div>
+      </div>
+    </header>
+
+    <main>
+      <div class="col">
+        <section class="gist">
+          <h2>The gist</h2>
+          <ul>
+            <li>Instead of forcing every pixel into one tissue type, <strong>fuzzy clustering</strong> lets a pixel belong "70% gray matter, 30% white matter" — closer to how real tissue boundaries actually look.</li>
+            <li>The original method (<strong>FCM</strong>) works, but gets confused by noise and by MRI's tendency to scan slightly brighter or dimmer in different spots.</li>
+            <li>Later versions fixed this one problem at a time: looking at neighboring pixels, explicitly correcting for uneven brightness, and using "kernel" math to handle oddly-shaped tissue clusters.</li>
+            <li>None of this requires you to follow the equations — every formula below is tucked behind a "Show the math" toggle if you want it, and skippable if you don't.</li>
+          </ul>
+        </section>
+
+        <figure class="lead-image">
+          <img src="https://www.researchgate.net/profile/Hans-Christian-Hege/publication/237802930/figure/fig1/AS:298783637295106@1448246978688/D-medical-image-data-From-pixels-to-voxels.png" alt="Medical image data represented as pixels in 2D and voxels in 3D" />
+          <figcaption>
+            A scan is just a grid of numbers — pixels in 2D, voxels in 3D. Segmentation is the process of
+            deciding which numbers belong to which anatomical structure.
+            (Source: ResearchGate, <a href="https://www.researchgate.net/publication/237802930" target="_blank" rel="noopener">Zachow et al., 2007</a>)
+          </figcaption>
+        </figure>
+      </div>
+
+      <nav class="toc col-wide" aria-label="Table of contents">
+        <h2>In this piece</h2>
+        <ol>
+          <li><a href="#why-it-matters">Why segmentation matters</a></li>
+          <li><a href="#hard-to-fuzzy">From hard labels to fuzzy memberships</a></li>
+          <li><a href="#lineage">A research lineage of steadily better methods</a></li>
+          <li><a href="#core-methods">Four core methods, in plain terms</a></li>
+          <li><a href="#variants-math">How the early variants actually work</a></li>
+          <li><a href="#kernel">Moving beyond straight-line distance</a></li>
+          <li><a href="#local-info">Local information and practical robustness</a></li>
+          <li><a href="#why-still-matter">Why these methods still matter</a></li>
+          <li><a href="#summary-table">Method comparison at a glance</a></li>
+          <li><a href="#practical">Choosing a method in practice</a></li>
+          <li><a href="#references">References</a></li>
+        </ol>
+      </nav>
+
+      <section class="col">
+        <article class="section" id="why-it-matters">
+          <span class="kicker">01 · Context</span>
+          <h2>Why segmentation matters</h2>
+          <p>
+            Before a radiologist, a surgeon, or an algorithm can act on a scan, someone has to answer a basic
+            question: which pixels belong to which structure? That process — called <strong>segmentation</strong> —
+            underlies diagnosis, treatment planning, and surgical navigation. Get it wrong, and everything downstream
+            gets shakier.
+          </p>
+          <p>
+            Sometimes the question is simple: healthy tissue versus diseased tissue. Often it's harder — separating
+            several organs, tissue types, or a tumor from its surroundings in the same image, where a small
+            error in the boundary can change a biopsy target or a treatment plan.
+          </p>
+          <p>
+            The core difficulty is that real anatomy doesn't cooperate. Bodies vary from person to person, scans pick
+            up noise and artifacts, and pathology rarely has a clean edge. Classic segmentation methods, which force
+            each pixel into exactly one category, tend to struggle here — which is what opened the door to
+            <strong>fuzzy clustering</strong>, a family of methods built to handle exactly this kind of uncertainty.
+          </p>
+        </article>
+
+        <div class="spectrum" style="--stop: 15%"></div>
+        <div class="spectrum-labels"><span>Hard label</span><span>Fuzzy membership</span></div>
+
+        <article class="section" id="hard-to-fuzzy">
+          <span class="kicker">02 · The core idea</span>
+          <h2>From hard labels to fuzzy memberships</h2>
+          <p>
+            Traditional clustering assigns each pixel to exactly one class <strong>[MacQueen, 1967]</strong>. Fuzzy
+            clustering asks a softer question. Instead of "which tissue is this pixel?", it asks:
+          </p>
+          <div class="callout">
+            "How strongly does this pixel belong to each tissue class?"
+          </div>
+          <p>
+            That distinction matters in medical imaging because tissue boundaries are rarely sharp lines — they're
+            gradual transitions. A pixel sitting right on the edge between gray matter and white matter isn't wrong
+            to be "60% one, 40% the other." Fuzzy c-means (<span class="tagword fcm">FCM</span>) is the classical
+            algorithm built around this idea, introduced by <strong>Bezdek, 1981</strong>.
+          </p>
+
+          <details class="mathbox">
+            <summary>Show the math <span class="sub">— the FCM objective function and update rules</span></summary>
+            <div class="mathbox-body">
+              <p>
+                FCM works by minimizing an objective function that balances membership strength against distance to
+                each cluster's center:
+              </p>
+              <div class="formula">
+                <p>$$ J_{\text{FCM}} (U, A) = \sum_{i=1}^n \sum_{k=1}^c \mu_{ik}^m \sum_{j=1}^d (x_{ij}-a_{kj})^2 $$</p>
+                <p>$$ \text{s.t. } \sum_{k=1}^c \mu_{ik} = 1, \quad \mu_{ik} \in [0, 1] $$</p>
+              </div>
+              <p>
+                Here \(U\) is the membership matrix, \(A\) is the set of cluster centers, and \(m\) is the
+                "fuzzifier," a knob controlling how soft the memberships are allowed to be. \(x_{ij}\) is pixel
+                \(i\)'s value in feature dimension \(j\) (often just intensity, so \(d=1\)), and \(a_{kj}\) is the
+                center of cluster \(k\) in that same dimension. \(\mu_{ik}\) is how strongly pixel \(i\) belongs to
+                cluster \(k\); the constraint just says every pixel's memberships add up to 1 across all clusters.
+              </p>
+              <p>
+                Minimizing \(J_{\text{FCM}}\) alternates between two update rules until the cluster centers stop moving:
+              </p>
+              <div class="formula">
+                <p>$$ \mu_{ik} = \bigg(\sum_{k'=1}^{c} \bigg( \frac{\sum_{j=1}^d (x_{ij} - a_{kj})^2}{\sum_{j=1}^d (x_{ij} - a_{k' j})^2}\bigg)^{\frac{1}{m-1}}\bigg)^{-1} $$</p>
+                <p>$$ a_{kj} = \frac{\sum_{i=1}^{n}\mu_{ik}^m x_{ij}}{\sum_{i=1}^{n}\mu_{ik}^m} $$</p>
+              </div>
+              <p class="formula-label">Algorithm 1 — FCM</p>
+              <div class="formula">
+                <ol>
+                  <li>Fix the number of clusters \(c \geq 2\), fuzzifier \(m > 1\), and convergence threshold \(\epsilon > 0\). Initialize cluster centers \(a_{kj}^{(0)}\).</li>
+                  <li>Compute memberships \(\mu_{ik}^{(t)}\) using the current cluster centers.</li>
+                  <li>Update cluster centers \(a_{kj}^{(t)}\) using the current memberships.</li>
+                  <li>Check for convergence: if \(\|a_{kj}^{(t)} - a_{kj}^{(t-1)}\| < \epsilon\), stop; otherwise increment \(t\) and return to step 2.</li>
+                </ol>
+              </div>
+              <p>
+                This is elegant and interpretable — but notice that nothing in \(J_{\text{FCM}}\) knows a pixel's
+                neighbors exist. Every pixel is judged purely on its own intensity. That's the gap the next
+                generation of methods closes.
+              </p>
+            </div>
+          </details>
+        </article>
+
+        <article class="section" id="lineage">
+          <span class="kicker">03 · Timeline</span>
+          <h2>A research lineage of steadily better methods</h2>
+          <p>
+            Each method below exists because the one before it had a specific, identifiable weak spot. It's a good
+            illustration of how a field actually progresses — not by one breakthrough, but by patching one failure
+            mode at a time.
+          </p>
+          <ol class="lineage">
+            <li><span class="tagword fcm">FCM</span> &nbsp;introduced fuzzy partitioning: soft membership instead of a hard label.</li>
+            <li><span class="tagword s">FCM-S</span> &nbsp;added a neighborhood term, so isolated noisy pixels stop getting misclassified.</li>
+            <li><span class="tagword bc">BCFCM</span> &nbsp;explicitly modeled and corrected MRI's uneven brightness ("bias field").</li>
+            <li><span class="tagword en">EnFCM</span> &nbsp;sped the whole process up with a smarter, weighted image representation.</li>
+            <li><span class="tagword k">KFCM</span> &nbsp;swapped straight-line distance for a "kernel" measure, to catch nonlinear structure.</li>
+            <li><span class="tagword local">FGFCM / FLICM</span> &nbsp;refined how neighboring pixels are weighted, for a better noise/detail trade-off.</li>
+          </ol>
+        </article>
+
+        <article class="section" id="core-methods">
+          <span class="kicker">04 · Overview</span>
+          <h2>Four core methods, in plain terms</h2>
+          <p>
+            Before diving into formulas, here's what each method is actually solving for — no math required.
+          </p>
+          <div class="method-rail">
+            <div class="method-row">
+              <span class="tagword fcm">FCM</span>
+              <div>
+                <h3>Classical fuzzy c-means</h3>
+                <p>The baseline. Assigns soft memberships using only each pixel's own intensity. Works cleanly on clean data, but is easily thrown off by noisy MRI scans <strong>[Bezdek, 1981]</strong>.</p>
+              </div>
+            </div>
+            <div class="method-row">
+              <span class="tagword s">FCM-S</span>
+              <div>
+                <h3>Fuzzy clustering with spatial constraints</h3>
+                <p>Adds a "look at your neighbors" term, so a pixel's label is influenced by the pixels around it — much less sensitive to isolated noise <strong>[Ahmed et al., 1999; Chen &amp; Zhang, 2004]</strong>.</p>
+              </div>
+            </div>
+            <div class="method-row">
+              <span class="tagword bc">BCFCM</span>
+              <div>
+                <h3>Bias-corrected fuzzy c-means</h3>
+                <p>Explicitly estimates and subtracts out the "bias field" — the slow, unwanted brightness gradient that MRI scanners often introduce <strong>[Ahmed et al., 2002]</strong>.</p>
+              </div>
+            </div>
+            <div class="method-row">
+              <span class="tagword en">EnFCM</span>
+              <div>
+                <h3>Enhanced fuzzy c-means</h3>
+                <p>Keeps the spatial-awareness of FCM-S, but restructures the computation around gray-level histograms so it runs dramatically faster on large images <strong>[Szilagyi et al., 2003]</strong>.</p>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <div class="spectrum" style="--stop: 50%"></div>
+        <div class="spectrum-labels"><span>Ignores neighbors</span><span>Corrects for bias</span></div>
+
+        <article class="section" id="variants-math">
+          <span class="kicker">05 · Under the hood</span>
+          <h2>How the early variants actually work</h2>
+          <p>
+            Every variant here follows the same pattern: start from the FCM objective function, then bolt on a
+            term that fixes one specific weakness. The data-fidelity part (how well cluster centers represent pixel
+            intensities) stays; a spatial-regularization or bias-correction part gets added on top.
+          </p>
+
+          <h3><span class="tagword s">FCM-S</span> — regularizing with neighbors</h3>
+          <p>
+            FCM-S adds a penalty that pulls a pixel's membership toward whatever its neighbors are doing, which
+            damps down noise that would otherwise flip a single pixel's label.
+          </p>
+          <details class="mathbox">
+            <summary>Show the math <span class="sub">— FCM-S objective and update rules</span></summary>
+            <div class="mathbox-body">
+              <div class="formula">
+                <p>$$ J_{\text{FCM-S}} (U, A) = J_{\text{FCM}} (U, A) + \frac{\beta}{n_{\ell}} \sum_{i=1}^n \sum_{k=1}^c \mu_{ik}^m \sum_{x_{\ell j} \in n_i } \sum_{j=1}^d (x_{\ell j}-a_{kj})^2 $$</p>
+                <p>$$ \text{s.t. } \sum_{k=1}^c \mu_{ik} = 1, \quad \mu_{ik} \in [0, 1] $$</p>
+              </div>
+              <p>
+                \(n_i\) is the set of neighboring pixels around pixel \(i\), and \(\beta\) is a dial for how much
+                that neighborhood should matter. Turn \(\beta\) up for noisier images, down for cleaner ones. This
+                keeps tissue regions contiguous and makes isolated misclassified pixels much less likely — important
+                when a stray pixel could otherwise be mistaken for a lesion.
+              </p>
+              <div class="formula">
+                <p>$$ \mu_{ik} = \bigg(\sum_{k'=1}^{c} \bigg( \frac{\sum_{j=1}^d (x_{ij} - a_{kj})^2 + \frac{\beta}{n_{\ell}} \sum_{x_{\ell j} \in n_i } \sum_{j=1}^d (x_{\ell j}-a_{kj})^2 }{\sum_{j=1}^d (x_{ij} - a_{k' j})^2 + \frac{\beta}{n_{\ell}} \sum_{x_{\ell j} \in n_i } \sum_{j=1}^d (x_{\ell j}-a_{k'j})^2 }\bigg)^{\frac{1}{m-1}}\bigg)^{-1}  $$</p>
+                <p>$$ a_{kj} = \frac{\sum_{i=1}^{n}\mu_{ik}^m}{(1 + \beta) \sum_{i=1}^{n}\mu_{ik}^m}\bigg( x_{ij} + \frac{\beta}{n_{\ell}} \sum_{x_{\ell j} \in n_i} x_{\ell j} \bigg) $$</p>
+              </div>
+              <p>
+                FCM-S still has a blind spot, though: it doesn't know the difference between "true noise" and a
+                slow drift in overall brightness. That's exactly what bias-corrected variants like BCFCM add next.
+              </p>
+            </div>
+          </details>
+
+          <h3><span class="tagword bc">BCFCM</span> — correcting for uneven brightness</h3>
+          <p>
+            MRI scanners often produce images that are subtly brighter in one region and dimmer in another, purely
+            as an artifact of the scanning hardware — not because the tissue actually differs there. BCFCM adds a
+            term that estimates this "bias field" and subtracts it out before clustering.
+          </p>
+          <details class="mathbox">
+            <summary>Show the math <span class="sub">— BCFCM objective, update rules, and bias term</span></summary>
+            <div class="mathbox-body">
+              <div class="formula">
+                <p>$$ J_{\text{BCFCM}} (U, \gamma, A) = \sum_{i=1}^n \sum_{k=1}^c \mu_{ik}^m \sum_{j=1}^d (x_{ij} - \gamma_{ij} - a_{kj})^2 + \frac{\beta}{n_{\ell}} \sum_{i=1}^n \sum_{k=1}^c \mu_{ik}^m \bigg( \sum_{x_{\ell j} \in n_i } \sum_{j=1}^d (x_{\ell j} - \gamma_{\ell j} - a_{kj} )^2 \bigg)$$</p>
+                <p>$$ \text{s.t. } \sum_{k=1}^c \mu_{ik} = 1, \quad \mu_{ik} \in [0, 1] $$</p>
+              </div>
+              <p>
+                \(\gamma_{ij}\) is the estimated bias field at pixel \(i\) — essentially "how much extra brightness
+                is scanner artifact, not tissue." As with FCM-S, \(\beta\) tunes how strongly neighbors influence
+                each other; the rule of thumb is that a noisier scan (lower signal-to-noise ratio) calls for a
+                larger \(\beta\).
+              </p>
+              <div class="formula">
+                <p>$$ \mu_{ik} = \bigg(\sum_{k'=1}^{c} \bigg( \frac{\sum_{j=1}^d (x_{ij} - \gamma_{ij} - a_{kj})^2 + \frac{\beta}{n_{\ell}} \sum_{x_{\ell j} \in n_i } \sum_{j=1}^d (x_{\ell j} - \gamma_{\ell j} - a_{kj} )^2 }{\sum_{j=1}^d (x_{ij} - \gamma_{ij} - a_{k'j})^2 + \frac{\beta}{n_{\ell}} \sum_{x_{\ell j} \in n_i } \sum_{j=1}^d (x_{\ell j} - \gamma_{\ell j} - a_{k'j} )^2 } \bigg)^{\frac{1}{m-1}}\bigg)^{-1} $$</p>
+                <p>$$ a_{kj} = \frac{\sum_{i=1}^{n}\mu_{ik}^m}{ (1 + \beta) \sum_{i=1}^{n}\mu_{ik}^m} \bigg ( (x_{ij} - \gamma_{ij}) + \frac{\beta}{n_{\ell}} \sum_{x_{\ell j} \in n_i} (x_{\ell j} - \gamma_{\ell j}) \bigg)  $$</p>
+                <p>$$ \gamma_{ij} = x_{ij} - \sum_{k=1}^c \mu_{ik}^m \, a_{kj} $$</p>
+              </div>
+              <p>
+                Because the bias estimate \(\gamma_{ij}\) is recomputed from the current memberships and centers at
+                every iteration, correction and clustering improve each other in tandem, rather than being solved
+                as two separate steps.
+              </p>
+            </div>
+          </details>
+
+          <h3><span class="tagword en">EnFCM</span> — the same idea, made fast</h3>
+          <p>
+            FCM-S and BCFCM both pay a computational cost for checking every pixel's neighbors. EnFCM sidesteps
+            this by first building a single "smoothed" image — a weighted average of each pixel and its
+            neighborhood — and then running fast, histogram-based clustering on that image's gray levels instead of
+            on every individual pixel. The result is a large speedup on big medical images, with a similar noise-
+            suppression effect <strong>[Szilagyi et al., 2003]</strong>.
+          </p>
+          <details class="mathbox">
+            <summary>Show the math <span class="sub">— EnFCM objective and the smoothed image</span></summary>
+            <div class="mathbox-body">
+              <div class="formula">
+                <p>$$ J_{\text{EnFCM}} (U, A) = \sum_{i=1}^n \alpha_i \sum_{k=1}^c \mu_{ik}^m (\zeta_i - a_k)^2 $$</p>
+                <p>$$ \text{s.t. } \sum_{k=1}^c \mu_{ik} = 1, \quad \mu_{ik} \in [0, 1] $$</p>
+              </div>
+              <p>
+                \(\zeta_i\) is the smoothed gray level, \(\alpha_i\) is the number of pixels sharing that gray
+                level (so common intensities aren't over- or under-counted), and \(n\) is the number of distinct
+                gray levels rather than the number of pixels — the main source of the speedup. The smoothed value
+                itself is a blend of a pixel's own intensity and its neighborhood average:
+              </p>
+              <div class="formula">
+                <p>$$ \zeta_i = \frac{1}{1+\beta} \bigg(x_{i} + \frac{\beta} {n_i} \sum_{x_{\ell} \in n_i } x_{\ell} \bigg) $$</p>
+              </div>
+              <p>
+                As before, \(\beta\) controls how much the neighborhood pulls the value — small for fine detail,
+                large for aggressive smoothing.
+              </p>
+            </div>
+          </details>
+        </article>
+
+        <div class="spectrum" style="--stop: 70%"></div>
+        <div class="spectrum-labels"><span>Straight-line distance</span><span>Kernel distance</span></div>
+
+        <article class="section" id="kernel">
+          <span class="kicker">06 · A different lens</span>
+          <h2>Moving beyond straight-line distance</h2>
+          <p>
+            Every method so far measures how "far" a pixel is from a cluster center using ordinary (Euclidean)
+            distance — essentially a straight ruler. That works fine when clusters are roughly round blobs, but
+            biological tissue often isn't. <strong>Kernelized fuzzy c-means (KFCM)</strong>, proposed by
+            <strong>Zhang &amp; Chen (2004)</strong>, replaces the ruler with a "kernel" — a function that
+            effectively measures distance after warping the data into a higher-dimensional space, where
+            oddly-shaped or overlapping clusters become easier to pull apart.
+          </p>
+          <p>
+            A common choice is the Gaussian radial basis function, which treats two pixels as more similar the
+            closer their intensities are, but in a smoothly nonlinear way:
+          </p>
+          <div class="formula">
+            <p>$$ K(x,a) = \exp\left(-\frac{\|x - a\|^2}{\sigma^2}\right) $$</p>
+          </div>
+          <p>
+            The parameter \(\sigma\) controls how "local" that similarity is — small \(\sigma\) only treats very
+            close intensities as similar, large \(\sigma\) is more forgiving. This one idea — measuring similarity
+            through a kernel instead of a straight-line distance — went on to influence most of the spatially aware
+            methods that followed.
+          </p>
+          <details class="mathbox">
+            <summary>Show the math <span class="sub">— how the kernel trick simplifies the KFCM objective</span></summary>
+            <div class="mathbox-body">
+              <p>
+                Formally, KFCM maps each point through a nonlinear function \(\Phi\) into a higher-dimensional
+                feature space, then runs FCM there:
+              </p>
+              <div class="formula">
+                <p>$$ J_{\text{KFCM}} (U, A) = \sum_{i=1}^n \sum_{k=1}^c \mu_{ik}^m \| \Phi (x_i) - \Phi(a_k)\|^2$$</p>
+                <p>$$\text{s.t. } \sum_{k=1}^c \mu_{ik} = 1, \quad \mu_{ik} \in [0, 1]$$</p>
+              </div>
+              <p>
+                The useful trick is that \(\Phi\) never needs to be computed directly. Expanding the squared
+                distance and substituting the kernel function \(K\) for each inner product collapses the whole
+                expression down to something computable directly from the original pixels:
+              </p>
+              <div class="formula">
+                <p>$$ \| \Phi (x_i) - \Phi(a_k)\|^2 = K(x_i, x_i) + K(a_k, a_k) - 2 K (x_i, a_k) $$</p>
+                <p>$$ = 2\big(1 - K (x_i, a_k) \big) \quad \text{for a Gaussian kernel, since } K(x,x)=1 $$</p>
+              </div>
+              <p>So the objective function reduces to:</p>
+              <div class="formula">
+                <p>$$ J_{\text{KFCM}} (U, A) = 2 \sum_{i=1}^n \sum_{k=1}^c \mu_{ik}^m \big(1 - K (x_i, a_k) \big)$$</p>
+              </div>
+              <p>with update rules:</p>
+              <div class="formula">
+                <p>$$ \mu_{ik} = \bigg(\sum_{\ell=1}^{c} \bigg( \frac {1 - K (x_i, a_k)} {1 - K (x_i, a_{\ell})} \bigg)^{\frac{1}{m-1}}\bigg)^{-1} $$</p>
+                <p>$$ a_{k} = \frac{\sum_{i=1}^{n}\mu_{ik}^m \, K (x_i, a_k)\, x_{i} }{\sum_{i=1}^{n}\mu_{ik}^m \, K (x_i, a_k)}  $$</p>
+              </div>
+              <p>
+                The catch: computing \(K\) between every pair of pixels gets expensive fast on large medical images.
+                In practice this is handled with representative pixel subsets, efficient similarity data structures,
+                or parallel processing, so KFCM stays usable at real scan resolutions.
+              </p>
+            </div>
+          </details>
+        </article>
+
+        <article class="section" id="local-info">
+          <span class="kicker">07 · Fine-tuning the trade-off</span>
+          <h2>Local information and practical robustness</h2>
+          <p>
+            <span class="tagword local">FGFCM</span> (fast generalized FCM) and <span class="tagword local">FLICM</span>
+            (fuzzy local information c-means) both extend the neighborhood idea from FCM-S, but aim at the same
+            tension from different angles: how do you suppress noise without also blurring away real, fine
+            anatomical detail?
+          </p>
+          <ul>
+            <li><strong>FGFCM</strong> <strong>[Cai et al., 2007]</strong> builds a local similarity metric — pixels closer in both space and intensity get more weight — producing a more informative smoothed image before clustering.</li>
+            <li><strong>FLICM</strong> <strong>[Krinidis &amp; Chatzis, 2010]</strong> instead folds a "fuzzy local information factor" directly into the clustering objective, so nearby intensity differences shape membership values without a separate pre-smoothing step.</li>
+          </ul>
+          <p>
+            In practice, FGFCM tends to do well on images with complex textures and varying intensities, while
+            FLICM's built-in local-information factor tends to hold up better when noise is heavy, since it can
+            more directly tell true anatomy apart from noise-driven artifacts.
+          </p>
+
+          <details class="mathbox">
+            <summary>Show the math <span class="sub">— FGFCM's local similarity weighting</span></summary>
+            <div class="mathbox-body">
+              <p>
+                FGFCM computes a smoothed value \(\zeta_i\) for each pixel, similar to EnFCM, but weights neighbors
+                by a local similarity score \(S_{i\ell}\) rather than treating them all equally:
+              </p>
+              <div class="formula">
+                <p>$$ \zeta_i = \frac{\sum_{\ell \in n_i} S_{i \ell}\, x_i} {\sum_{\ell \in n_i} S_{i \ell}} $$</p>
+              </div>
+              <p>The similarity score combines how close two pixels are spatially and how close their intensities are:</p>
+              <div class="formula">
+                <p>$$ S_{i \ell}= \exp \bigg(- \frac{\max(|p_i - p_{\ell}|,\, |q_i - q_{\ell}|)} {\delta_s } - \frac{\|x_i - x_{\ell}\|^2}{\delta_g\, \sigma_i^2} \bigg), \quad i \neq \ell $$</p>
+              </div>
+              <p>
+                \((p_i, q_i)\) are pixel \(i\)'s spatial coordinates, and \(\sigma_i\) is the local standard
+                deviation of intensities in its neighborhood, computed as:
+              </p>
+              <div class="formula">
+                <p>$$ \sigma_i = \sqrt{ \frac{\sum_{\ell \in n_i} \|x_i - x_{\ell}\|^2} {n_{L}} } $$</p>
+              </div>
+              <p>
+                \(\delta_s\) and \(\delta_g\) separately control how much spatial closeness and intensity closeness
+                each matter — tuning knobs for adapting to different textures.
+              </p>
+            </div>
+          </details>
+
+          <details class="mathbox">
+            <summary>Show the math <span class="sub">— FLICM's fuzzy local information factor</span></summary>
+            <div class="mathbox-body">
+              <p>
+                FLICM adds a local information factor \(G_{ik}\) directly onto the standard FCM objective:
+              </p>
+              <div class="formula">
+                <p>$$ J_{\text{FLICM}} (U, A) = J_{\text{FCM}} (U, A) + \sum_{i=1}^n \sum_{k=1}^c G_{ik} $$</p>
+              </div>
+              <p>where the factor itself is built from intensity differences between a pixel and its neighbors:</p>
+              <div class="formula">
+                <p>$$ G_{ik} = \sum_{\ell \in n_i } \frac{1}{d_{i\ell} +1 } (1- \mu_{ik})^m \sum_{j=1}^d (x_{\ell j}-a_{kj})^2  $$</p>
+              </div>
+              <p>giving update rules of the same shape as classical FCM, with \(G_{ik}\) folded in:</p>
+              <div class="formula">
+                <p>$$ \mu_{ik} = \bigg(\sum_{k'=1}^{c} \bigg( \frac{\sum_{j=1}^d (x_{ij} - a_{kj})^2 + G_{ik} }{\sum_{j=1}^d (x_{ij} - a_{k' j})^2 + G_{ik'} }\bigg)^{\frac{1}{m-1}}\bigg)^{-1} $$</p>
+                <p>$$ a_{kj} = \frac{\sum_{i=1}^{n}\mu_{ik}^m\, x_{ij}}{\sum_{i=1}^{n}\mu_{ik}^m}  $$</p>
+              </div>
+              <p>
+                Because \(G_{ik}\) is baked into the objective rather than applied as a pre-processing smoothing
+                step, FLICM needs no separate parameter like \(\beta\) to tune how strong the neighborhood effect is
+                — it's a common practical advantage cited for the method.
+              </p>
+            </div>
+          </details>
+        </article>
+
+        <article class="section" id="why-still-matter">
+          <span class="kicker">08 · Zooming out</span>
+          <h2>Why these methods still matter</h2>
+          <p>
+            The path from FCM to today's spatially aware, bias-corrected variants reflects a broader pattern in
+            medical imaging: segmentation has to keep getting more robust to uncertainty, noise, and scanner
+            artifacts, not less. These methods remain relevant because they're interpretable — you can point to
+            exactly which term in the equation is doing what — and mathematically grounded, in a field where
+            newer deep-learning approaches are often harder to explain.
+          </p>
+          <div class="callout">
+            Fuzzy clustering isn't a mathematical curiosity. It's a practical, explainable strategy for making
+            medical image interpretation more reliable.
+          </div>
+        </article>
+
+        <article class="section" id="summary-table">
+          <span class="kicker">09 · Cheat sheet</span>
+          <h2>Method comparison at a glance</h2>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Method</th>
+                  <th>Key idea</th>
+                  <th>Strengths</th>
+                  <th>Limitations</th>
+                  <th>Cost</th>
+                  <th>Watch out for</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <th>Hard C-Means</th>
+                  <td>One label per pixel</td>
+                  <td>Simple, fast</td>
+                  <td>No flexibility for overlapping tissue</td>
+                  <td>Lowest</td>
+                  <td>Misses uncertainty at tissue boundaries</td>
+                </tr>
+                <tr>
+                  <th>FCM</th>
+                  <td>Fuzzy memberships</td>
+                  <td>Simple, interpretable</td>
+                  <td>Sensitive to noise and bias fields</td>
+                  <td>Moderate</td>
+                  <td>Struggles with complex anatomy</td>
+                </tr>
+                <tr>
+                  <th>FCM-S</th>
+                  <td>Neighborhood term</td>
+                  <td>Fewer isolated misclassifications</td>
+                  <td>Still sensitive to bias fields</td>
+                  <td>Higher than FCM</td>
+                  <td>Irregular structures, e.g. brain imaging</td>
+                </tr>
+                <tr>
+                  <th>BCFCM</th>
+                  <td>Explicit bias correction</td>
+                  <td>Handles uneven brightness well</td>
+                  <td>More complex to implement</td>
+                  <td>Moderate–high</td>
+                  <td>Non-uniform bias fields specifically</td>
+                </tr>
+                <tr>
+                  <th>KFCM</th>
+                  <td>Kernel-based distance</td>
+                  <td>Captures nonlinear structure</td>
+                  <td>Needs kernel + parameter tuning</td>
+                  <td>Grows with dataset size</td>
+                  <td>Poor kernel choice can hurt generalization</td>
+                </tr>
+                <tr>
+                  <th>FGFCM / FLICM</th>
+                  <td>Local similarity weighting</td>
+                  <td>Preserves detail, suppresses noise</td>
+                  <td>More parameters overall</td>
+                  <td>Higher than FCM-S</td>
+                  <td>Very noisy or low-contrast scans</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </article>
+
+        <article class="section" id="practical">
+          <span class="kicker">10 · Putting it to use</span>
+          <h2>Choosing a method in practice</h2>
+          <p>
+            Real scans are messy — noisy, unevenly lit, anatomically complex, often all at once. The methods above
+            form a toolkit; picking the right one is about matching the tool to what's actually wrong with the
+            image:
+          </p>
+          <ul>
+            <li>Clean images with well-defined boundaries → classical FCM is often enough.</li>
+            <li>Noise or isolated artifacts → FCM-S or FGFCM.</li>
+            <li>Uneven brightness across the scan → BCFCM.</li>
+            <li>Complex, nonlinear tissue structure → KFCM.</li>
+          </ul>
+          <div class="callout">
+            The right choice depends on the imaging modality, data quality, and the clinical or research goal.
+            Hybrid pipelines — bias correction followed by spatially aware clustering, for instance — are common
+            in practice, and combining these classical methods with deep learning is an active area of research
+            for large-scale imaging datasets.
+          </div>
+
+          <div class="future-box">
+            <h3>What's next: federated and decentralized learning</h3>
+            <p>
+              As medical imaging datasets grow and get spread across institutions, decentralized and federated
+              learning is becoming a more urgent direction. These approaches let models train collaboratively
+              without moving sensitive patient data off-site — a requirement for HIPAA, GDPR, and similar
+              regulations.
+            </p>
+            <p>
+              Applied to fuzzy clustering, this means developing algorithms that analyze data across multiple
+              sites while keeping patient information private, potentially producing more robust models by
+              drawing on more diverse data without compromising confidentiality.
+            </p>
+            <p>
+              Open questions include how best to aggregate cluster information from different sites, and how to
+              manage communication efficiency, convergence, and data heterogeneity across institutions.
+            </p>
+          </div>
+        </article>
+
+        <div class="share-row">
+          <a class="share-btn" target="_blank" rel="noopener"
+             href="https://twitter.com/intent/tweet?text=Teaching%20a%20Computer%20to%20See%20in%20Shades%20of%20Gray&url=https%3A%2F%2Fexample.com%2Fclustering-in-medical-image-analysis">Share on X</a>
+          <a class="share-btn" target="_blank" rel="noopener"
+             href="https://www.linkedin.com/sharing/share-offsite/?url=https%3A%2F%2Fexample.com%2Fclustering-in-medical-image-analysis">Share on LinkedIn</a>
+          <button class="share-btn" onclick="navigator.clipboard.writeText(window.location.href); this.textContent='Link copied!'; setTimeout(() => this.textContent='Copy link', 1800);">Copy link</button>
+        </div>
+
+        <details class="refs" id="references" style="margin-top: 40px;">
+          <summary>References (10)</summary>
+          <ol>
+            <li>MacQueen, J. B. (1967). Some methods for classification and analysis of multivariate observations. <em>Proceedings of the 5th Berkeley Symposium on Mathematical Statistics and Probability</em>, Vol. 1, 281–297. University of California Press.</li>
+            <li>Bezdek, J. C. (1981). <em>Pattern Recognition with Fuzzy Objective Function Algorithms</em>. Springer.</li>
+            <li>Mohamed, N. A., Ahmed, M. N., &amp; Farag, A. (1999). Modified fuzzy c-mean in medical image segmentation. <em>1999 IEEE International Conference on Acoustics, Speech, and Signal Processing</em>, Vol. 6, 3429–3432.</li>
+            <li>Ahmed, M. N., Yamany, S. M., Mohamed, N., Farag, A. A., &amp; Moriarty, T. (2002). A modified fuzzy c-means algorithm for bias field estimation and segmentation of MRI data. <em>IEEE Transactions on Medical Imaging</em>, 21(3), 193–199.</li>
+            <li>Szilagyi, L., Benyo, Z., Szilagyi, S. M., &amp; Adam, H. S. (2003). MR brain image segmentation using an enhanced fuzzy C-means algorithm. <em>Proceedings of the 25th Annual International Conference of the IEEE Engineering in Medicine and Biology Society</em>, Vol. 1, 724–726.</li>
+            <li>Zhang, D. Q., &amp; Chen, S. C. (2004). A novel kernelized fuzzy C-means algorithm with application in medical image segmentation. <em>Artificial Intelligence in Medicine</em>, 32(1), 37–50.</li>
+            <li>Chen, S. C., &amp; Zhang, D. Q. (2004). Robust image segmentation using FCM with spatial constraints based on new kernel-induced distance measure. <em>IEEE Transactions on Systems, Man, and Cybernetics, Part B</em>, 34(4), 1907–1916.</li>
+            <li>Cai, W., Chen, S., &amp; Zhang, D. (2007). Fast and robust fuzzy c-means clustering algorithms incorporating local information for image segmentation. <em>Pattern Recognition</em>, 40(3), 825–838.</li>
+            <li>Zachow, S., Zilske, M., &amp; Hege, H. C. (2007). 3D reconstruction of individual anatomy from medical image data: Segmentation and geometry processing. <em>Proceedings of the CADFEM Users Meeting</em>.</li>
+            <li>Krinidis, S., &amp; Chatzis, V. (2010). A robust fuzzy local information C-means clustering algorithm. <em>IEEE Transactions on Image Processing</em>, 19(5), 1328–1337.</li>
+          </ol>
+        </details>
+      </section>
+    </main>
+
+    <footer>
+      &copy; 2026 Kristina P. Sinaga. All rights reserved.
+    </footer>
+
+    <button id="back-to-top" aria-label="Back to top" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">↑</button>
+
+    <script>
+      const progressBar = document.getElementById('progress-bar');
+      const backToTop = document.getElementById('back-to-top');
+
+      function onScroll() {
+        const scrollTop = window.scrollY;
+        const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+        const pct = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
+        progressBar.style.width = pct + '%';
+        backToTop.classList.toggle('visible', scrollTop > 500);
+      }
+
+      window.addEventListener('scroll', onScroll, { passive: true });
+      onScroll();
+    </script>
+  </body>
+</html>
