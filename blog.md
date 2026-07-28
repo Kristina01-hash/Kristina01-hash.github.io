@@ -46,7 +46,6 @@
       <p class="excerpt"> Finally, I'm writing back about academic stuff! 😉 Here's an example of when maths meets its application in medical image segmentation: In review.  </p>
     </li> 
     <li>
-    <li>
       <span class="post-icon" aria-hidden="true">🎪</span>
       <a class="post-link" href="https://kristina01-hash.github.io/clown-network/chronicles/bca_email_verification_bug.html"> A Bank That Contradicts Itself: BCA's Email-Verification Bug, Documented
 </a>
