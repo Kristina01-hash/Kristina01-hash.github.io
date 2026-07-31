@@ -33,9 +33,9 @@ body, .markdown-body {
 body.dark-mode, .markdown-body.dark-mode {
   --bg: #181a1b;
   --fg: #eee;
-  --link: #80bfff;
-  --blockquote: #ffb3de;
-  --accent: #a29bfe;
+  --link: #1d8af7;
+  --blockquote: #fa0891;
+  --accent: #11d4c7;
   --muted: #aaa;
   --border: #383838;
 }
