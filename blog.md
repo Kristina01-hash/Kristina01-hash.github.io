@@ -210,12 +210,12 @@ This blog has a variety of information, including data, sarcasm, and observation
     font-family: 'Montserrat', sans-serif;
     font-size: 2.8em;
     margin-bottom: 0.2em;
-    color: #b30059;
+    color: #00b3b3;
     letter-spacing: 0.01em;
   }
   .hero-subtitle {
     font-style: italic;
-    color: #ff99cc;
+    color: #20bf6f;
     font-size: 1.25em;
     margin-bottom: 0;
   }
