@@ -19,10 +19,10 @@ body, .markdown-body {
   --bg: #fff;
   --fg: #222;
   --link: #007acc;
-  --blockquote: #ff99cc;
-  --accent: #6c5ce7;
+  --blockquote: #0bcbc5;
+  --accent: #0bcbc5;
   --muted: #888;
-  --border: #e1e4e8;
+  --border: #0bcbc5;
   --section-spacing: 2rem;
   background: var(--bg);
   color: var(--fg);
@@ -460,5 +460,5 @@ If you are interested in exploring collaboration or research opportunities, or i
 ---
 
 <p style="text-align: center; color: var(--muted); font-size: 0.9em;">
-© 2026 Kristina P. Sinaga | Last updated: July 2026
+© 2026 Kristina P. Sinaga | Last updated: August 2026
 </p>
