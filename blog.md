@@ -195,7 +195,7 @@ This blog has a variety of information, including data, sarcasm, and observation
     color: var(--text-color);
     line-height: 1.7;
     font-size: 1.08em;
-    background-color: #fdf9f9;
+    background-color: #0eb689;
     margin: 0;
   }
   .hero-section {
@@ -210,12 +210,12 @@ This blog has a variety of information, including data, sarcasm, and observation
     font-family: 'Montserrat', sans-serif;
     font-size: 2.8em;
     margin-bottom: 0.2em;
-    color: #00b3b3;
+    color: #0eb689;
     letter-spacing: 0.01em;
   }
   .hero-subtitle {
     font-style: italic;
-    color: #20bf6f;
+    color: #0eb689;
     font-size: 1.25em;
     margin-bottom: 0;
   }
