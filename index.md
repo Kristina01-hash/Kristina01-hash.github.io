@@ -191,7 +191,7 @@ No noise. No fluff. Just precision that performs.</p>
   .header {
     text-align: center;
     padding: 60px 0 30px;
-    background: linear-gradient(135deg, #2c3e50, #34495e);
+    background: linear-gradient(#135deg, #3decb7, #09e980);
     position: relative;
     color: white;
     border-bottom: none;
