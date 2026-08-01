@@ -31,7 +31,7 @@ keywords: "Kristina P. Sinaga, research, AI, artificial intelligence, multi-view
 
 <h1 style="text-align: center; font-size: 2.2em;">Research</h1>
 
-<p style="text-align: center; font-size: 1.1em; color: #ff99cc;">
+<p style="text-align: center; font-size: 1.1em; color: #0bcbc5;">
   "Scalable. Interpretable. Trustworthy."
 </p>
 
@@ -43,7 +43,7 @@ keywords: "Kristina P. Sinaga, research, AI, artificial intelligence, multi-view
 
 <div class="research-intro">
   <p>
-  My research lies at the intersection of artificial intelligence, optimization, and systems theory — with a strong emphasis on clean design and explainability.  
+  My research lies at the intersection of artificial intelligence, optimization, and systems theory, focusing on clean design and explainability.  
   </p>
 
 <ul>
@@ -54,8 +54,7 @@ keywords: "Kristina P. Sinaga, research, AI, artificial intelligence, multi-view
   </ul>
 
 <p>
-  I value clarity in implementation and reproducibility in results. My research balances theoretical foundation with practical deployment —  
-  ensuring what I publish is not just elegant on paper, but robust in the real world.
+  The importance of clarity in implementation and the reproducibility of results is paramount. The present study is characterized by a dual emphasis on theoretical underpinnings and practical implementation, thereby ensuring the publishability of findings that are not only elegant in their theoretical formulation but also demonstrably robust in real-world settings.
   </p>
 </div>
 
@@ -303,15 +302,15 @@ keywords: "Kristina P. Sinaga, research, AI, artificial intelligence, multi-view
     --accent-primary-hover: #ff66b3;
     --accent-secondary: #DAA520; /* Gold */
   
-    --banner-featured-text: #b30059;
-    --banner-featured-bg: linear-gradient(90deg, #fff4f8, #ffe6f0);
+    --banner-featured-text: #0bcbc5;
+    --banner-featured-bg: linear-gradient(90deg, #0bcbc5, #ffe6f0);
     --banner-featured-shadow: rgba(248, 215, 239, 0.7);
 
-    --banner-citations-text: #005a87;
+    --banner-citations-text: #0bcbc5;
     --banner-citations-bg: #f0f7fb;
     --banner-citations-shadow: rgba(0, 90, 135, 0.2);
 
-    --border-primary: #f0f0f0;
+    --border-primary: #0bcbc5;
     --divider-gradient: linear-gradient(to right, rgba(0,0,0,0), rgba(255,153,204,0.75), rgba(0,0,0,0));
   
     --shadow-light: rgba(0,0,0,0.1);
