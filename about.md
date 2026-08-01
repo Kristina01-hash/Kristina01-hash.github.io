@@ -249,7 +249,7 @@ body.dark-mode .highlight-box {
 
 .pub-links a {
   display: inline-flex;
-  align-items: center;
+  align-items: justify;
   padding: 4px 12px;
   border-radius: 4px;
   font-size: 0.8rem;
