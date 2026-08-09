@@ -192,8 +192,29 @@ This blog has a variety of information, including data, sarcasm, and observation
 </script>
 
 <style>
+  :root {
+    --bg: #f6f4ff;
+    --bg-accent: #fff4f8;
+    --surface: #ffffff;
+    --surface-alt: #f4f7ff;
+    --text-color: #2e233b;
+    --muted-text: #6e5f79;
+    --primary-color: #b30059;
+    --primary-strong: #8f0047;
+    --primary-light: #ffe9f2;
+    --secondary-color: #0f7a8a;
+    --secondary-light: #e4f7fa;
+    --accent-color: #f2a93b;
+    --accent-soft: #fff1d7;
+    --border-color: rgba(15, 122, 138, 0.18);
+    --shadow-color: rgba(46, 35, 59, 0.12);
+    --link-color: #0f7a8a;
+  }
+
   html { scroll-behavior: smooth; }
+
   body {
+    background: linear-gradient(135deg, var(--bg) 0%, var(--bg-accent) 45%, var(--surface-alt) 100%);
     background-size: cover;
     position: relative;
     overflow-x: hidden;
@@ -201,43 +222,52 @@ This blog has a variety of information, including data, sarcasm, and observation
     color: var(--text-color);
     line-height: 1.7;
     font-size: 1.08em;
-    background-color: #0eb689;
     margin: 0;
+    transition: background 0.3s ease, color 0.3s ease;
   }
+
+  a { color: var(--link-color); }
+
   .hero-section {
-    background: linear-gradient(90deg, #ffe6f0 0%, #fcf6ff 100%);
+    background: linear-gradient(90deg, #ffe7f0 0%, #f6ebff 50%, #e7f8fb 100%);
     padding: 3.5em 0 2em 0;
     text-align: center;
     border-radius: 0 0 32px 32px;
-    box-shadow: 0 2px 16px rgba(179,0,89,0.07);
+    box-shadow: 0 2px 18px rgba(179, 0, 89, 0.08);
     margin-bottom: 2em;
   }
+
   .hero-content h1 {
     font-family: 'Montserrat', sans-serif;
     font-size: 2.8em;
     margin-bottom: 0.2em;
-    color: #0eb689;
+    color: var(--secondary-color);
     letter-spacing: 0.01em;
   }
+
   .hero-subtitle {
     font-style: italic;
-    color: #0eb689;
+    color: var(--secondary-color);
     font-size: 1.25em;
     margin-bottom: 0;
   }
+
   .intro-section {
     max-width: 700px;
     margin: 0 auto 2em auto;
     padding: 0 1em;
   }
+
   .work-philosophy {
-    background-color: var(--light-bg);
-    border-radius: 12px;
+    background-color: var(--surface);
+    border-radius: 14px;
     padding: 2.2rem 2rem;
     margin: 2rem auto;
-    box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+    box-shadow: 0 6px 20px var(--shadow-color);
     max-width: 800px;
+    border: 1px solid var(--border-color);
   }
+
   .work-philosophy h2 {
     color: var(--primary-color);
     font-family: 'Montserrat', sans-serif;
@@ -245,74 +275,86 @@ This blog has a variety of information, including data, sarcasm, and observation
     font-size: 2em;
     margin-bottom: 0.5em;
   }
+
   .work-philosophy blockquote {
     font-style: italic;
     border-left: 4px solid var(--primary-color);
     padding: 1rem 2rem;
     margin: 2rem 0;
-    background-color: white;
+    background-color: var(--primary-light);
     position: relative;
     font-size: 1.2rem;
     color: var(--primary-color);
     border-radius: 8px;
   }
+
   .highlight {
-    background-color: var(--primary-light);
+    background: linear-gradient(90deg, var(--primary-light) 0%, var(--accent-soft) 100%);
     padding: 1rem;
     display: block;
     margin: 1.5rem 0;
-    border-left: 4px solid var(--primary-color);
+    border-left: 4px solid var(--accent-color);
     border-radius: 8px;
     font-size: 1.08em;
   }
+
   .principles-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
     gap: 2rem;
     margin-top: 2rem;
   }
+
   .principle-card {
-    background-color: white;
+    background-color: var(--surface);
     border-radius: 10px;
     padding: 1.5rem 1.2rem;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.09);
+    box-shadow: 0 4px 12px var(--shadow-color);
     transition: transform 0.3s, box-shadow 0.3s;
     text-align: center;
+    border: 1px solid var(--border-color);
   }
+
   .principle-card:hover {
     transform: translateY(-7px) scale(1.03);
-    box-shadow: 0 8px 24px rgba(0,0,0,0.13);
+    box-shadow: 0 8px 24px rgba(46, 35, 59, 0.16);
   }
+
   .principle-icon {
     font-size: 2.2rem;
-    color: var(--primary-color);
+    color: var(--secondary-color);
     margin-bottom: 1rem;
   }
+
   .cta-button {
-    background-color: #fc8eac;
+    background: linear-gradient(90deg, var(--primary-color) 0%, var(--accent-color) 100%);
     color: white;
     padding: 0.9em 1.7em;
-    border-radius: 8px;
+    border-radius: 999px;
     text-decoration: none;
     font-weight: bold;
     display: inline-block;
-    box-shadow: 2px 2px 8px rgba(0,0,0,0.08);
+    box-shadow: 0 4px 10px rgba(179, 0, 89, 0.18);
     font-size: 1.15em;
-    transition: transform 0.2s, background 0.2s;
+    transition: transform 0.2s, box-shadow 0.2s;
     border: none;
     cursor: pointer;
   }
+
   .cta-button:hover {
     transform: scale(1.06);
-    background: linear-gradient(90deg, #b30059 0%, #fc8eac 100%);
+    box-shadow: 0 8px 18px rgba(179, 0, 89, 0.24);
   }
+
   .cta-button .clown-icon {
     display: inline-block;
     transition: transform 0.6s;
   }
+
   .cta-button:hover .clown-icon {
     transform: rotate(360deg);
   }
+
   .float-emoji {
     position: absolute;
     animation: float 14s linear infinite, glitch 1.2s infinite;
@@ -321,18 +363,21 @@ This blog has a variety of information, including data, sarcasm, and observation
     pointer-events: none;
     z-index: 1;
   }
+
   @keyframes float {
     0% { transform: translateY(100vh) translateX(0); }
     100% { transform: translateY(-200vh) translateX(100px); }
   }
+
   @keyframes glitch {
-    0% { text-shadow: 2px 2px red; }
-    20% { text-shadow: -2px -2px blue; }
-    40% { text-shadow: 2px -2px green; }
-    60% { text-shadow: -2px 2px yellow; }
-    80% { text-shadow: 2px 2px purple; }
-    100% { text-shadow: -2px -2px orange; }
+    0% { text-shadow: 2px 2px #ff4d7d; }
+    20% { text-shadow: -2px -2px #5dc9ff; }
+    40% { text-shadow: 2px -2px #7ee6b3; }
+    60% { text-shadow: -2px 2px #ffd166; }
+    80% { text-shadow: 2px 2px #b388ff; }
+    100% { text-shadow: -2px -2px #ff8c42; }
   }
+
   .music-controls {
     position: fixed;
     bottom: 16px;
@@ -341,105 +386,141 @@ This blog has a variety of information, including data, sarcasm, and observation
     display: flex;
     gap: 6px;
   }
+
   .music-controls button {
     margin: 2px;
     padding: 0.5em 1em;
     font-size: 0.95em;
     color: white;
     border: none;
-    border-radius: 6px;
+    border-radius: 999px;
     cursor: pointer;
-    background-color: #b30059;
-    transition: background 0.2s;
+    background-color: var(--primary-color);
+    transition: transform 0.2s, opacity 0.2s;
   }
-  .music-controls button:first-child { background-color: #005a87; }
-  .music-controls button:hover { opacity: 0.93; }
+
+  .music-controls button:first-child { background-color: var(--secondary-color); }
+  .music-controls button:hover { opacity: 0.93; transform: translateY(-1px); }
+
   .audio-player {
     margin: 2rem 0 1rem 0;
     padding: 1rem;
-    background-color: rgba(255,255,255,0.13);
+    background-color: rgba(255,255,255,0.18);
     border-radius: 8px;
     max-width: 500px;
     margin-left: auto;
     margin-right: auto;
+    border: 1px solid var(--border-color);
   }
+
   .audio-player audio { width: 100%; }
   .audio-title { font-weight: bold; margin-bottom: 0.5rem; color: var(--primary-color); }
+
   .dark-toggle { text-align: center; margin-top: 3rem; }
   .dark-toggle button {
-    background-color: #333344;
-    color: #f0f0f0;
+    background: linear-gradient(90deg, #2f2a3b 0%, #433951 100%);
+    color: #f8f2ff;
     border: none;
     padding: 0.6rem 1.2rem;
-    border-radius: 8px;
+    border-radius: 999px;
     cursor: pointer;
     font-size: 1.1em;
-    transition: background 0.2s;
+    transition: transform 0.2s, box-shadow 0.2s;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.16);
   }
-  .dark-toggle button:hover { background-color: #444455; }
-  /* Dark mode styling */
-  .dark-mode { background-color: #1f1f2e; color: #f0f0f0; }
-  .dark-mode .work-philosophy { background-color: #2a2a3a; }
-  .dark-mode .principle-card { background-color: #333344; color: #f0f0f0; }
-  .dark-mode .highlight { background-color: rgba(179, 0, 89, 0.2); }
-  .dark-mode .cta-button { background-color: #b30059; }
-  .dark-mode a { color: #ff99cc; }
-  .dark-mode .hero-section { background: linear-gradient(90deg, #2a2a3a 0%, #1f1f2e 100%); }
-  .dark-mode .audio-player { background-color: rgba(51,51,68,0.18); }
-  .dark-mode .music-controls button { background-color: #b30059; }
-  .dark-mode .music-controls button:first-child { background-color: #005a87; }
-  .dark-mode .mobius-spin { filter: brightness(1.2) hue-rotate(30deg); }
-  .dark-mode svg ellipse { stroke: #ff99cc; }
-  .dark-mode svg circle { fill: #ff99cc; }
-  /* Responsive design */
+
+  .dark-toggle button:hover { transform: translateY(-1px); box-shadow: 0 6px 14px rgba(0,0,0,0.2); }
+
+  .dark-mode {
+    background: linear-gradient(135deg, #1b1424 0%, #261c33 50%, #132b35 100%);
+    color: #f8f2ff;
+  }
+
+  .dark-mode .work-philosophy {
+    background-color: #2d2238;
+    border-color: rgba(255, 211, 232, 0.14);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.28);
+  }
+
+  .dark-mode .principle-card {
+    background-color: #352742;
+    color: #f8f2ff;
+    border-color: rgba(255, 211, 232, 0.14);
+  }
+
+  .dark-mode .highlight {
+    background-color: rgba(179, 0, 89, 0.18);
+  }
+
+  .dark-mode .cta-button {
+    background: linear-gradient(90deg, #cf2f78 0%, #ff7cac 100%);
+  }
+
+  .dark-mode a { color: #ffd3e8; }
+  .dark-mode .hero-section { background: linear-gradient(90deg, #2d2238 0%, #1d3140 100%); }
+  .dark-mode .audio-player { background-color: rgba(255,255,255,0.08); }
+  .dark-mode .music-controls button { background-color: var(--primary-color); }
+  .dark-mode .music-controls button:first-child { background-color: var(--secondary-color); }
+  .dark-mode .mobius-spin { filter: brightness(1.15) hue-rotate(20deg); }
+  .dark-mode svg ellipse { stroke: #ffd3e8; }
+  .dark-mode svg circle { fill: #ffd3e8; }
+
   @media (max-width: 700px) {
     .hero-content h1 { font-size: 2em; }
     .work-philosophy { padding: 1.2rem 0.5rem; }
     .principles-grid { grid-template-columns: 1fr; }
     .music-controls { right: 8px; bottom: 8px; }
   }
+
   @media (max-width: 500px) {
     .hero-section { padding: 2em 0 1em 0; }
     .audio-player { padding: 0.5rem; }
   }
-  :root {
-    --primary-color: #b30059;
-    --primary-light: #ffe6f0;
-    --secondary-color: #005a87;
-    --text-color: #333;
-    --light-bg: #fdf9f9;
-  }
+
   /* Mobius Spinner Animation */
   @keyframes spin {
     from { transform: rotate(0deg); }
     to { transform: rotate(360deg); }
   }
+
   .mobius-spin {
     animation: spin 5s linear infinite;
     display: block;
     margin: 0 auto;
   }
+
   /* Recent posts callout */
   .recent-posts.callout {
     max-width: 700px;
     margin: 1.25rem auto;
     padding: 1rem 1.25rem;
-    background: linear-gradient(90deg,#fff5f8,#fff);
+    background: linear-gradient(90deg, #fff4f8 0%, #f7fbff 100%);
     border-left: 6px solid var(--primary-color);
-    border-radius: 8px;
-    box-shadow: 0 6px 18px rgba(0,0,0,0.06);
+    border-radius: 10px;
+    box-shadow: 0 6px 18px rgba(46, 35, 59, 0.08);
   }
-  .recent-posts h2 { margin-top: 0; color: var(--primary-color); font-family: 'Montserrat', sans-serif; }
+
+  .recent-posts h2 {
+    margin-top: 0;
+    color: var(--primary-color);
+    font-family: 'Montserrat', sans-serif;
+  }
+
   .recent-posts ol { list-style: none; padding-left: 0; margin: 0; }
-  .recent-posts li { margin: 0.75rem 0; padding: 0.6rem 0; border-bottom: 1px dashed rgba(0,0,0,0.04); }
+  .recent-posts li { margin: 0.75rem 0; padding: 0.6rem 0; border-bottom: 1px dashed rgba(0,0,0,0.06); }
   .recent-posts .post-link { font-weight: 600; color: var(--primary-color); text-decoration: none; }
-  .recent-posts .post-link:hover { text-decoration: underline; color: #9a0046; }
-  .recent-posts .excerpt { margin: 0.25rem 0 0 0; color: #555; font-size: 0.95em; }
-  .dark-mode .recent-posts.callout { background: linear-gradient(90deg,#2a2a3a,#252532); border-left-color: #ff99cc; }
-  .dark-mode .recent-posts .excerpt { color: #d0c8d0; }
+  .recent-posts .post-link:hover { text-decoration: underline; color: var(--primary-strong); }
+  .recent-posts .excerpt { margin: 0.25rem 0 0 0; color: var(--muted-text); font-size: 0.95em; }
+
+  .dark-mode .recent-posts.callout {
+    background: linear-gradient(90deg, #32263d 0%, #1f2734 100%);
+    border-left-color: #ffd3e8;
+  }
+
+  .dark-mode .recent-posts .excerpt { color: #d8cfe0; }
   .post-icon { margin-right: 0.5rem; font-size: 1.15rem; display: inline-block; vertical-align: middle; }
   .badge { display: inline-block; margin-left: 0.6rem; background: var(--primary-color); color: white; font-weight: 700; font-size: 0.7rem; padding: 0.18rem 0.45rem; border-radius: 999px; vertical-align: middle; }
-  .badge.new { background: #ff3b82; box-shadow: 0 2px 8px rgba(179,0,89,0.12); }
+  .badge.new { background: var(--accent-color); color: #2e233b; box-shadow: 0 2px 8px rgba(242, 169, 59, 0.18); }
   .dark-mode .badge { background: #ff99cc; color: #2a2a3a; }
 </style>
 
