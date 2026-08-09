@@ -40,6 +40,12 @@
   <ol>
     <li>
       <span class="post-icon" aria-hidden="true">🎪</span>
+      <a class="post-link" href="https://kristina01-hash.github.io/clown-network/chronicles/20260809_airpods_blog_post.html"> Personal Essay: I Went Looking for AirPods Pro 3
+</a>
+      <span class="badge new">NEW</span>
+      <p class="excerpt"> The day I tried to buy AirPods Pro 3 and accidentally conducted a national infrastructure audit. 
+    <li>
+      <span class="post-icon" aria-hidden="true">📚</span>
       <a class="post-link" href="https://kristina01-hash.github.io/clown-network/chronicles/2026-07-28_clustering-you-need-to-know.html"> Teaching a Computer to See in Shades of Gray
 </a>
       <span class="badge new">NEW</span>
