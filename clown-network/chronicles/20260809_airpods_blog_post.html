@@ -16,15 +16,16 @@
         }
 
         :root {
-            --primary-color: #1a1410;
-            --secondary-color: #3d3530;
-            --accent-color: #c85a2a;
-            --accent-hover: #d97a3a;
-            --accent-soft: #f4d4b8;
-            --text-light: #8b7355;
-            --border-color: #d4553a;
-            --bg-light: #fef1e8;
-            --shadow: 0 25px 80px rgba(26, 20, 16, 0.10);
+            --primary-color: #1f1a17;
+            --secondary-color: #433a34;
+            --accent-color: #8b3e2f;
+            --accent-hover: #a64b35;
+            --accent-soft: #f5e3d8;
+            --text-light: #7a675b;
+            --border-color: #cfa88f;
+            --bg-light: #fcf3eb;
+            --shadow: 0 25px 80px rgba(31, 26, 23, 0.10);
+            --highlight: #f8dccb;
         }
 
         html {
@@ -35,7 +36,7 @@
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
             line-height: 1.8;
             color: var(--primary-color);
-            background: linear-gradient(135deg, #fdf9f3 0%, #f5efe6 100%);
+            background: linear-gradient(135deg, #fbf4ee 0%, #f1e4da 100%);
             padding: 32px 16px;
         }
 
@@ -55,7 +56,7 @@
             max-width: 900px;
             margin: 0 auto;
             padding: 64px 64px 52px;
-            background: #faffff;
+            background: #fffcf9;
             border-radius: 28px;
             box-shadow: var(--shadow);
             border: 1px solid rgba(139, 94, 60, 0.12);
@@ -162,7 +163,7 @@
         .toc {
             margin: 0 0 30px;
             padding: 18px 20px;
-            background: linear-gradient(135deg, var(--accent-soft), #fffdfa);
+            background: linear-gradient(135deg, var(--accent-soft), #fffaf5);
             border: 1px solid rgba(139, 94, 60, 0.16);
             border-radius: 14px;
             box-shadow: 0 10px 24px rgba(17, 17, 17, 0.04);
@@ -216,7 +217,7 @@
 
         .highlight {
             padding: 20px 24px;
-            background: linear-gradient(90deg, rgba(232, 134, 232, 0.1), transparent);
+            background: linear-gradient(90deg, var(--highlight), transparent);
             border-left: 4px solid var(--accent-color);
             border-radius: 8px;
             margin: 24px 0;
@@ -229,8 +230,8 @@
 
         .takeaway {
             padding: 20px 24px;
-            background: linear-gradient(90deg, rgba(232, 134, 232, 0.08), transparent);
-            border: 1px solid rgba(232, 134, 232, 0.2);
+            background: linear-gradient(90deg, rgba(139, 62, 47, 0.07), transparent);
+            border: 1px solid rgba(139, 62, 47, 0.16);
             border-left: 4px solid var(--accent-color);
             border-radius: 8px;
             margin: 24px 0;
