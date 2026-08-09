@@ -1,0 +1,577 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="I went looking for AirPods Pro 3 in Indonesia. What I found was a masterclass in systemic failure across banking, logistics, and customer service.">
+    <meta name="author" content="Kristina P. Sinaga">
+    <title>The AirPods Incident: A Study in Systemic Failure</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Merriweather:wght@700;800&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-color: #1a1410;
+            --secondary-color: #3d3530;
+            --accent-color: #c85a2a;
+            --accent-hover: #d97a3a;
+            --accent-soft: #f4d4b8;
+            --text-light: #8b7355;
+            --border-color: #d4553a;
+            --bg-light: #fef1e8;
+            --shadow: 0 25px 80px rgba(26, 20, 16, 0.10);
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            line-height: 1.8;
+            color: var(--primary-color);
+            background: linear-gradient(135deg, #fdf9f3 0%, #f5efe6 100%);
+            padding: 32px 16px;
+        }
+
+        #progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 3px;
+            width: 0%;
+            background: linear-gradient(90deg, var(--accent-color), #d3a175);
+            z-index: 1000;
+            transition: width 0.1s ease-out;
+            border-radius: 0 999px 999px 0;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 64px 64px 52px;
+            background: #faffff;
+            border-radius: 28px;
+            box-shadow: var(--shadow);
+            border: 1px solid rgba(139, 94, 60, 0.12);
+            position: relative;
+        }
+
+        .container::before {
+            content: "";
+            display: block;
+            height: 4px;
+            width: 100%;
+            border-radius: 999px;
+            background: linear-gradient(90deg, var(--accent-color), #d3a175);
+            margin-bottom: 28px;
+        }
+
+        header {
+            margin-bottom: 46px;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 30px;
+        }
+
+        .eyebrow {
+            display: inline-block;
+            font-size: 0.78rem;
+            font-weight: 700;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            color: var(--accent-color);
+            margin-bottom: 12px;
+        }
+
+        h1 {
+            font-family: 'Merriweather', Georgia, serif;
+            font-size: clamp(2.2rem, 3.6vw, 3.1rem);
+            line-height: 1.16;
+            margin-bottom: 16px;
+            font-weight: 800;
+            color: var(--primary-color);
+            letter-spacing: -0.02em;
+        }
+
+        .hero-subtitle {
+            font-size: 1.08rem;
+            color: var(--secondary-color);
+            max-width: 720px;
+            margin-bottom: 18px;
+            line-height: 1.85;
+        }
+
+        .hero-note {
+            display: inline-block;
+            margin-bottom: 20px;
+            padding: 10px 14px;
+            background: var(--bg-light);
+            border: 1px solid var(--border-color);
+            border-left: 4px solid var(--accent-color);
+            border-radius: 10px;
+            font-size: 0.95rem;
+            color: var(--secondary-color);
+            font-weight: 600;
+        }
+
+        .meta {
+            font-size: 0.95rem;
+            color: var(--text-light);
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .meta-item {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .reading-time {
+            background: var(--accent-soft);
+            color: var(--accent-color);
+            padding: 4px 10px;
+            border-radius: 999px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        h2 {
+            font-family: 'Merriweather', Georgia, serif;
+            font-size: 1.35rem;
+            margin: 42px 0 18px;
+            font-weight: 700;
+            color: var(--primary-color);
+            letter-spacing: -0.01em;
+            padding-left: 12px;
+            border-left: 4px solid var(--accent-color);
+            background: linear-gradient(90deg, rgba(122, 75, 42, 0.08), transparent);
+        }
+
+        h2:first-of-type {
+            margin-top: 0;
+        }
+
+        .toc {
+            margin: 0 0 30px;
+            padding: 18px 20px;
+            background: linear-gradient(135deg, var(--accent-soft), #fffdfa);
+            border: 1px solid rgba(139, 94, 60, 0.16);
+            border-radius: 14px;
+            box-shadow: 0 10px 24px rgba(17, 17, 17, 0.04);
+        }
+
+        .toc-title {
+            font-size: 0.78rem;
+            font-weight: 700;
+            letter-spacing: 0.16em;
+            text-transform: uppercase;
+            color: var(--accent-color);
+            margin-bottom: 10px;
+        }
+
+        .toc ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: grid;
+            gap: 8px;
+        }
+
+        .toc li {
+            font-size: 0.95rem;
+        }
+
+        .toc a {
+            color: var(--secondary-color);
+            text-decoration: none;
+            transition: color 0.2s ease;
+        }
+
+        .toc a:hover {
+            color: var(--accent-color);
+        }
+
+        p {
+            margin-bottom: 18px;
+            text-align: justify;
+            text-justify: inter-word;
+        }
+
+        ul, ol {
+            margin: 20px 0;
+            padding-left: 24px;
+        }
+
+        ul li, ol li {
+            margin-bottom: 12px;
+        }
+
+        .highlight {
+            padding: 20px 24px;
+            background: linear-gradient(90deg, rgba(232, 134, 232, 0.1), transparent);
+            border-left: 4px solid var(--accent-color);
+            border-radius: 8px;
+            margin: 24px 0;
+        }
+
+        .highlight strong {
+            color: var(--accent-color);
+            font-weight: 700;
+        }
+
+        .takeaway {
+            padding: 20px 24px;
+            background: linear-gradient(90deg, rgba(232, 134, 232, 0.08), transparent);
+            border: 1px solid rgba(232, 134, 232, 0.2);
+            border-left: 4px solid var(--accent-color);
+            border-radius: 8px;
+            margin: 24px 0;
+        }
+
+        .takeaway h3 {
+            font-size: 1.1rem;
+            color: var(--accent-color);
+            margin-bottom: 12px;
+            font-weight: 700;
+        }
+
+        .takeaway p {
+            margin-bottom: 0;
+            color: var(--secondary-color);
+        }
+
+        .divider {
+            border: none;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--accent-color), transparent);
+            margin: 48px 0;
+        }
+
+        strong {
+            font-weight: 600;
+            color: var(--secondary-color);
+        }
+
+        em {
+            font-style: italic;
+            color: var(--text-light);
+        }
+
+        blockquote {
+            border-left: 4px solid var(--accent-color);
+            padding-left: 20px;
+            margin: 24px 0;
+            font-style: italic;
+            color: var(--secondary-color);
+        }
+
+        footer {
+            margin-top: 64px;
+            padding-top: 30px;
+            border-top: 1px solid var(--border-color);
+            font-size: 0.9rem;
+            color: var(--text-light);
+            text-align: center;
+        }
+
+        #back-to-top {
+            position: fixed;
+            bottom: 32px;
+            right: 32px;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: var(--accent-color);
+            color: white;
+            border: none;
+            font-size: 1.4rem;
+            cursor: pointer;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            box-shadow: var(--shadow);
+            z-index: 999;
+        }
+
+        #back-to-top.visible {
+            opacity: 1;
+        }
+
+        #back-to-top:hover {
+            background: var(--accent-hover);
+            transform: scale(1.1);
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 40px 24px 32px;
+            }
+
+            #back-to-top {
+                bottom: 16px;
+                right: 16px;
+                width: 44px;
+                height: 44px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="progress-bar"></div>
+
+    <div class="container">
+        <header>
+            <span class="eyebrow">Personal Essay</span>
+            <h1>I Went Looking for AirPods Pro 3</h1>
+            <p class="hero-subtitle">What I found was a masterclass in systemic failure across banking, logistics, and customer service. Or: how buying a pair of earbuds became a national infrastructure audit.</p>
+            
+            <div class="meta">
+                <div class="meta-item">
+                    <span class="reading-time">8 min read</span>
+                </div>
+                <div class="meta-item">
+                    Kristina P. Sinaga
+                </div>
+            </div>
+        </header>
+
+        <nav class="toc">
+            <div class="toc-title">In This Essay</div>
+            <ul>
+                <li><a href="#the-system-failure">The Real Problem</a></li>
+                <li><a href="#the-saga">The Saga</a></li>
+                <li><a href="#experience-poisoning">Experience Poisoning</a></li>
+                <li><a href="#what-works">What Works: The Gojek Standard</a></li>
+                <li><a href="#the-pattern">Why This Happens</a></li>
+                <li><a href="#final">Final Thought</a></li>
+            </ul>
+        </nav>
+
+        <article>
+            <section id="the-system-failure">
+                <p>I genuinely thought I was just buying a pair of earbuds.</p>
+                
+                <p>That was my first mistake.</p>
+                
+                <p>A simple purchase shouldn't require coordinating banking systems, e-money applications, electricity infrastructure, logistics companies, customer-service departments, delivery instructions, neighboring houses, and the emotional endurance of someone trained abroad just enough to know that this isn't normal.</p>
+
+                <div class="hero-note">
+                    <strong>The Thesis:</strong> This isn't customer failure. This is system failure.
+                </div>
+
+                <p>What started as a desire for wireless earbuds became a case study in institutional friction. And what I discovered was this: <strong>the journey to ownership had become so exhausting that it ruined my relationship with the destination itself.</strong></p>
+
+                <p>Not because AirPods Pro 3 are defective. They're excellent. But because the system that delivered them—or failed to—had poisoned the entire experience.</p>
+            </section>
+
+            <hr class="divider">
+
+            <section id="the-saga">
+                <h2>The Saga: Banking, Logistics, and Broken Instructions</h2>
+
+                <p>Before I could even deal with the delivery nightmare, I had to survive the payment process.</p>
+
+                <p>First came the moment when electricity at a BCA branch disappeared. Not metaphorically. Actually disappeared. At one of the biggest private banks in the country, apparently electricity requires a vacation schedule.</p>
+
+                <p>Then came DANA, which decided that my own money was no longer qualified to fund my own purchase. Top-up refused. Again. The delicious irony? I could make the payment using money already in my account. So my money was perfectly acceptable once it was there—but became suspicious the moment I tried to add more of it.</p>
+
+                <p>I kept thinking about my previous AirPods Pro 2 purchase in Italy. That experience was so smooth it feels fictional now. Card worked. Delivery worked. Product arrived. Nobody questioned my ethnicity or required me to navigate broken payment systems just to buy consumer electronics.</p>
+
+                <p>By this point, what should have been a straightforward transaction had required navigation of:</p>
+
+                <ul>
+                    <li>Banking system failures</li>
+                    <li>Payment app rejections</li>
+                    <li>Multiple e-commerce platforms</li>
+                    <li>Logistics coordination</li>
+                    <li>Customer service departments</li>
+                    <li>Infrastructure breakdowns</li>
+                </ul>
+
+                <p>Then came the delivery.</p>
+
+                <p>I left explicit written instructions: if I didn't answer, leave the package on the terrace, in the garage, or by the aquarium. Crystal clear.</p>
+
+                <p>The first courier reported I wasn't answering calls. I filed a complaint, contacted the seller, and explained that they needed to actually follow the instructions I'd provided. The response was essentially "wait and we'll try again tomorrow."</p>
+
+                <p>When I asked if the order could simply be cancelled given that a system had failed, I was told: because the item had already been handed to the delivery service, it could no longer be cancelled, exchanged, or refunded.</p>
+
+                <p>I left the note.</p>
+                <p>The seller followed my instructions.</p>
+                <p>The system failed.</p>
+                <p>Yet somehow: you own it now.</p>
+
+                <p>And then the beautiful part: they left the package with my neighbor anyway. Despite crystal-clear instructions not to.</p>
+
+                <p>Again.</p>
+
+                <p>I half expected a note: "We tested you again. Hope you enjoyed the sequel."</p>
+
+                <p>There's an Indonesian proverb: <em>"Rusak susu sebelanga karena nila setitik."</em> One tiny drop of indigo ruins an entire pot of milk. That's exactly what happened. Thousands of successful deliveries might occur without incident, but one courier who can't be bothered to read instructions is enough to ruin everything.</p>
+            </section>
+
+            <hr class="divider">
+
+            <section id="experience-poisoning">
+                <h2>Experience Poisoning: When the Journey Ruins the Destination</h2>
+
+                <p>By the time the package arrived (however it did), I no longer wanted the AirPods.</p>
+
+                <p>And this is crucial: it had nothing to do with the product quality or my ability to afford them.</p>
+
+                <p>There's a vital difference between:</p>
+
+                <ul>
+                    <li>"I no longer want this product."</li>
+                    <li>"You made the process so unnecessarily unpleasant that I no longer want to look at this fucking thing."</li>
+                </ul>
+
+                <p>That distinction matters.</p>
+
+                <div class="takeaway">
+                    <h3>Experience Poisoning</h3>
+                    <p>When the journey to ownership becomes so exhausting that it ruins your relationship with the destination. You didn't save me from a bad purchase. You took something I genuinely wanted and made me disgusted with the experience of owning it.</p>
+                </div>
+
+                <p>Throughout all of this, I remained externally calm. Polite. Composed. Thanking neighbors for receiving packages in broken boxes.</p>
+
+                <p>Meanwhile, internally:</p>
+
+                <ul>
+                    <li>My soul was filing 47 complaints</li>
+                    <li>My blood pressure was doing parkour</li>
+                    <li>My last remaining brain cell was screaming: "ARE YOU PEOPLE SERIOUS RIGHT NOW?"</li>
+                </ul>
+
+                <p>But here's what I learned: there's a certain point where anger stops being useful and starts becoming comedy material. And I know how to turn it into a journal entry.</p>
+
+                <p>If I cannot control the stupidity around me, I can at least transform it into documentation.</p>
+            </section>
+
+            <hr class="divider">
+
+            <section id="what-works">
+                <h2>What Works: The Gojek Standard</h2>
+
+                <p>In fairness, I won't complain about everything.</p>
+
+                <p>Because Gojek actually improved.</p>
+
+                <p>I recently used the app to order groceries. The driver quoted one amount. The app showed another. I investigated (because apparently buying groceries now comes with a free side job as an accountant).</p>
+
+                <p>Result: One item wasn't available, so they deducted the price from my payment.</p>
+
+                <p>And they told me.</p>
+
+                <p>Before I asked.</p>
+
+                <p>Without requiring me to file a complaint.</p>
+
+                <p>This is progress. This is what happens when a company actually listens to public feedback and implements it. When something gets better, I will happily give credit. That's how systems improve—through visibility creating pressure for change.</p>
+
+                <p style="text-align: center; font-size: 1.8rem; margin: 30px 0;">👏</p>
+
+                <p><strong>The contrast is instructive.</strong> When you see what <em>can</em> work, you understand why everything else failing is inexcusable.</p>
+            </section>
+
+            <hr class="divider">
+
+            <section id="the-pattern">
+                <h2>Why This Happens: Infrastructure, Education, and Systems Thinking</h2>
+
+                <p>What started as a simple purchase became a case study in institutional friction. And it's not unique to this transaction—it's systemic.</p>
+
+                <p>Indonesia has a land area of 1.9 million square kilometers, 17,000+ islands, rich natural resources, and a growing tech sector. And yet basic infrastructure remains inconsistent: electricity, water delivery, payment system coordination.</p>
+
+                <p>"Pembangunan" (development) is the constant rallying cry. Progress. Advancement. Growing toward something better. But when even simple transactions require navigating broken systems, something isn't developing—it's going in circles.</p>
+
+                <p>This entire saga revealed something important:</p>
+
+                <div class="highlight">
+                    <strong>Real education matters. Enormously.</strong>
+                    <p>The countries with functional infrastructure didn't develop their systems by accident. They built them through rigorous education, institutional accountability, and systems thinking. When someone can reliably deliver a package, coordinate payment systems, and maintain electricity infrastructure, that's not magic—it's the accumulated result of educated people building better processes.</p>
+                </div>
+
+                <p>The advanced countries aren't operating under a different biological classification—they downloaded the "How to Make Basic Infrastructure Function" expansion pack. We're still waiting for the update.</p>
+            </section>
+
+            <hr class="divider">
+
+            <section id="final">
+                <h2>Final Thought: Why I'm Sharing This</h2>
+
+                <p>The AirPods might arrive again. Probably not, and I probably won't keep them.</p>
+
+                <p>The product itself is excellent. But buying it here required navigating:</p>
+
+                <ul>
+                    <li>Banking failures</li>
+                    <li>Logistics incompetence</li>
+                    <li>Customer service systems that function more like obstacles than solutions</li>
+                </ul>
+
+                <p>And that's the real cost that never shows up on an invoice—the cost of unnecessary friction in every single transaction. Multiplied across millions of customers annually.</p>
+
+                <p>I'm sharing this not to vent, but to document. To say: this is what broken infrastructure looks like at ground level. This is the cost of systems that don't work.</p>
+
+                <p>Because here's what actually matters: When one person complains about broken systems, it's just complaining. When thousands do? That's when visibility creates pressure for change. That's when things start to shift.</p>
+
+                <p>So I document it. I share it. And hopefully, somewhere in an organization reading this, someone makes one small process slightly better.</p>
+
+                <p>Because that's how systems improve—through accumulated visibility of failures that finally reach critical mass.</p>
+
+                <p><em>In the end, I went looking for AirPods Pro 3. What I found was a mirror held up to the infrastructure I navigate every single day. And while the reflection wasn't flattering, at least it was honest.</em></p>
+
+                <p style="margin-top: 30px; text-align: center; font-style: italic;">
+                    Ten out of ten experience.<br>
+                    Would not recommend.<br>
+                    But I'll definitely be writing about it.
+                </p>
+
+                <hr class="divider" style="margin-top: 40px;">
+
+                <p style="font-style: italic; color: var(--text-light); margin-top: 40px;">The irony? Writing this required electricity, internet infrastructure, a payment system to fund the platform, and hopefully, eventual readers patient enough to engage with sarcasm. So apparently, even complaining about broken systems requires functioning systems.</p>
+
+                <p style="font-style: italic; color: var(--text-light);">Here we are, though. Still laughing.</p>
+            </section>
+        </article>
+
+        <footer>
+            <p>© 2026 Kristina P. Sinaga. All rights reserved.</p>
+            <p style="margin-top: 20px; font-size: 0.9rem; color: #e296e0;">This article explores systemic infrastructure challenges through personal experience and the search for accountability.</p>
+        </footer>
+    </div>
+
+    <button id="back-to-top" aria-label="Back to top" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">↑</button>
+
+    <script>
+      const progressBar = document.getElementById('progress-bar');
+      const backToTop = document.getElementById('back-to-top');
+
+      function onScroll() {
+        const scrollTop = window.scrollY;
+        const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+        const pct = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
+
+        if (progressBar) {
+          progressBar.style.width = pct + '%';
+        }
+
+        if (backToTop) {
+          backToTop.classList.toggle('visible', scrollTop > 500);
+        }
+      }
+
+      window.addEventListener('scroll', onScroll, { passive: true });
+      window.addEventListener('resize', onScroll);
+      onScroll();
+    </script>
+</body>
+</html>
