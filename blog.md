@@ -40,6 +40,13 @@
   <ol>
     <li>
       <span class="post-icon" aria-hidden="true">🎪</span>
+      <a class="post-link" href="https://kristina01-hash.github.io/clown-network/chronicles/20260815_Shopee%20airpods%20investigation%20blog.html"> The Shopee AirPods Pro 3 Investigation
+</a>
+      <span class="badge new">NEW</span>
+      <p class="excerpt"> How a Gray Market Device, Broken Return Policy, and Systemic Incompetence Exposed the Reality of Southeast Asian E-Commerce. 
+    <li>
+    <li>
+      <span class="post-icon" aria-hidden="true">🎪</span>
       <a class="post-link" href="https://kristina01-hash.github.io/clown-network/chronicles/20260809_airpods_blog_post.html"> Personal Essay: I Went Looking for AirPods Pro 3
 </a>
       <span class="badge new">NEW</span>
