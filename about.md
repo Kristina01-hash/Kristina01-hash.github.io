@@ -403,18 +403,18 @@ I specialize in testing systems in unpredictable, real-world settings, where the
     <div class="pub-details">
       <p class="pub-title"> Multi-View Clustering Goes Federated: A Survey</p>
       <p class="pub-authors">Sinaga, K.P.</p>
-      <p class="pub-journal"><em>Qeios</em></p>
+      <p class="pub-journal"><em>Electronics </em></p>
       <div class="pub-links">
-        <a href="https://www.qeios.com/read/PC8X49" target="_blank" class="journal-link">Preprint</a>
+        <a href="https://www.mdpi.com/2079-9292/15/18/4103" target="_blank" class="journal-link">Journal</a>
       </div>
     </div>
     <span class="pub-year">2026</span>
     <div class="pub-details">
-      <p class="pub-title">Personalized Federated Heat-Kernel Enhanced Multi-View Clustering via Advanced Tensor Decomposition Techniques (v4)</p>
-      <p class="pub-authors">Sinaga, K.P.</p>
-      <p class="pub-journal"><em>arXiv</em></p>
+      <p class="pub-title">Federated Multi-View K-Means Clustering</p>
+      <p class="pub-authors">Sinaga, K.P., Yang, M.S.</p>
+      <p class="pub-journal"><em>IEEE TPAMI</em></p>
       <div class="pub-links">
-        <a href="https://arxiv.org/abs/2509.16101" target="_blank" class="journal-link">Preprint</a>
+        <a href="https://ieeexplore.ieee.org/document/10810504" target="_blank" class="journal-link">Journal</a>
       </div>
     </div>
   <span class="pub-year">2025</span>
