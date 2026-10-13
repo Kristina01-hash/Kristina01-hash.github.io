@@ -330,12 +330,12 @@ function updateThemeStatus(text) {
     <div class="profile-title">Ph.D. in Applied Mathematics, Chung Yuan Christian University (CYCU), Taiwan</div>
     <div class="social-links">
       <a href="https://github.com/Kristina01-hash" class="social-link">GitHub</a>
-      <a href="www.linkedin.com/in/kristina-p-sinaga-0ba152309" class="social-link">LinkedIn</a>
+      <a href="www.linkedin.com/in/kristina-p-sinaga-824700429" class="social-link">LinkedIn</a>
       <a href="https://medium.com/@kristinapestaria.sinaga" class="social-link">Medium</a>
-      <a href="https://scholar.google.com/citations?view_op=list_works&hl=it&hl=it&user=XoJ7EkoAAAAJ" class="social-link">Google Scholar</a>
+      <a href="https://scholar.google.com/citations?user=yNWQLYAAAAAJ&hl=en" class="social-link">Google Scholar</a>
     </div>
   </div>
-</div> 
+</div>
 
 <blockquote class="quote">
   "A mind wired for patterns. A soul allergic to nonsense."
@@ -397,50 +397,6 @@ I specialize in testing systems in unpredictable, real-world settings, where the
 </div>
 
 <div class="publication-list">
-
-<div class="publication-item">
-    <span class="pub-year">2026</span>
-    <div class="pub-details">
-      <p class="pub-title"> Multi-View Clustering Goes Federated: A Survey</p>
-      <p class="pub-authors">Sinaga, K.P.</p>
-      <p class="pub-journal"><em>Electronics </em></p>
-      <div class="pub-links">
-        <a href="https://www.mdpi.com/2079-9292/15/18/4103" target="_blank" class="journal-link">Journal</a>
-      </div>
-    </div>
-    <span class="pub-year">2026</span>
-    <div class="pub-details">
-      <p class="pub-title">Federated Multi-View K-Means Clustering</p>
-      <p class="pub-authors">Sinaga, K.P., Yang, M.S.</p>
-      <p class="pub-journal"><em>IEEE TPAMI</em></p>
-      <div class="pub-links">
-        <a href="https://ieeexplore.ieee.org/document/10810504" target="_blank" class="journal-link">Journal</a>
-      </div>
-    </div>
-  <span class="pub-year">2025</span>
-    <div class="pub-details">
-      <p class="pub-title">A Globally Collaborative Multi-View k-Means Clustering</p>
-      <p class="pub-authors">Sinaga, K.P., Yang, M.S.</p>
-      <p class="pub-journal"><em>MDPI Electronics</em></p>
-      <div class="pub-links">
-        <a href="https://arxiv.org/abs/2509.15844" target="_blank" class="journal-link">Journal</a>
-        <a href="https://pypi.org/project/gcomvkm/" target="_blank" class="code-link">Code</a>
-      </div>
-    </div>
-  <span class="pub-year">2025</span>
-    <div class="pub-details">
-      <p class="pub-title">FedHK-MVFC: Federated Heat Kernel Multi-View Clustering (v2)</p>
-      <p class="pub-authors">Sinaga, K.P.</p>
-      <p class="pub-journal"><em>arXiv</em></p>
-      <div class="pub-links">
-        <a href="https://arxiv.org/abs/2509.15844" target="_blank" class="journal-link">Preprint</a>
-        <a href="https://ieee-dataport.org/documents/synthetic-multi-view-cardiovascular-dataset-federated-clustering" target="_blank" class="code-link">IEEE DataPort DOI</a>
-        <a href="https://github.com/KristinaP09/FedHK-MVFC" target="_blank" class="code-link">Code</a>
-      </div>
-    </div>
-   </div>
-
-</div>
 
 ## Opportunities
 
