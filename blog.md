@@ -57,8 +57,6 @@
       <span class="badge new">NEW</span>
       <p class="excerpt"> Finally, I'm writing back about academic stuff! 😉 Here's an example of when maths meets its application in medical image segmentation: In review.  </p>
     </li> 
-    </ol>
-</section>
 
 
 <!-- Floating Emojis (improved animation) -->
@@ -149,10 +147,10 @@
 </section>
 </main>
 
-<h3>Featured Archives</h3>
+<h2>Featured Archives</h2>
 
 Do you need a stronger way to express your emotions than words?
-Check out the full __Clown Network Chronicles__, which is like an online library with information on all kinds of topics.
+Check out the <h3>full Clown Network Chronicles</h3>, which is like an online library with information on all kinds of topics.
 
 <div style="margin: 2em 0; text-align: center;">
   <a href="/clown-network/chronicles/" class="cta-button">
@@ -160,7 +158,7 @@ Check out the full __Clown Network Chronicles__, which is like an online library
   </a>
 </div>
 
----
+
 
 This blog has a variety of information, including data, sarcasm, and observations. If you like to speak frankly, meaning in a direct way, you'll enjoy this blog. If you're not comfortable with that, this platform isn't for you.
 
