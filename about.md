@@ -401,11 +401,11 @@ I specialize in testing systems in unpredictable, real-world settings, where the
 <div class="publication-item">
     <span class="pub-year">2026</span>
     <div class="pub-details">
-      <p class="pub-title">Personalized Federated Heat-Kernel Enhanced Multi-View Clustering via Advanced Tensor Decomposition Techniques (v4)</p>
+      <p class="pub-title">Multi-View Clustering Goes Federated: A Survey</p>
       <p class="pub-authors">Sinaga, K.P.</p>
-      <p class="pub-journal"><em>arXiv</em></p>
+      <p class="pub-journal"><em>MDPI Electronics</em></p>
       <div class="pub-links">
-        <a href="https://arxiv.org/abs/2509.16101" target="_blank" class="journal-link">Preprint</a>
+        <a href="https://doi.org/10.3390/electronics15184103" target="_blank" class="journal-link">Journal</a>
       </div>
     </div>
   <span class="pub-year">2025</span>
@@ -414,7 +414,7 @@ I specialize in testing systems in unpredictable, real-world settings, where the
       <p class="pub-authors">Sinaga, K.P., Yang, M.S.</p>
       <p class="pub-journal"><em>MDPI Electronics</em></p>
       <div class="pub-links">
-        <a href="https://arxiv.org/abs/2509.15844" target="_blank" class="journal-link">Journal</a>
+        <a href="https://doi.org/10.3390/electronics14112129" target="_blank" class="journal-link">Journal</a>
         <a href="https://pypi.org/project/gcomvkm/" target="_blank" class="code-link">Code</a>
       </div>
     </div>
@@ -424,18 +424,18 @@ I specialize in testing systems in unpredictable, real-world settings, where the
       <p class="pub-authors">Sinaga, K.P.</p>
       <p class="pub-journal"><em>arXiv</em></p>
       <div class="pub-links">
-        <a href="https://arxiv.org/abs/2509.15844" target="_blank" class="journal-link">Preprint</a>
+        <a href="https://doi.org/10.48550/arXiv.2509.15844" target="_blank" class="journal-link">Preprint</a>
         <a href="https://ieee-dataport.org/documents/synthetic-multi-view-cardiovascular-dataset-federated-clustering" target="_blank" class="code-link">IEEE DataPort DOI</a>
         <a href="https://github.com/KristinaP09/FedHK-MVFC" target="_blank" class="code-link">Code</a>
       </div>
     </div>
-    <span class="pub-year">2024</span>
+    <span class="pub-year">2025</span>
     <div class="pub-details">
       <p class="pub-title">Federated Multi-View K-Means Clustering</p>
       <p class="pub-authors">Yang, M.S., Sinaga, K.P.</p>
       <p class="pub-journal"><em>IEEE Transactions on Pattern Analysis and Machine Intelligence</em></p>
       <div class="pub-links">
-        <a href="https://ieeexplore.ieee.org/abstract/document/10810504" target="_blank" class="journal-link">Journal</a>
+        <a href="https://doi.org/10.1109/TPAMI.2024.3520708" target="_blank" class="journal-link">Journal</a>
         <a href="https://github.com/KristinaP09/Fed-MVKM" target="_blank" class="code-link">Code</a>
       </div>
     </div>
