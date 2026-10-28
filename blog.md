@@ -170,6 +170,7 @@ This blog has a variety of information, including data, sarcasm, and observation
   <button aria-label="Toggle dark mode" onclick="toggleDarkMode()">🌓 Toggle Dark Mode</button>
 </div>
 
+
 <script>
   function toggleDarkMode() {
     document.body.classList.toggle('dark-mode');
