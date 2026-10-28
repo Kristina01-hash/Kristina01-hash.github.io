@@ -150,7 +150,7 @@
 <h2>Featured Archives</h2>
 
 Do you need a stronger way to express your emotions than words?
-Check out the <h3>full Clown Network Chronicles</h3>, which is like an online library with information on all kinds of topics.
+Check out <span style="color: red;">the full Clown Network Chronicles</span>, which is like an online library with information on all kinds of topics.
 
 <div style="margin: 2em 0; text-align: center;">
   <a href="/clown-network/chronicles/" class="cta-button">
