@@ -10,8 +10,8 @@ description: "Expert in scalable AI models, federated learning, and Edge AI. Ph.
 <meta name="author" content="Kristina P. Sinaga">
 <meta property="og:title" content="Kristina P. Sinaga | AI Researcher & Applied Mathematics Ph.D.">
 <meta property="og:description" content="Innovative AI researcher specializing in scalable, interpretable, and trustworthy AI models for real-world applications.">
-<meta property="og:image" content="assets/images/DSC03661.JPG">
-<meta property="og:url" content="https://kristinap09.github.io/clown-network/">
+<meta property="og:image" content="assets/images/IMG_0810.jeg">
+<meta property="og:url" content="https://kristina01-hash.github.io/clown-network/">
 <meta name="twitter:card" content="summary_large_image">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -80,7 +80,7 @@ description: "Expert in scalable AI models, federated learning, and Edge AI. Ph.
 
 <section id="about" class="profile-section">
     <h2>About Me</h2>
-    <img src="https://kristina01-hash.github.io/assets/images/IMG_0784.png" alt="Kristina P. Sinaga" class="profile-image">
+    <img src="https://kristina01-hash.github.io/assets/images/IMG_0810.jpeg" alt="Kristina P. Sinaga" class="profile-image">
     <div class="profile-text">
      <p> I’m a strategic thinker, problem-solver, and someone who doesn’t entertain clown logic. I hold a Ph.D. in Applied Mathematics from Chung Yuan Christian University (CYCU), Taiwan — but I don’t wear that title like a costume. I use it.</p>
 
