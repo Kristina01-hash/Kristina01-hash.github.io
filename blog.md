@@ -50,7 +50,7 @@
 </a>
       <span class="badge new">NEW: November Edition</span>
       <p class="excerpt"> From a low-rank representation to gradients and multiplicative updates—an accessible derivation for students learning numerical linear algebra and unsupervised learning. 
-    </ol>
+
 
 <!-- Floating Emojis (improved animation) -->
 
