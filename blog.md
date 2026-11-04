@@ -44,7 +44,6 @@
 </a>
       <span class="badge new">NEW: November Edition</span>
       <p class="excerpt"> From a low-rank representation to gradients and multiplicative updates—an accessible derivation for students learning numerical linear algebra and unsupervised learning. 
-    </li>
     <li>
       <span class="post-icon" aria-hidden="true">🎪</span>
       <a class="post-link" href="https://kristina01-hash.github.io/clown-network/chronicles/November_2026_Nonnegative_Matrix_Factorization_Part_II.html"> Part II Of Nonnegative Matrix Factorization
