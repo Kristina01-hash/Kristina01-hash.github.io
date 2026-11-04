@@ -308,7 +308,7 @@ footer { border-top: 1px solid var(--rule); max-width: 76rem; margin: 0 auto; pa
     <p>Read column by column, <span class="m">$\mathbf{x}_j\approx\sum_{k=1}^{c}V_{kj}\,\mathbf{u}_k$</span>: every sample is a nonnegative combination of the <span class="m">$c$</span> basis vectors <span class="m">$\mathbf{u}_1,\dots,\mathbf{u}_c$</span>, and column <span class="m">$\mathbf{v}_j$</span> of <span class="m">$\mathbf{V}$</span> lists the weights.</p>
 
     <h3>Compression</h3>
-    <p>The factors store <span class="m">$(d+n)c$</span> numbers instead of <span class="m">$dn$</span>, which is a saving whenever <span class="m">$c<dn/(d+n)$</span>. This holds, for example, when <span class="m">$c\ll\min(d,n)$</span>. NMF is therefore a compressed, parts-based summary of the data.</p>
+    <p>The factors store <span class="m">$(d+n)c$</span> numbers instead of <span class="m">$dn$</span>, which is a saving whenever <span class="m">$c\ldn/(d+n)$</span>. This holds, for example, when <span class="m">$c\ll\min(d,n)$</span>. NMF is therefore a compressed, parts-based summary of the data.</p>
 
     <h3>Reading the factors as clusters</h3>
     <p>The columns of <span class="m">$\mathbf{U}$</span> can be viewed as cluster centres, and the columns of <span class="m">$\mathbf{V}$</span> as soft cluster indicators: sample <span class="m">$j$</span> leans towards cluster <span class="m">$\arg\max_k V_{kj}$</span>.</p>
