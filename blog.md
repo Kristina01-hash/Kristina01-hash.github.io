@@ -40,16 +40,16 @@
   <ol>
     <li>
       <span class="post-icon" aria-hidden="true">🎪</span>
-      <a class="post-link" href="https://kristina01-hash.github.io/clown-network/chronicles/November2026_NMF_Maths.html"> Nonnegative Matrix Factorization
-</a>
-      <span class="badge new">NEW: November Edition</span>
-      <p class="excerpt"> From a low-rank representation to gradients and multiplicative updates—an accessible derivation for students learning numerical linear algebra and unsupervised learning. 
-    <li>
-      <span class="post-icon" aria-hidden="true">🎪</span>
       <a class="post-link" href="https://kristina01-hash.github.io/clown-network/chronicles/November_2026_Nonnegative_Matrix_Factorization_Part_II.html"> Part II Of Nonnegative Matrix Factorization
 </a>
       <span class="badge new">NEW: November Edition</span>
       <p class="excerpt"> A mathematical perspective: from the least-squares objective to the multiplicative update rules, with a proof that the error never goes up and a demo you can run in the page.
+    <li>
+      <span class="post-icon" aria-hidden="true">🎪</span>
+      <a class="post-link" href="https://kristina01-hash.github.io/clown-network/chronicles/November2026_NMF_Maths.html"> Nonnegative Matrix Factorization
+</a>
+      <span class="badge new">NEW: November Edition</span>
+      <p class="excerpt"> From a low-rank representation to gradients and multiplicative updates—an accessible derivation for students learning numerical linear algebra and unsupervised learning. 
     </ol>
 
 <!-- Floating Emojis (improved animation) -->
