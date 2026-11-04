@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="A mathematical introduction to nonnegative matrix factorization, its objective, gradients, and multiplicative updates.">
+<title>Nonnegative Matrix Factorization — A Mathematical Perspective</title>
+<script>
+ MathJax = {tex:{inlineMath:[['$','$'],['\\(','\\)']],displayMath:[['$$','$$'],['\\[','\\]']],tags:'ams'}, options:{skipHtmlTags:['script','noscript','style','textarea','pre','code']}};
+</script>
+<script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<style>
+:root{--bg:#f6f7fb;--paper:#fff;--ink:#172033;--muted:#596579;--accent:#6758d6;--accent2:#0d9488;--line:#e5e8f0;--code:#101827;--shadow:0 12px 35px #1c254012}
+[data-theme="dark"]{--bg:#0c1220;--paper:#141d2e;--ink:#e8edf8;--muted:#a5b1c8;--accent:#a69bff;--accent2:#5eead4;--line:#28344a;--code:#080d16;--shadow:0 12px 35px #0005}
+*{box-sizing:border-box}html{scroll-behavior:smooth;scroll-padding-top:90px}body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.75 system-ui,-apple-system,Segoe UI,Roboto,sans-serif;transition:background .2s,color .2s}
+header{background:linear-gradient(125deg,#171b3c,#5547b8 58%,#087f8c);color:white;padding:4.8rem 1.25rem 4rem}
+.hero,.layout{max-width:1120px;margin:auto}.eyebrow{text-transform:uppercase;letter-spacing:.14em;font-size:.78rem;font-weight:700;opacity:.8}.hero h1{font-size:clamp(2.2rem,5vw,4rem);line-height:1.12;max-width:850px;margin:.7rem 0 1rem;letter-spacing:-.04em}.hero p{max-width:760px;font-size:1.12rem;opacity:.9}.meta{display:flex;gap:1rem;flex-wrap:wrap;font-size:.9rem;margin-top:1.5rem;opacity:.85}
+.toolbar{position:sticky;top:0;z-index:10;background:color-mix(in srgb,var(--paper) 92%,transparent);backdrop-filter:blur(12px);border-bottom:1px solid var(--line);display:flex;justify-content:center;gap:.6rem;padding:.7rem}
+button{border:1px solid var(--line);background:var(--paper);color:var(--ink);border-radius:999px;padding:.5rem .9rem;cursor:pointer;font:inherit;font-size:.9rem}button:hover{border-color:var(--accent);color:var(--accent)}
+.layout{display:grid;grid-template-columns:235px minmax(0,1fr);gap:2.3rem;padding:2.5rem 1.25rem}
+nav{position:sticky;top:76px;align-self:start;padding:1rem 0}nav h3{font-size:.8rem;text-transform:uppercase;letter-spacing:.1em;color:var(--muted)}nav a{display:block;text-decoration:none;color:var(--muted);padding:.35rem .65rem;border-left:2px solid var(--line);font-size:.91rem}nav a:hover{color:var(--accent);border-color:var(--accent)}
+article{min-width:0;background:var(--paper);border:1px solid var(--line);border-radius:22px;padding:clamp(1.25rem,4vw,3.2rem);box-shadow:var(--shadow)}
+h2{font-size:1.8rem;line-height:1.25;letter-spacing:-.025em;margin:2.3rem 0 .8rem}h2:first-child{margin-top:0}h3{margin-top:1.5rem}p{margin:.7rem 0}a{color:var(--accent)}.lead{font-size:1.12rem;color:var(--muted)}
+.callout{border-left:4px solid var(--accent);background:color-mix(in srgb,var(--accent) 8%,var(--paper));padding:1rem 1.2rem;border-radius:0 12px 12px 0;margin:1.3rem 0}
+.math{overflow-x:auto;padding:.7rem .4rem;text-align:center}.pill{display:inline-block;border-radius:999px;background:color-mix(in srgb,var(--accent2) 13%,var(--paper));color:var(--accent2);padding:.15rem .65rem;font-size:.78rem;font-weight:700}
+table{width:100%;border-collapse:collapse;margin:1rem 0;font-size:.93rem}th,td{padding:.65rem;border-bottom:1px solid var(--line);text-align:left}th{color:var(--muted)}
+details{border:1px solid var(--line);border-radius:12px;padding:.8rem 1rem;margin:1rem 0}summary{cursor:pointer;font-weight:650;color:var(--accent)}
+pre{background:var(--code);color:#dbeafe;padding:1rem;border-radius:12px;overflow:auto;font-size:.9rem}code{font-family:ui-monospace,SFMono-Regular,Consolas,monospace}
+.check{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:.7rem;margin:1rem 0}.check div{border:1px solid var(--line);border-radius:12px;padding:.8rem}.check strong{display:block;color:var(--accent2)}
+footer{text-align:center;color:var(--muted);padding:2rem 1rem;font-size:.9rem}
+.progress{position:fixed;top:0;left:0;height:3px;background:#5eead4;width:0;z-index:20}
+@media(max-width:850px){.layout{grid-template-columns:1fr}nav{position:relative;top:auto;display:none}article{padding:1.25rem;border-radius:14px}.hero{padding:3.2rem 1.25rem}}
+@media print{.toolbar,nav,.progress{display:none!important}body{background:white;color:black}.layout{display:block;padding:0}article{box-shadow:none;border:0}}
+</style>
+</head>
+<body>
+<div class="progress" id="progress"></div>
+<header><div class="hero">
+<div class="eyebrow">A guided mathematical note</div>
+<h1>Nonnegative Matrix Factorization</h1>
+<p>From a low-rank representation to gradients and multiplicative updates—an accessible derivation for students learning numerical linear algebra and unsupervised learning.</p>
+<div class="meta"><span>✦ Mathematical foundations</span><span>✦ Worked derivation</span><span>✦ 8–10 min read</span></div>
+</div></header>
+<div class="toolbar"><button id="theme" aria-label="Toggle dark mode">☾ / ☀ Theme</button><button onclick="window.print()">Print / Save PDF</button><button id="expand">Expand derivations</button></div>
+<div class="layout">
+<nav aria-label="Table of contents"><h3>On this page</h3>
+<a href="#intuition">Intuition</a><a href="#notation">Notation & dimensions</a><a href="#objective">Optimization objective</a><a href="#gradients">Deriving gradients</a><a href="#updates">Multiplicative updates</a><a href="#practice">Implementation notes</a><a href="#takeaways">Takeaways</a></nav>
+<article>
+<h2 id="intuition">1. Intuition: parts-based representation</h2>
+<p class="lead">Nonnegative matrix factorization (NMF) approximates a nonnegative data matrix using two smaller nonnegative matrices.</p>
+<p>Given data \(X\), NMF seeks a low-rank approximation \(X\approx WH\). The columns of \(W\) are often called <em>basis vectors</em> or components; each column of \(H\) contains the weights used to reconstruct one observation. Because the factors are nonnegative, components combine additively rather than canceling one another.</p>
+<div class="callout"><strong>Why nonnegative?</strong> In applications such as image intensities, counts, and document-term frequencies, negative values may be meaningless. Nonnegativity can also encourage interpretable, parts-based representations—but it does not guarantee unique or semantically meaningful components.</div>
+<p>Typical applications include document analysis, image representation, exploratory analysis of spectra, and feature extraction. NMF is unsupervised: it does not use class labels during factorization.</p>
+
+<h2 id="notation">2. Notation and dimensions</h2>
+<p>Let \(X\in\mathbb{R}_{\ge0}^{d\times n}\) contain \(n\) observations, each represented by \(d\) features. We choose a factorization rank \(r\), usually smaller than both \(d\) and \(n\):</p>
+<div class="math">$$X\approx WH,\qquad W\in\mathbb{R}_{\ge0}^{d\times r},\quad H\in\mathbb{R}_{\ge0}^{r\times n}.$$</div>
+<table><thead><tr><th>Symbol</th><th>Shape</th><th>Interpretation</th></tr></thead><tbody>
+<tr><td>\(X\)</td><td>\(d\times n\)</td><td>Observed data (features × samples)</td></tr><tr><td>\(W\)</td><td>\(d\times r\)</td><td>Basis/components</td></tr><tr><td>\(H\)</td><td>\(r\times n\)</td><td>Component weights for each sample</td></tr><tr><td>\(r\)</td><td>scalar</td><td>Chosen latent rank / number of components</td></tr></tbody></table>
+<p>We use uppercase bold letters for matrices, \((A)_{ij}\) for an entry, \(A^T\) for transpose, \(\operatorname{Tr}(A)\) for trace, and \(\|A\|_F\) for the Frobenius norm.</p>
+
+<h2 id="objective">3. The least-squares objective</h2>
+<p>A common NMF formulation minimizes squared reconstruction error subject to nonnegativity:</p>
+<div class="math">$$\min_{W,H\ge0} f(W,H)=\frac12\|X-WH\|_F^2.$$</div>
+<p>The factor \(\tfrac12\) is convenient because it cancels the factor 2 in derivatives. Equivalently, one may omit it without changing the minimizers.</p>
+<p>Using \(\|A\|_F^2=\operatorname{Tr}(A^TA)\) and trace cyclicity, expand:</p>
+<div class="math">$$f(W,H)=\frac12\operatorname{Tr}(X^TX)-\operatorname{Tr}(X^TWH)+\frac12\operatorname{Tr}(H^TW^TWH).$$</div>
+<p>The problem is jointly non-convex in \((W,H)\), although it is convex in either factor when the other is fixed. This motivates alternating optimization: update one factor while holding the other fixed.</p>
+<details class="derivation"><summary>Show the trace expansion</summary>
+<div class="math">$$\begin{aligned}
+\|X-WH\|_F^2&=\operatorname{Tr}((X-WH)^T(X-WH))\\
+&=\operatorname{Tr}(X^TX)-\operatorname{Tr}(X^TWH)\\
+&\quad-\operatorname{Tr}(H^TW^TX)+\operatorname{Tr}(H^TW^TWH).
+\end{aligned}$$
+By trace cyclicity, the two middle terms are equal scalars. Multiplying the whole expression by \(\frac12\) gives the objective above.</div>
+</details>
+
+<h2 id="gradients">4. Deriving the gradients</h2>
+<p>For \(f(W,H)=\tfrac12\|X-WH\|_F^2\), the matrix gradients are:</p>
+<div class="math">$$\boxed{\nabla_W f=WHH^T-XH^T}$$</div>
+<div class="math">$$\boxed{\nabla_H f=W^TWH-W^TX}$$</div>
+<p>These expressions have the same shape as the variable being differentiated: \(d\times r\) for \(\nabla_W f\), and \(r\times n\) for \(\nabla_H f\).</p>
+<details class="derivation"><summary>Show the gradient calculation</summary>
+<p>Write the objective in trace form and differentiate with standard matrix-calculus identities:</p>
+<div class="math">$$\begin{aligned}
+\nabla_W f&=-XH^T+WHH^T,\\
+\nabla_H f&=-W^TX+W^TWH.
+\end{aligned}$$</div>
+<p>For example, the derivative of \(-\operatorname{Tr}(X^TWH)\) with respect to \(W\) is \(-XH^T\), while that of \(\tfrac12\operatorname{Tr}(H^TW^TWH)\) is \(WHH^T\).</p>
+</details>
+<div class="callout"><strong>Constraint reminder.</strong> Ordinary gradient descent does not preserve \(W,H\ge0\). A constrained method or a positivity-preserving update is needed.</div>
+
+<h2 id="updates">5. Multiplicative updates</h2>
+<p>A classic NMF algorithm uses elementwise multiplicative updates:</p>
+<div class="math">$$\boxed{W\leftarrow W\odot\frac{XH^T}{WHH^T+\varepsilon}}$$</div>
+<div class="math">$$\boxed{H\leftarrow H\odot\frac{W^TX}{W^TWH+\varepsilon}}$$</div>
+<p>Here \(\odot\) and the fraction denote elementwise multiplication and division, respectively; \(\varepsilon>0\) is a small numerical safeguard. Initialize both factors with nonnegative values, and alternate the updates.</p>
+<p class="pill">Algorithm sketch</p>
+<pre><code>Initialize W ≥ 0 and H ≥ 0
+repeat until convergence:
+    W ← W ⊙ (X Hᵀ) / (W H Hᵀ + ε)
+    H ← H ⊙ (Wᵀ X) / (Wᵀ W H + ε)
+return W, H</code></pre>
+<p>Under the standard assumptions and exact update formulation, these multiplicative rules are associated with non-increasing reconstruction error. In floating-point implementations, monitor the objective and use safeguards; convergence to a global optimum is not guaranteed.</p>
+
+<h2 id="practice">6. Practical notes for students</h2>
+<div class="check">
+<div><strong>Choose rank \(r\)</strong>Use domain knowledge, validation, or stability checks; rank is a modeling choice.</div>
+<div><strong>Scale thoughtfully</strong>Feature scaling changes the geometry and may change the components.</div>
+<div><strong>Run multiple starts</strong>NMF can converge to different local solutions.</div>
+<div><strong>Inspect residuals</strong>Track \(\|X-WH\|_F\), not just whether the code runs.</div>
+</div>
+<p>Least-squares NMF can be sensitive to large entries and outliers because squared residuals penalize large deviations strongly. Alternatives include divergence-based objectives or robust loss functions, depending on the data and assumptions.</p>
+
+<h2 id="takeaways">7. Takeaways</h2>
+<ul><li>NMF represents nonnegative data as a sum of nonnegative latent components.</li><li>The rank \(r\) controls the size of the representation.</li><li>The least-squares objective yields simple matrix gradients.</li><li>Multiplicative updates preserve nonnegativity for nonnegative initialization (with suitable numerical handling).</li><li>NMF is non-convex; interpretability and solution quality require validation.</li></ul>
+<div class="callout"><strong>Suggested next step:</strong> Pair this derivation with a small numerical example (e.g., synthetic data or a document-term matrix), plot the learned basis \(W\), and show the reconstruction error over iterations.</div>
+<hr>
+<p><small><strong>Author:</strong> Kristina P. Sinaga · <strong>Topic:</strong> Numerical optimization / unsupervised learning</small></p>
+</article></div>
+<footer>Made for learning · Equations rendered with MathJax 3</footer>
+<script>
+const root=document.documentElement;
+document.getElementById('theme').addEventListener('click',()=>{root.dataset.theme=root.dataset.theme==='dark'?'light':'dark';});
+document.getElementById('expand').addEventListener('click',()=>{const ds=[...document.querySelectorAll('details')],open=ds.some(d=>!d.open);ds.forEach(d=>d.open=open);});
+window.addEventListener('scroll',()=>{let h=document.documentElement;document.getElementById('progress').style.width=(h.scrollTop/(h.scrollHeight-h.clientHeight)*100)+'%';});
+</script>
+</body></html>
