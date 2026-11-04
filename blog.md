@@ -40,6 +40,20 @@
   <ol>
     <li>
       <span class="post-icon" aria-hidden="true">🎪</span>
+      <a class="post-link" href="https://kristina01-hash.github.io/clown-network/chronicles/November2026_NMF_Maths.html"> Nonnegative Matrix Factorization
+</a>
+      <span class="badge new">November Edition</span>
+      <p class="excerpt"> From a low-rank representation to gradients and multiplicative updates—an accessible derivation for students learning numerical linear algebra and unsupervised learning. 
+    <li>
+      <span class="post-icon" aria-hidden="true">🎪</span>
+      <a class="post-link" href="https://kristina01-hash.github.io/clown-network/chronicles/20260809_airpods_blog_post.html"> Personal Essay: I Went Looking for AirPods Pro 3
+</a>
+      <span class="badge new">NEW</span>
+      <p class="excerpt"> The day I tried to buy AirPods Pro 3 and accidentally conducted a national infrastructure audit. 
+    <li>
+
+    <li>
+      <span class="post-icon" aria-hidden="true">🎪</span>
       <a class="post-link" href="https://kristina01-hash.github.io/clown-network/chronicles/20260815_Shopee%20airpods%20investigation%20blog.html"> The Shopee AirPods Pro 3 Investigation
 </a>
       <span class="badge new">NEW</span>
