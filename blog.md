@@ -42,36 +42,16 @@
       <span class="post-icon" aria-hidden="true">🎪</span>
       <a class="post-link" href="https://kristina01-hash.github.io/clown-network/chronicles/November2026_NMF_Maths.html"> Nonnegative Matrix Factorization
 </a>
-      <span class="badge new">November Edition</span>
+      <span class="badge new">NEW: November Edition</span>
       <p class="excerpt"> From a low-rank representation to gradients and multiplicative updates—an accessible derivation for students learning numerical linear algebra and unsupervised learning. 
+    </li>
     <li>
       <span class="post-icon" aria-hidden="true">🎪</span>
-      <a class="post-link" href="https://kristina01-hash.github.io/clown-network/chronicles/20260809_airpods_blog_post.html"> Personal Essay: I Went Looking for AirPods Pro 3
+      <a class="post-link" href="https://kristina01-hash.github.io/clown-network/chronicles/November_2026_Nonnegative_Matrix_Factorization_Part_II.html"> Part II Of Nonnegative Matrix Factorization
 </a>
-      <span class="badge new">NEW</span>
-      <p class="excerpt"> The day I tried to buy AirPods Pro 3 and accidentally conducted a national infrastructure audit. 
-    <li>
-
-    <li>
-      <span class="post-icon" aria-hidden="true">🎪</span>
-      <a class="post-link" href="https://kristina01-hash.github.io/clown-network/chronicles/20260815_Shopee%20airpods%20investigation%20blog.html"> The Shopee AirPods Pro 3 Investigation
-</a>
-      <span class="badge new">NEW</span>
-      <p class="excerpt"> How a Gray Market Device, Broken Return Policy, and Systemic Incompetence Exposed the Reality of Southeast Asian E-Commerce. 
-    <li>
-      <span class="post-icon" aria-hidden="true">🎪</span>
-      <a class="post-link" href="https://kristina01-hash.github.io/clown-network/chronicles/20260809_airpods_blog_post.html"> Personal Essay: I Went Looking for AirPods Pro 3
-</a>
-      <span class="badge new">NEW</span>
-      <p class="excerpt"> The day I tried to buy AirPods Pro 3 and accidentally conducted a national infrastructure audit. 
-    <li>
-      <span class="post-icon" aria-hidden="true">📚</span>
-      <a class="post-link" href="https://kristina01-hash.github.io/clown-network/chronicles/2026-07-28_clustering-you-need-to-know.html"> Teaching a Computer to See in Shades of Gray
-</a>
-      <span class="badge new">NEW</span>
-      <p class="excerpt"> Finally, I'm writing back about academic stuff! 😉 Here's an example of when maths meets its application in medical image segmentation: In review.  </p>
-    </li> 
-
+      <span class="badge new">NEW: November Edition</span>
+      <p class="excerpt"> A mathematical perspective: from the least-squares objective to the multiplicative update rules, with a proof that the error never goes up and a demo you can run in the page.
+    </li>
 
 <!-- Floating Emojis (improved animation) -->
 
