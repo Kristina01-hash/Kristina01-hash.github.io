@@ -50,7 +50,7 @@
 </a>
       <span class="badge new">NEW: November Edition</span>
       <p class="excerpt"> A mathematical perspective: from the least-squares objective to the multiplicative update rules, with a proof that the error never goes up and a demo you can run in the page.
-    </li>
+    </ol>
 
 <!-- Floating Emojis (improved animation) -->
 
