@@ -1,0 +1,517 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Choosing c in Multi-view K-means</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600;700&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&display=swap">
+<style>
+/* Layout: single reading column (~66ch) with wider breakouts for tables and the pipeline figure */
+:root {
+  --bg: #f5f7f8;
+  --surface: #ffffff;
+  --fg: #14212b;
+  --muted: #55646f;
+  --rule: #d5dde2;
+  --accent: #0b5cad;
+  --accent-soft: #e2edf8;
+  --warn-bg: #fdf3dc;
+  --warn-fg: #6b4a00;
+  --warn-rule: #e6c36a;
+  --v1: #0b5cad;
+  --v2: #0f7b6c;
+  --v3: #a1481a;
+  --v1-soft: #dce9f7;
+  --v2-soft: #d6efea;
+  --v3-soft: #f6e3d8;
+  --font-display: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-body: "Source Serif 4", Georgia, "Times New Roman", serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, Menlo, Consolas, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0f171d;
+    --surface: #16212a;
+    --fg: #e3eaef;
+    --muted: #94a5b1;
+    --rule: #2a3a46;
+    --accent: #6db3f2;
+    --accent-soft: #1a2f42;
+    --warn-bg: #2a2310;
+    --warn-fg: #f0d58a;
+    --warn-rule: #6b5818;
+    --v1: #6db3f2;
+    --v2: #5cd0bc;
+    --v3: #f0a074;
+    --v1-soft: #1a2f42;
+    --v2-soft: #14332e;
+    --v3-soft: #3a2619;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0f171d;
+  --surface: #16212a;
+  --fg: #e3eaef;
+  --muted: #94a5b1;
+  --rule: #2a3a46;
+  --accent: #6db3f2;
+  --accent-soft: #1a2f42;
+  --warn-bg: #2a2310;
+  --warn-fg: #f0d58a;
+  --warn-rule: #6b5818;
+  --v1: #6db3f2;
+  --v2: #5cd0bc;
+  --v3: #f0a074;
+  --v1-soft: #1a2f42;
+  --v2-soft: #14332e;
+  --v3-soft: #3a2619;
+  color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+body {
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--font-body);
+  font-size: 18px;
+  line-height: 1.65;
+  padding-block: 32px 64px;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+  -webkit-text-size-adjust: 100%;
+}
+.wrap { max-width: 720px; margin: 0 auto; min-width: 0; }
+a { color: var(--accent); text-underline-offset: 2px; }
+a:focus-visible, button:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; border-radius: 2px; }
+
+/* Masthead */
+.eyebrow {
+  font: 600 12px/1 var(--font-display);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin: 0 0 18px;
+}
+h1 {
+  font: 700 clamp(28px, 6vw, 42px)/1.12 var(--font-display);
+  letter-spacing: -0.015em;
+  margin: 0 0 20px;
+  text-wrap: balance;
+}
+.byline {
+  display: flex; flex-wrap: wrap; gap: 4px 14px;
+  font: 400 14px/1.5 var(--font-display);
+  color: var(--muted);
+  padding-bottom: 22px;
+  border-bottom: 1px solid var(--rule);
+}
+.byline strong { color: var(--fg); font-weight: 600; }
+.tags { display: flex; flex-wrap: wrap; gap: 8px; margin: 18px 0 0; padding: 0; list-style: none; }
+.tags li {
+  font: 500 12px/1 var(--font-mono);
+  padding: 6px 9px;
+  background: var(--accent-soft);
+  color: var(--accent);
+  border-radius: 4px;
+}
+
+/* Status note */
+.status {
+  margin: 28px 0;
+  padding: 16px 18px;
+  background: var(--warn-bg);
+  color: var(--warn-fg);
+  border: 1px solid var(--warn-rule);
+  border-radius: 6px;
+  font: 400 15px/1.55 var(--font-display);
+}
+.status b { font-weight: 600; }
+
+/* Summary */
+.summary { font-size: 20px; line-height: 1.55; margin: 0 0 8px; }
+
+/* Contents */
+.toc {
+  margin: 28px 0 8px;
+  padding: 16px 18px;
+  background: var(--surface);
+  border: 1px solid var(--rule);
+  border-radius: 6px;
+  font-family: var(--font-display);
+  font-size: 15px;
+}
+.toc h2 { font: 600 12px/1 var(--font-display); letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); margin: 0 0 10px; }
+.toc ol { margin: 0; padding-left: 20px; display: grid; gap: 4px; }
+
+/* Headings */
+h2 {
+  font: 700 26px/1.2 var(--font-display);
+  letter-spacing: -0.01em;
+  margin: 52px 0 14px;
+  text-wrap: balance;
+  scroll-margin-top: 16px;
+}
+h3 { font: 600 19px/1.3 var(--font-display); margin: 32px 0 8px; text-wrap: balance; }
+p { margin: 0 0 1em; }
+ul, ol { padding-left: 1.3em; margin: 0 0 1em; }
+li { margin-bottom: 0.4em; }
+li::marker { color: var(--muted); }
+i.v, .math { font-style: italic; }
+sub, sup { line-height: 0; font-size: 0.72em; }
+abbr { text-decoration: none; }
+.term { font: 500 0.86em var(--font-mono); background: var(--accent-soft); color: var(--accent); padding: 1px 5px; border-radius: 3px; }
+.cite { font: 500 0.78em var(--font-display); text-decoration: none; white-space: nowrap; }
+.cite:hover { text-decoration: underline; }
+
+/* Algorithm chips */
+.algos { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; margin: 20px 0 8px; padding: 0; list-style: none; }
+.algos li {
+  margin: 0;
+  padding: 12px 14px;
+  background: var(--surface);
+  border: 1px solid var(--rule);
+  border-radius: 6px;
+  font: 400 14px/1.45 var(--font-display);
+  min-width: 0;
+}
+.algos b { display: block; font: 600 15px/1.3 var(--font-display); margin-bottom: 2px; }
+.algos span { color: var(--muted); }
+
+/* Tables */
+.tablewrap {
+  overflow-x: auto;
+  margin: 20px 0 24px;
+  background: var(--surface);
+  border: 1px solid var(--rule);
+  border-radius: 6px;
+}
+table { border-collapse: collapse; width: 100%; min-width: 560px; font: 400 14.5px/1.45 var(--font-display); }
+caption { text-align: left; padding: 12px 14px 4px; font: 600 13px/1.4 var(--font-display); color: var(--muted); }
+th, td { padding: 10px 14px; text-align: left; vertical-align: top; border-top: 1px solid var(--rule); }
+thead th { font: 600 12px/1.3 var(--font-display); letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); border-top: 0; }
+tbody th { font-weight: 600; }
+.maxmin { font: 500 12px/1 var(--font-mono); padding: 3px 7px; border-radius: 3px; white-space: nowrap; }
+.max { background: var(--v2-soft); color: var(--v2); }
+.min { background: var(--v3-soft); color: var(--v3); }
+
+/* Stages */
+.stages { display: grid; gap: 12px; margin: 22px 0; padding: 0; list-style: none; counter-reset: stage; }
+.stages li {
+  counter-increment: stage;
+  margin: 0;
+  display: grid;
+  grid-template-columns: 40px minmax(0, 1fr);
+  gap: 14px;
+  padding: 14px 16px;
+  background: var(--surface);
+  border: 1px solid var(--rule);
+  border-radius: 6px;
+}
+.stages li::before {
+  content: counter(stage);
+  font: 700 18px/40px var(--font-display);
+  width: 40px; height: 40px; text-align: center;
+  color: var(--accent); background: var(--accent-soft); border-radius: 50%;
+}
+.stages b { display: block; font: 600 16px/1.3 var(--font-display); margin-bottom: 2px; }
+.stages p { margin: 0; font-size: 16.5px; line-height: 1.55; }
+
+/* Figure */
+figure { margin: 28px 0; padding: 0; }
+.figbox { background: var(--surface); border: 1px solid var(--rule); border-radius: 6px; padding: 14px; overflow-x: auto; }
+.figbox svg { display: block; width: 100%; max-width: 560px; height: auto; margin: 0 auto; }
+figcaption { font: 400 14px/1.5 var(--font-display); color: var(--muted); margin-top: 10px; }
+svg text { font-family: "IBM Plex Sans", system-ui, sans-serif; fill: var(--fg); }
+svg .sub { fill: var(--muted); }
+svg .lbl { font-size: 13px; font-weight: 600; }
+svg .small { font-size: 11px; }
+svg .box { fill: var(--surface); stroke: var(--rule); stroke-width: 1.5; }
+svg .arrow { stroke: var(--muted); stroke-width: 1.5; fill: none; }
+svg .arrowhead { fill: var(--muted); }
+svg .v1 { fill: var(--v1-soft); stroke: var(--v1); stroke-width: 1.5; }
+svg .v2 { fill: var(--v2-soft); stroke: var(--v2); stroke-width: 1.5; }
+svg .v3 { fill: var(--v3-soft); stroke: var(--v3); stroke-width: 1.5; }
+svg .core { fill: var(--accent-soft); stroke: var(--accent); stroke-width: 1.5; }
+
+/* Equations */
+.eq {
+  margin: 18px 0 8px;
+  padding: 14px 16px;
+  background: var(--surface);
+  border: 1px solid var(--rule);
+  border-radius: 6px;
+  overflow-x: auto;
+  font-size: 17px;
+  text-align: center;
+}
+.eq mjx-container { margin: 0 !important; }
+.eqlabel { display: block; text-align: right; font: 500 12px/1 var(--font-mono); color: var(--muted); margin: 0 2px 20px; }
+
+/* Protocol list */
+.protocol { margin: 18px 0; padding: 0; list-style: none; display: grid; gap: 0; border: 1px solid var(--rule); border-radius: 6px; background: var(--surface); }
+.protocol li { margin: 0; display: grid; grid-template-columns: 112px minmax(0, 1fr); gap: 14px; padding: 12px 16px; border-top: 1px solid var(--rule); font-size: 16.5px; line-height: 1.55; }
+.protocol li:first-child { border-top: 0; }
+.protocol .k { font: 600 12px/1.6 var(--font-display); letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); padding-top: 2px; }
+
+/* Limitations */
+.limits { padding-left: 0; list-style: none; display: grid; gap: 10px; }
+.limits li { margin: 0; padding: 0 0 0 18px; position: relative; }
+.limits li::before { content: ""; position: absolute; left: 0; top: 0.72em; width: 8px; height: 2px; background: var(--accent); }
+
+/* Declarations + refs */
+.decl { font: 400 15px/1.6 var(--font-display); }
+.decl p { margin-bottom: 0.6em; }
+.decl b { font-weight: 600; }
+.refs { font: 400 14.5px/1.55 var(--font-display); padding-left: 0; list-style: none; display: grid; gap: 10px; counter-reset: ref; }
+.refs li { counter-increment: ref; padding-left: 36px; position: relative; margin: 0; scroll-margin-top: 16px; }
+.refs li::before { content: "[" counter(ref) "]"; position: absolute; left: 0; font: 500 13px/1.7 var(--font-mono); color: var(--muted); }
+.refs li:target { background: var(--accent-soft); border-radius: 4px; }
+hr.end { border: 0; border-top: 1px solid var(--rule); margin: 44px 0 0; }
+.foot { font: 400 13px/1.5 var(--font-display); color: var(--muted); margin-top: 14px; }
+
+@media (max-width: 560px) {
+  body { font-size: 17px; }
+  .summary { font-size: 18.5px; }
+  .algos { grid-template-columns: minmax(0, 1fr); }
+  .protocol li { grid-template-columns: minmax(0, 1fr); gap: 2px; }
+  h2 { font-size: 23px; margin-top: 42px; }
+}
+@media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto !important; } }
+</style>
+
+<main class="wrap">
+  <header>
+    <p class="eyebrow">Preprint · Clustering methodology</p>
+    <h1>Choosing the number of clusters in multi-view K-means</h1>
+    <div class="byline">
+      <span><strong>Kristina P. Sinaga</strong>, Independent Researcher</span>
+      <span>November 17, 2026</span>
+      <span>~6 min read</span>
+      <a href="https://orcid.org/0009-0005-2230-8510">ORCID 0009-0005-2230-8510</a>
+    </div>
+    <ul class="tags" aria-label="Keywords">
+      <li>multi-view K-means</li>
+      <li>validity index</li>
+      <li>number of clusters</li>
+      <li>view weighting</li>
+      <li>feature weighting</li>
+    </ul>
+  </header>
+
+  <aside class="status" role="note">
+    <b>Status: methodological proposal.</b> The simulations and experiments described below have not been run yet. This post reports no empirical results, so the accuracy of the scheme is not yet established. The evaluation protocol is fixed in advance so the study can be reproduced.
+  </aside>
+
+  <p class="summary">Multi-view K-means algorithms make you pick the number of clusters <i class="v">c</i> before they run. This post describes a three-stage scheme that estimates <i class="v">c</i> by scoring a range of candidate partitions with clustering validity indices, while keeping the view and feature weights each algorithm has learned.</p>
+
+  <nav class="toc" aria-label="Contents">
+    <h2>In this post</h2>
+    <ol>
+      <li><a href="#problem">The problem</a></li>
+      <li><a href="#algorithms">Four algorithms, one weighted distance</a></li>
+      <li><a href="#indices">Eight validity indices</a></li>
+      <li><a href="#scheme">The three-stage scheme</a></li>
+      <li><a href="#evaluation">Planned evaluation</a></li>
+      <li><a href="#limits">Limitations</a></li>
+      <li><a href="#refs">References</a></li>
+    </ol>
+  </nav>
+
+  <section id="problem">
+    <h2>The problem</h2>
+    <p>Multi-view clustering uses several feature sets of the same objects to find a better partition than any single view gives <a class="cite" href="#r1">[1]</a><a class="cite" href="#r2">[2]</a>. K-means-based methods are popular here because they are simple and scale linearly in the number of objects.</p>
+    <p>Four recent multi-view K-means algorithms add learned weights on views and on features: WMCFS <a class="cite" href="#r3">[3]</a>, SWVF <a class="cite" href="#r4">[4]</a>, TW-Co-K-means <a class="cite" href="#r5">[5]</a> and FRMVK <a class="cite" href="#r6">[6]</a>. All four take <i class="v">c</i> as an input, and in practice <i class="v">c</i> is rarely known.</p>
+    <p>Clustering validity indices (CVIs) estimate <i class="v">c</i> by scoring the partitions obtained for a range of candidate values. The difficulty is that most CVIs assume one feature space and an unweighted distance. It is unclear how to apply them to partitions built under learned view and feature weights, and whether the individual views agree on <i class="v">c</i>.</p>
+    <p>The paper contributes four things:</p>
+    <ul>
+      <li>a three-stage scheme that selects <i class="v">c</i> for the four algorithms;</li>
+      <li>a view- and feature-weighted distance that carries the learned weights into the Dunn index and classification entropy;</li>
+      <li>a single-view reference analysis with six further CVIs;</li>
+      <li>an evaluation protocol.</li>
+    </ul>
+  </section>
+
+  <section id="algorithms">
+    <h2>Four algorithms, one weighted distance</h2>
+    <p>Take <i class="v">n</i> objects observed in <i class="v">s</i> views, with <i class="v">x</i><sub><i>i</i></sub><sup><i>h</i></sup> in ℝ<sup><i>d<sub>h</sub></i></sup>, <i class="v">c</i> clusters, crisp memberships <i class="v">μ</i><sub><i>ik</i></sub>, cluster centers <i class="v">a</i><sub><i>k</i></sub><sup><i>h</i></sup>, view weights <i class="v">v<sub>h</sub></i> that sum to 1, and feature weights <i class="v">w</i><sub><i>j</i></sub><sup><i>h</i></sup> that sum to 1 within each view.</p>
+
+    <ul class="algos">
+      <li><b>WMCFS</b><span>One global partition through weighted distances.</span></li>
+      <li><b>SWVF</b><span>One global partition through weighted distances.</span></li>
+      <li><b>FRMVK</b><span>One global partition through weighted distances.</span></li>
+      <li><b>TW-Co-K-means</b><span>A membership matrix per view, plus a collaboration term that penalizes disagreement between views. Its global partition is the merged matrix Ū = Σ<sub>h</sub> v<sub>h</sub> U<sup>h</sup>.</span></li>
+    </ul>
+
+    <p>Each algorithm weights the squared distance between an object and a center with a view factor <i class="v">V</i> and a feature factor <i class="v">W<sup><i>h</i></sup>. Table 1 lists them. The full objectives and update equations are in the original papers.</p>
+
+    <div class="tablewrap">
+      <table>
+        <caption>Table 1. View factor φ<sub>h</sub> and feature factor ω<sub>j</sub><sup>h</sup> of the four algorithms.</caption>
+        <thead>
+          <tr><th scope="col">Algorithm</th><th scope="col">View factor</th><th scope="col">Feature factor</th><th scope="col">Parameters</th></tr>
+        </thead>
+        <tbody>
+          <tr><th scope="row">WMCFS <a class="cite" href="#r3">[3]</a></th><td><i>v<sub>h</sub></i><sup>α</sup></td><td>(<i>w<sub>j</sub></i><sup><i>h</i></sup>)<sup>2</sup></td><td>α, β</td></tr>
+          <tr><th scope="row">SWVF <a class="cite" href="#r4">[4]</a></th><td><i>v<sub>h</sub></i><sup>α</sup></td><td>(<i>w<sub>j</sub></i><sup><i>h</i></sup>)<sup>β</sup></td><td>α, β</td></tr>
+          <tr><th scope="row">TW-Co-K-means <a class="cite" href="#r5">[5]</a></th><td><i>v<sub>h</sub></i></td><td><i>w<sub>j</sub></i><sup><i>h</i></sup></td><td>α, β, η</td></tr>
+          <tr><th scope="row">FRMVK <a class="cite" href="#r6">[6]</a></th><td><i>v<sub>h</sub></i><sup>α</sup></td><td>δ<sub><i>j</i></sub><sup><i>h</i></sup> <i>w<sub>j</sub></i><sup><i>h</i></sup></td><td>α</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section id="indices">
+    <h2>Eight validity indices</h2>
+    <p>Eight CVIs are considered, each evaluated for <i class="v">c</i> = 2, …, <i class="v">c</i><sub>max</sub>. Table 2 gives the rule each one uses to pick the best <i class="v">c</i>.</p>
+
+    <div class="tablewrap">
+      <table>
+        <caption>Table 2. Validity indices, the rule for the optimal c, and notes.</caption>
+        <thead>
+          <tr><th scope="col">Index</th><th scope="col">Optimal c</th><th scope="col">Notes</th></tr>
+        </thead>
+        <tbody>
+          <tr><th scope="row">Partition coefficient (PC) <a class="cite" href="#r7">[7]</a></th><td><span class="maxmin max">Maximum</span></td><td>Needs soft memberships</td></tr>
+          <tr><th scope="row">Classification entropy (CE) <a class="cite" href="#r7">[7]</a></th><td><span class="maxmin min">Minimum</span></td><td>Needs soft memberships</td></tr>
+          <tr><th scope="row">Dunn index (DI) <a class="cite" href="#r8">[8]</a></th><td><span class="maxmin max">Maximum</span></td><td>Smallest between-cluster distance over largest diameter</td></tr>
+          <tr><th scope="row">Alternative Dunn (ADI) <a class="cite" href="#r9">[9]</a></th><td><span class="maxmin max">Maximum</span></td><td>Diameter replaced by longest MST, RNG or Gabriel-graph edge</td></tr>
+          <tr><th scope="row">Davies-Bouldin (DBI) <a class="cite" href="#r10">[10]</a></th><td><span class="maxmin min">Minimum</span></td><td>Scatter over center separation</td></tr>
+          <tr><th scope="row">Silhouette (SW) <a class="cite" href="#r11">[11]</a></th><td><span class="maxmin max">Maximum</span></td><td>Mean of (<i>b</i> − <i>a</i>) / max(<i>a</i>, <i>b</i>)</td></tr>
+          <tr><th scope="row">Gap statistic (GS) <a class="cite" href="#r12">[12]</a></th><td>Smallest <i>c</i> with Gap(<i>c</i>) ≥ Gap(<i>c</i>+1) − <i>s</i><sub><i>c</i>+1</sub></td><td>Uniform null reference</td></tr>
+          <tr><th scope="row">Calinski-Harabasz (CH) <a class="cite" href="#r13">[13]</a></th><td><span class="maxmin max">Maximum</span></td><td>Between- over within-cluster dispersion, each by its degrees of freedom</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>One practical catch: crisp K-means memberships give PC = 1 and CE = 0 for every <i class="v">c</i>, so these two indices only work with soft memberships. The scheme below computes pseudo-memberships for that reason.</p>
+  </section>
+
+  <section id="scheme">
+    <h2>The three-stage scheme</h2>
+    <ol class="stages">
+      <li><div><b>Candidate range</b><p>Fix <i class="v">c</i> = 2, …, <i class="v">c</i><sub>max</sub> and the algorithm parameters.</p></div></li>
+      <li><div><b>Partition</b><p>For each <i class="v">c</i>, run the multi-view K-means algorithm from several random starts and keep the run with the lowest objective value.</p></div></li>
+      <li><div><b>Selection</b><p>Compute the CVI from the kept partition and its learned weights, then choose <i class="v">c</i> by the rule of the index.</p></div></li>
+    </ol>
+
+    <figure>
+      <div class="figbox">
+        <svg viewBox="0 0 520 268" role="img" aria-labelledby="fig1t fig1d">
+          <title id="fig1t">How learned weights reach the Dunn index and classification entropy</title>
+          <desc id="fig1d">Views 1, 2 and s feed a weighted distance that uses the learned view and feature weights. That distance feeds the Dunn index and classification entropy, which choose c.</desc>
+          <defs>
+            <marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path class="arrowhead" d="M0 0 L10 5 L0 10 z"/></marker>
+          </defs>
+          <rect class="v1" x="10" y="22" width="132" height="50" rx="6"/>
+          <text class="lbl" x="76" y="43" text-anchor="middle">View 1</text>
+          <text class="sub small" x="76" y="60" text-anchor="middle">weights v₁, w¹ⱼ</text>
+          <rect class="v2" x="10" y="92" width="132" height="50" rx="6"/>
+          <text class="lbl" x="76" y="113" text-anchor="middle">View 2</text>
+          <text class="sub small" x="76" y="130" text-anchor="middle">weights v₂, w²ⱼ</text>
+          <text class="sub" x="76" y="164" text-anchor="middle" font-size="16">⋮</text>
+          <rect class="v3" x="10" y="176" width="132" height="50" rx="6"/>
+          <text class="lbl" x="76" y="197" text-anchor="middle">View s</text>
+          <text class="sub small" x="76" y="214" text-anchor="middle">weights vₛ, wˢⱼ</text>
+
+          <path class="arrow" d="M142 47 L196 108" marker-end="url(#ah)"/>
+          <path class="arrow" d="M142 117 L196 123" marker-end="url(#ah)"/>
+          <path class="arrow" d="M142 201 L196 142" marker-end="url(#ah)"/>
+
+          <rect class="core" x="200" y="82" width="126" height="86" rx="6"/>
+          <text class="lbl" x="263" y="108" text-anchor="middle">Weighted distance</text>
+          <text x="263" y="130" text-anchor="middle" font-size="14" font-style="italic">ρ²(xᵢ, xₗ)</text>
+          <text class="sub small" x="263" y="150" text-anchor="middle">view factor × feature factor</text>
+
+          <path class="arrow" d="M326 112 L376 70" marker-end="url(#ah)"/>
+          <path class="arrow" d="M326 138 L376 180" marker-end="url(#ah)"/>
+
+          <rect class="box" x="380" y="40" width="130" height="58" rx="6"/>
+          <text class="lbl" x="445" y="63" text-anchor="middle">Dunn index</text>
+          <text class="sub small" x="445" y="81" text-anchor="middle">pick the maximum</text>
+          <rect class="box" x="380" y="152" width="130" height="58" rx="6"/>
+          <text class="lbl" x="445" y="175" text-anchor="middle">Classification entropy</text>
+          <text class="sub small" x="445" y="193" text-anchor="middle">pick the minimum</text>
+
+          <text class="sub small" x="260" y="252" text-anchor="middle">Both scores are computed for each c = 2, …, c_max</text>
+        </svg>
+      </div>
+      <figcaption>Figure 1. The learned weights travel with the partition into the two indices that are embedded in the multi-view algorithms.</figcaption>
+    </figure>
+
+    <h3>The weighted distance</h3>
+    <p>The Dunn index and classification entropy are embedded in the four algorithms through one distance that uses the factors from Table 1:</p>
+    <div class="eq">\[ \rho^{2}(x_i,x_l)=\sum_{h=1}^{s}\varphi_h\sum_{j=1}^{d_h}\omega_j^{h}\,\bigl(x_{ij}^{h}-x_{lj}^{h}\bigr)^{2} \]</div>
+    <span class="eqlabel">Equation 1</span>
+
+    <h3>Dunn index and classification entropy</h3>
+    <p>The Dunn index uses ρ between objects. For classification entropy, pseudo-memberships are computed from the same distance. They are used for scoring only, with fuzzifier <i class="v">m</i> = 2:</p>
+    <div class="eq">\[ u_{ik}=\frac{[\rho^{2}(x_i,a_k)]^{-1/(m-1)}}{\sum_{\ell=1}^{c}[\rho^{2}(x_i,a_\ell)]^{-1/(m-1)}} \]</div>
+    <div class="eq">\[ \mathrm{CE}(c)=-\frac{1}{n}\sum_{i=1}^{n}\sum_{k=1}^{c}u_{ik}\ln u_{ik} \]</div>
+    <span class="eqlabel">Equation 2</span>
+
+    <h3>A single-view reference</h3>
+    <p>The other six indices are applied to K-means on each view separately. That gives a selected <i class="v">c</i><sup>*</sup><sub><i>h</i></sub> per view. Comparing them shows whether the views agree on <i class="v">c</i> and how the multi-view choice sits against them.</p>
+  </section>
+
+  <section id="evaluation">
+    <h2>Planned evaluation</h2>
+    <p>None of this has been run. The protocol is fixed here so the study can be reproduced, and labels are used only for assessment, never for selecting <i class="v">c</i>.</p>
+    <ul class="protocol">
+      <li><span class="k">Synthetic data</span><span>Two multi-view Gaussian data sets, each replicated 30 times. Example 1: <i class="v">n</i> = 300, 3 views, <i class="v">c</i> = 3, with views of different clarity. Example 2: <i class="v">n</i> = 500, 4 views, <i class="v">c</i> = 5, with overlapping clusters and one pure-noise view.</span></li>
+      <li><span class="k">Real data</span><span>Candidates are Handwritten digits (UCI Multiple Features), 3Sources, BBCSport and Caltech101-7. Each has a known number of classes that serves as <i class="v">c</i><sub>true</sub>.</span></li>
+      <li><span class="k">Settings</span><span><i class="v">c</i> = 2, …, min(⌊√<i class="v">n</i>⌋, 15); 20 random starts per <i class="v">c</i>; algorithm parameters over the grids recommended in the original papers; gap statistic with <i class="v">B</i> = 50 reference sets.</span></li>
+      <li><span class="k">Measures</span><span>Recovery rate of <i class="v">c</i><sub>true</sub>, mean absolute error of <i class="v">c</i>, adjusted Rand index and normalized mutual information at the selected <i class="v">c</i>, view consistency (the share of views whose <i class="v">c</i><sup>*</sup><sub><i>h</i></sub> equals the multi-view <i class="v">c</i><sup>*</sup>), and run time.</span></li>
+      <li><span class="k">Reporting</span><span>The most frequent <i class="v">c</i><sup>*</sup> over the parameter grid and its share, so that sensitivity to parameters is visible.</span></li>
+    </ul>
+  </section>
+
+  <section id="limits">
+    <h2>Limitations</h2>
+    <p>Because no experiments have been run, the accuracy of the scheme is not yet established. Known limitations:</p>
+    <ul class="limits">
+      <li>PC and CE favour small <i class="v">c</i> and need pseudo-memberships.</li>
+      <li>The Dunn index is sensitive to extreme pairs and costs O(<i class="v">n</i><sup>2</sup><i class="v">D</i>), where <i class="v">D</i> = Σ<sub>h</sub> <i class="v">d<sub>h</sub></i>.</li>
+      <li>The selected <i class="v">c</i> depends on the algorithm parameters.</li>
+    </ul>
+    <p>Next steps are to run the protocol above, report the results, and extend the weighted indices to fuzzy multi-view clustering.</p>
+  </section>
+
+  <section id="declarations" class="decl">
+    <h2>Statements and declarations</h2>
+    <p><b>Funding.</b> This research received no external funding.</p>
+    <p><b>Potential competing interests.</b> No competing interests.</p>
+    <p><b>Data availability.</b> No new data were generated or analysed in this study. The evaluation protocol uses publicly available data sets.</p>
+    <p><b>Author contributions (CRediT).</b> Kristina P. Sinaga: Conceptualization, Methodology, Writing – original draft, Writing – review &amp; editing.</p>
+    <p><b>Correspondence.</b> kristinasinaga41@gmail.com</p>
+  </section>
+
+  <section id="refs">
+    <h2>References</h2>
+    <ol class="refs">
+      <li id="r1">S. Bickel, T. Scheffer. (2004). Multi-view clustering. In: <i>Proc. IEEE Int. Conf. Data Mining</i>. pp. 19–26.</li>
+      <li id="r2">J. Zhao, X. Xie, X. Xu, S. Sun. (2017). Multi-view learning overview: Recent progress and new challenges. <i>Inf. Fusion</i> <b>38</b>:43–54.</li>
+      <li id="r3">Y.-M. Xu, C.-D. Wang, J.-H. Lai. (2016). Weighted multi-view clustering with feature selection. <i>Pattern Recognit.</i> <b>53</b>:25–35.</li>
+      <li id="r4">B. Jiang, F. Qiu, L. Wang. (2016). Multi-view clustering via simultaneous weighting on views and features. <i>Appl. Soft Comput.</i> <b>47</b>:304–315.</li>
+      <li id="r5">G.-Y. Zhang, C.-D. Wang, D. Huang, W.-S. Zheng, Y.-R. Zhou. (2018). TW-Co-K-means: Two-level weighted collaborative K-means for multi-view clustering. <i>Knowl.-Based Syst.</i> <b>150</b>:127–138.</li>
+      <li id="r6">M.-S. Yang, K. P. Sinaga. (2019). A feature-reduction multi-view k-means clustering algorithm. <i>IEEE Access</i> <b>7</b>:114472–114486.</li>
+      <li id="r7">J. C. Bezdek. (1981). <i>Pattern Recognition with Fuzzy Objective Function Algorithms</i>. New York, NY, USA: Plenum Press.</li>
+      <li id="r8">J. C. Dunn. (1973). A fuzzy relative of the ISODATA process and its use in detecting compact well-separated clusters. <i>J. Cybern.</i> <b>3</b>(3):32–57.</li>
+      <li id="r9">N. R. Pal, J. Biswas. (1997). Cluster validation using graph theoretic concepts. <i>Pattern Recognit.</i> <b>30</b>(6):847–857.</li>
+      <li id="r10">D. L. Davies, D. W. Bouldin. (1979). A cluster separation measure. <i>IEEE Trans. Pattern Anal. Mach. Intell.</i> <b>PAMI-1</b>(2):224–227.</li>
+      <li id="r11">P. J. Rousseeuw. (1987). Silhouettes: A graphical aid to the interpretation and validation of cluster analysis. <i>J. Comput. Appl. Math.</i> <b>20</b>:53–65.</li>
+      <li id="r12">R. Tibshirani, G. Walther, T. Hastie. (2001). Estimating the number of clusters in a data set via the gap statistic. <i>J. R. Stat. Soc. Ser. B</i> <b>63</b>(2):411–423.</li>
+      <li id="r13">T. Calinski, J. Harabasz. (1974). A dendrite method for cluster analysis. <i>Commun. Stat.</i> <b>3</b>(1):1–27.</li>
+    </ol>
+  </section>
+
+  <hr class="end">
+  </main>
+
+<script>
+  window.MathJax = {
+    tex: { displayMath: [['\\[', '\\]']], inlineMath: [] },
+    svg: { fontCache: 'local' },
+    options: { enableMenu: false }
+  };
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-svg.min.js" async></script>
+
+</body></html>
