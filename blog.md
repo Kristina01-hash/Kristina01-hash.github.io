@@ -40,6 +40,12 @@
   <ol>
     <li>
       <span class="post-icon" aria-hidden="true">🎪</span>
+      <a class="post-link" href="https://kristina01-hash.github.io/clown-network/chronicles/17112026_Choosing_c_in_Multiview_Kmeans.html"> Choosing the number of clusters in multi-view K-means
+</a>
+      <span class="badge new">NEW: November 17th Edition</span>
+      <p class="excerpt"> It's pretty common to figure out the best number of clusters in single-view data. Even so, using data from several sources can be a big challenge. The proposed algorithm is a refinement of four existing multi-view clustering (MVC) algorithms, integrating existing cluster validity indices (CVIs) as an embedded unification stage to determine the optimal number of clusters in multi-view data.
+    <li>
+      <span class="post-icon" aria-hidden="true">🎪</span>
       <a class="post-link" href="https://kristina01-hash.github.io/clown-network/chronicles/November_2026_Nonnegative_Matrix_Factorization_Part_II.html"> Part II Of Nonnegative Matrix Factorization
 </a>
       <span class="badge new">NEW: November Edition</span>
