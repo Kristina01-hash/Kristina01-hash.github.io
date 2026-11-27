@@ -1,0 +1,379 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Gardening While Falling: The Science of Space Botany</title>
+<style>
+:root{--bg:#fbfaf6;--ink:#1f2a24;--muted:#5d6b62;--leaf:#2f7d4f;--box:#eef4ec;--line:#d5ded3}
+@media (prefers-color-scheme:dark){:root{--bg:#121815;--ink:#e6ece7;--muted:#a3b1a8;--leaf:#7fcf9c;--box:#1b2620;--line:#314038}}
+body{margin:0;background:var(--bg);color:var(--ink);font:18px/1.7 Georgia,'Times New Roman',serif;text-align:justify}
+main{max-width:720px;margin:auto;padding:32px 18px 64px}
+h1,h2,h3,th,.tag,figcaption,nav{font-family:system-ui,-apple-system,Segoe UI,sans-serif}
+h1{font-size:2.1rem;line-height:1.2;margin:.2em 0}
+h2{color:var(--leaf);font-size:1.4rem;margin-top:2.2em;line-height:1.3}
+h3{font-size:1.1rem;margin-bottom:.2em}
+a{color:var(--leaf)}
+.tag,.sub{color:var(--muted)}
+.box{background:var(--box);border-left:4px solid var(--leaf);padding:4px 18px;border-radius:6px;margin:1.4em 0}
+.eq{font-family:'Cambria Math',Cambria,Georgia,serif;text-align:center;overflow-x:auto;font-size:1.05rem}
+.scroll{overflow-x:auto}
+table{border-collapse:collapse;width:100%;font-size:.93rem}
+th,td{border-bottom:1px solid var(--line);padding:8px;text-align:left;vertical-align:top}
+figure{margin:1.6em 0}
+svg{width:100%;height:auto}
+svg text{fill:var(--ink);font:14px system-ui,sans-serif}
+figcaption{font-size:.85rem;color:var(--muted);text-align:center}
+sup a{text-decoration:none}
+ol.refs{font-size:.9rem;overflow-wrap:anywhere}
+
+.added-section{border-top:1px solid var(--line);margin-top:2.2em;padding-top:.4em}
+.added-note{background:var(--box);border:1px solid var(--line);border-radius:10px;padding:14px 16px;margin:1.2em 0}
+.gravity-figure{background:linear-gradient(180deg,rgba(80,130,170,.08),transparent);border:1px solid var(--line);border-radius:12px;padding:10px}
+.gravity-figure svg{display:block}
+.gravity-figure figcaption{margin-top:8px}
+.stat-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin:1em 0}
+.stat{background:var(--box);border:1px solid var(--line);border-radius:9px;padding:12px}
+.stat strong{display:block;font:600 .9rem system-ui,sans-serif}
+.stat span{display:block;font:700 1.35rem system-ui,sans-serif;color:var(--leaf);margin:.25em 0}
+.stat small{color:var(--muted);font-size:.8rem}
+@media(max-width:520px){.stat-grid{grid-template-columns:1fr}.gravity-figure{padding:4px}.gravity-figure svg text{font-size:12px}}
+
+.g-bar-wrap{margin:1.4em 0}
+.g-bar{display:flex;align-items:flex-end;height:140px;gap:18px;padding:0 8px}
+.g-col{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-end}
+.g-fill{width:100%;border-radius:8px 8px 4px 4px;min-height:8px;transition:height .3s}
+.g-label{font:600 .8rem system-ui,sans-serif;margin-top:8px;text-align:center;color:var(--muted)}
+.g-value{font:700 .95rem system-ui,sans-serif;color:var(--leaf);margin-bottom:4px}
+.compare-table{font-size:.9rem}
+.compare-table th{background:var(--box)}
+.analogy{border-left:3px solid var(--leaf);padding:.6em 0 .6em 1em;margin:1.2em 0;color:var(--muted);font-style:italic}
+.plant-impacts{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:1.2em 0}
+@media(max-width:520px){.plant-impacts{grid-template-columns:1fr}}
+.impact-card{background:var(--box);border:1px solid var(--line);border-radius:10px;padding:14px}
+.impact-card h4{margin:0 0 .4em;font:600 1rem system-ui,sans-serif;color:var(--leaf)}
+.impact-card p{margin:0;font-size:.92rem}
+</style>
+</head>
+<body>
+<main>
+<p class="tag">SPACE BOTANY · NOVEMBER 2026</p>
+<h1>Gardening While Falling: The Science of Space Botany</h1>
+<p class="sub">How do you grow a chili pepper when water won't pour and "down" has gone missing?</p>
+
+<div class="box"><p><strong>A quick heads-up:</strong> I'm a mathematician who got a bit bored and wanted to try something new. Please join in on the fun, at your own risk! 😉</p></div>
+
+<p>Science keeps moving the boundaries of what seems possible. Astronauts aboard the International Space Station (ISS) have grown lettuce, radishes, tomatoes and chili peppers.<sup><a href="#r3">3</a></sup> <strong>Space botany</strong> is the study of how plants live and grow in space, and how we can help them do it.</p>
+
+<h2>1. First, why does everything float?</h2>
+<p>It is not because gravity has vanished. At the station's altitude, Earth's gravity is still about 90% as strong as on the ground.<sup><a href="#r1">1</a></sup> We can check this with Newton's inverse-square law. Take Earth's radius <em>R</em> ≈ 6,371 km and an altitude <em>h</em> ≈ 400 km:</p>
+<p class="eq"><em>g</em>(<em>h</em>) / <em>g</em>(0) = [ <em>R</em> / (<em>R</em> + <em>h</em>) ]² = (6371 / 6771)² ≈ 0.89</p>
+<p>The station and everything in it are in continuous <strong>free fall</strong>. They also move sideways so fast (about 28,000 km/h) that Earth's surface curves away as they fall, so they keep circling instead of landing.<sup><a href="#r1">1</a></sup> Since astronaut, plant and water droplet all fall together, they appear weightless. This condition is called <strong>microgravity</strong>. "Zero gravity" is a popular but misleading name.</p>
+<p>Astronauts rehearse spacewalks underwater, where they can practice moving in three dimensions, handling tools and keeping their orientation. It is a useful imitation, but not the same physics: in water, <em>buoyancy</em> balances your weight, while in orbit you are <em>falling</em>.</p>
+
+<section class="added-section" aria-labelledby="earth-moon-heading">
+<h3 id="earth-moon-heading">A little farther from home: what changes on the Moon?</h3>
+<p>Here is another way to picture gravity. Imagine the same 70 kg astronaut in three places: near Earth, aboard the ISS, and standing on the Moon. The astronaut's <strong>mass stays 70 kg</strong> throughout the journey. What changes is the gravitational force on them—and, when they stand on a surface, their weight.</p>
+
+<figure class="gravity-figure">
+<svg viewBox="0 0 720 285" role="img" aria-labelledby="journey-title journey-desc">
+<title id="journey-title">A not-to-scale journey from Earth to the Moon</title>
+<desc id="journey-desc">Earth is on the left, the Moon on the right, and a spacecraft travels along a curved dotted path between them. Labels compare surface gravity on Earth and the Moon and explain that astronauts in transit can be in free fall.</desc>
+<defs>
+  <linearGradient id="earthFill" x1="0" y1="0" x2="1" y2="1">
+    <stop offset="0" stop-color="#5cb6e8"/><stop offset="1" stop-color="#18558d"/>
+  </linearGradient>
+  <linearGradient id="moonFill" x1="0" y1="0" x2="1" y2="1">
+    <stop offset="0" stop-color="#e4e4dc"/><stop offset="1" stop-color="#8d969d"/>
+  </linearGradient>
+</defs>
+<path d="M105 145 Q350 -5 615 145" fill="none" stroke="#d69b27" stroke-width="3" stroke-dasharray="8 8"/>
+<circle cx="105" cy="160" r="82" fill="url(#earthFill)" stroke="#8bc8eb" stroke-width="3"/>
+<path d="M53 125 Q78 96 101 113 Q126 92 145 116 Q160 121 170 145 Q145 150 137 169 Q113 158 99 181 Q74 180 66 157Z" fill="#58a66a"/>
+<path d="M72 190 Q96 174 117 193 Q136 187 149 208 L123 235 L88 228Z" fill="#58a66a"/>
+<circle cx="615" cy="160" r="43" fill="url(#moonFill)" stroke="#c7cbd0" stroke-width="2"/>
+<circle cx="600" cy="145" r="7" fill="#7f898f" opacity=".65"/>
+<circle cx="628" cy="174" r="10" fill="#7f898f" opacity=".55"/>
+<circle cx="634" cy="143" r="5" fill="#7f898f" opacity=".55"/>
+<g transform="translate(360 67)">
+  <path d="M-12 7 L0 -14 L12 7 L0 13Z" fill="#f2f4f5" stroke="#58636c" stroke-width="1.5"/>
+  <path d="M-5 6 L-22 13 L-18 22 L-2 13 M5 6 L22 13 L18 22 L2 13" fill="#5b9ac4" stroke="#58636c" stroke-width="1"/>
+  <path d="M0 -14 L0 -25" stroke="#d69b27" stroke-width="2"/>
+</g>
+<g font-family="system-ui,-apple-system,Segoe UI,sans-serif" fill="currentColor">
+  <text x="105" y="263" text-anchor="middle" font-weight="700">EARTH</text>
+  <text x="105" y="280" text-anchor="middle">9.81 m/s² at surface</text>
+  <text x="615" y="225" text-anchor="middle" font-weight="700">MOON</text>
+  <text x="615" y="242" text-anchor="middle">1.62 m/s² at surface</text>
+  <text x="360" y="25" text-anchor="middle" font-weight="700">Spacecraft in transit</text>
+  <text x="360" y="43" text-anchor="middle">crew float while falling together</text>
+  <text x="360" y="125" text-anchor="middle">Gravity acts throughout the journey;</text>
+  <text x="360" y="143" text-anchor="middle">the balance of Earth's and Moon's</text>
+  <text x="360" y="161" text-anchor="middle">pull changes with position.</text>
+</g>
+</svg>
+<figcaption>Conceptual route only—not to scale. The astronaut can feel weightless during the journey because the spacecraft and crew are in free fall together.</figcaption>
+</figure>
+
+<p>At the Moon's surface, gravity is about <strong>1.62 m/s²</strong>, roughly one-sixth of the familiar 9.81 m/s² at Earth's surface. A 70 kg astronaut would still have a mass of 70 kg, but their gravitational weight would be much smaller.</p>
+
+<div class="stat-grid" aria-label="Weight comparison for a 70 kilogram astronaut">
+  <div class="stat"><strong>On Earth</strong><span>686.7 N</span><small>70 × 9.81 m/s²</small></div>
+  <div class="stat"><strong>At ISS altitude*</strong><span>about 607 N</span><small>70 × 8.67 m/s²</small></div>
+  <div class="stat"><strong>On the Moon</strong><span>113.4 N</span><small>70 × 1.62 m/s²</small></div>
+</div>
+<p><small>*The ISS-altitude figure is the gravitational force that would act on a supported 70 kg object at about 400 km altitude. Astronauts aboard the orbiting station do not feel that as ordinary weight because they and the station are falling together.</small></p>
+
+<div class="added-note">
+<strong>Mass is not weight</strong>
+<p>Mass describes how much matter an object contains and is measured in kilograms (kg). Weight is the force of gravity on that mass and is measured in newtons (N). The Moon does not make an astronaut's mass smaller; it makes their weight smaller. Their inertia—the resistance to changes in motion—remains much like it was on Earth.</p>
+</div>
+
+<!-- ========== FURTHER ADDED MATERIAL ========== -->
+<h3>Seeing the difference at a glance</h3>
+<p>A simple bar chart makes the relative strengths of gravity easier to compare. Earth’s surface gravity is set as 100 %. The ISS still experiences roughly 89 % of that force (but the crew feels almost none of it because everything falls together). The Moon’s surface is only about 16.5 %.</p>
+
+<div class="g-bar-wrap" aria-label="Relative surface gravity comparison">
+  <div class="g-bar">
+    <div class="g-col">
+      <div class="g-value">100 %</div>
+      <div class="g-fill" style="height:120px;background:var(--leaf)"></div>
+      <div class="g-label">Earth<br>surface</div>
+    </div>
+    <div class="g-col">
+      <div class="g-value">~89 %</div>
+      <div class="g-fill" style="height:107px;background:#5b9ac4"></div>
+      <div class="g-label">ISS<br>altitude</div>
+    </div>
+    <div class="g-col">
+      <div class="g-value">~16.5 %</div>
+      <div class="g-fill" style="height:20px;background:#c7a05c"></div>
+      <div class="g-label">Moon<br>surface</div>
+    </div>
+  </div>
+</div>
+
+<div class="added-note">
+<strong>Important distinction for beginners</strong>
+<p><strong>Microgravity</strong> (ISS) is not the same as <strong>low gravity</strong> (Moon). On the station, objects do not fall “down” relative to the cabin; they float. On the Moon there is still a clear downward direction—just a much gentler one. Plants, water and astronauts therefore behave differently in each place.</p>
+</div>
+
+<figure class="gravity-figure">
+<svg viewBox="0 0 720 260" role="img" aria-labelledby="three-worlds-title">
+<title id="three-worlds-title">Three environments side by side</title>
+<!-- Earth panel -->
+<rect x="20" y="20" width="210" height="180" rx="12" fill="var(--box)" stroke="var(--line)"/>
+<text x="125" y="48" text-anchor="middle" font-weight="700" font-size="15">Earth surface</text>
+<!-- person standing -->
+<circle cx="90" cy="95" r="14" fill="#f0c28a"/>
+<rect x="80" y="110" width="20" height="40" rx="4" fill="#4a7c59"/>
+<line x1="80" y1="120" x2="60" y2="145" stroke="#4a7c59" stroke-width="5"/>
+<line x1="100" y1="120" x2="120" y2="145" stroke="#4a7c59" stroke-width="5"/>
+<line x1="85" y1="150" x2="75" y2="185" stroke="#333" stroke-width="5"/>
+<line x1="95" y1="150" x2="105" y2="185" stroke="#333" stroke-width="5"/>
+<!-- plant upright -->
+<path d="M160 185 V120" stroke="#3d9a5f" stroke-width="4"/>
+<ellipse cx="150" cy="115" rx="14" ry="8" fill="#3d9a5f" transform="rotate(-20 150 115)"/>
+<ellipse cx="170" cy="110" rx="14" ry="8" fill="#3d9a5f" transform="rotate(20 170 110)"/>
+<text x="125" y="215" text-anchor="middle" font-size="12">Clear “down”</text>
+<text x="125" y="232" text-anchor="middle" font-size="12">g ≈ 9.81 m/s²</text>
+
+<!-- ISS panel -->
+<rect x="255" y="20" width="210" height="180" rx="12" fill="var(--box)" stroke="var(--line)"/>
+<text x="360" y="48" text-anchor="middle" font-weight="700" font-size="15">ISS (microgravity)</text>
+<!-- floating person -->
+<circle cx="320" cy="110" r="14" fill="#f0c28a"/>
+<rect x="310" y="125" width="20" height="30" rx="4" fill="#4a7c59" transform="rotate(25 320 140)"/>
+<!-- floating plant / blob -->
+<circle cx="400" cy="100" r="18" fill="#7fcf9c" opacity=".7"/>
+<path d="M390 95 Q400 80 410 95" stroke="#3d9a5f" stroke-width="3" fill="none"/>
+<path d="M395 110 Q400 125 405 110" stroke="#3d9a5f" stroke-width="3" fill="none"/>
+<!-- water blob -->
+<ellipse cx="370" cy="160" rx="22" ry="12" fill="#5b9ac4" opacity=".8"/>
+<text x="360" y="215" text-anchor="middle" font-size="12">Everything floats</text>
+<text x="360" y="232" text-anchor="middle" font-size="12">effective g ≈ 0</text>
+
+<!-- Moon panel -->
+<rect x="490" y="20" width="210" height="180" rx="12" fill="var(--box)" stroke="var(--line)"/>
+<text x="595" y="48" text-anchor="middle" font-weight="700" font-size="15">Moon surface</text>
+<!-- lighter stance person -->
+<circle cx="555" cy="90" r="14" fill="#f0c28a"/>
+<rect x="545" y="105" width="20" height="35" rx="4" fill="#4a7c59"/>
+<line x1="545" y1="115" x2="530" y2="140" stroke="#4a7c59" stroke-width="5"/>
+<line x1="565" y1="115" x2="580" y2="140" stroke="#4a7c59" stroke-width="5"/>
+<line x1="550" y1="140" x2="545" y2="175" stroke="#333" stroke-width="4"/>
+<line x1="560" y1="140" x2="565" y2="175" stroke="#333" stroke-width="4"/>
+<!-- plant still upright but maybe taller looking -->
+<path d="M630 175 V105" stroke="#3d9a5f" stroke-width="4"/>
+<ellipse cx="618" cy="100" rx="16" ry="9" fill="#3d9a5f" transform="rotate(-15 618 100)"/>
+<ellipse cx="642" cy="95" rx="16" ry="9" fill="#3d9a5f" transform="rotate(15 642 95)"/>
+<text x="595" y="215" text-anchor="middle" font-size="12">Still a “down”</text>
+<text x="595" y="232" text-anchor="middle" font-size="12">g ≈ 1.62 m/s²</text>
+</svg>
+<figcaption>Three different “worlds” for a gardener. On Earth and the Moon there is a floor and a clear downward direction. Aboard the ISS there is no preferred direction—roots, water and people all float.</figcaption>
+</figure>
+
+<h3>Why does a jump look different on the Moon?</h3>
+<p>Imagine releasing a ball from rest at a height of 2 meters, ignoring air resistance. On Earth it takes about 0.64 seconds to fall; on the Moon it takes about 1.57 seconds. The ball falls more slowly because lunar gravity gives it less downward acceleration. An astronaut can therefore make longer, higher-looking hops, although their spacesuit and the inertia of their body still take effort to move.</p>
+<p class="eq"><em>t</em> = √(2<em>d</em>/<em>g</em>) &nbsp; → &nbsp; Earth: 0.64 s &nbsp; | &nbsp; Moon: 1.57 s</p>
+
+<p class="analogy">Think of a soft elevator that suddenly starts falling freely: you float inside it. That is roughly the ISS experience. On the Moon you are still standing on a solid floor, but the floor only pulls you with one-sixth the familiar strength—so jumps last longer and land more gently.</p>
+
+<p><strong>And what about the trip itself?</strong> The astronaut does not suddenly feel lunar gravity increasing as a heavy pull while floating inside the spacecraft. During a carefully planned coast, the spacecraft and astronaut are in free fall together. Near the Moon, lunar gravity shapes the spacecraft's path; once the astronaut lands and is supported by the surface, they feel their reduced lunar weight.</p>
+<p>This is the useful distinction for our space-gardening story: microgravity aboard an orbiting spacecraft is not the same as the Moon's weaker surface gravity. On the ISS, plants, water and crew float together in free fall. On the Moon, objects still fall toward the ground—just with a gentler acceleration than on Earth.</p>
+
+<!-- New comparison table -->
+<h3>How the three environments affect a garden</h3>
+<p>The practical differences matter a great deal when you try to grow food. Here is a quick side-by-side summary:</p>
+
+<div class="scroll">
+<table class="compare-table">
+<thead>
+<tr>
+  <th>Feature</th>
+  <th>Earth surface</th>
+  <th>ISS (microgravity)</th>
+  <th>Moon surface (~1/6 g)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td><strong>Preferred “down”</strong></td>
+  <td>Clear and strong</td>
+  <td>None – everything floats</td>
+  <td>Clear but weak</td>
+</tr>
+<tr>
+  <td><strong>Water behavior</strong></td>
+  <td>Pours, drains, forms streams</td>
+  <td>Clings, forms floating blobs</td>
+  <td>Still drains, but more slowly; surface tension more noticeable</td>
+</tr>
+<tr>
+  <td><strong>Root orientation (gravitropism)</strong></td>
+  <td>Roots grow downward reliably</td>
+  <td>Gravity cue almost absent; plants rely more on light</td>
+  <td>Roots still sense “down”, but the signal is weaker</td>
+</tr>
+<tr>
+  <td><strong>Air movement</strong></td>
+  <td>Warm air rises naturally</td>
+  <td>No natural convection – fans required</td>
+  <td>Weaker convection; some forced airflow still helpful</td>
+</tr>
+<tr>
+  <td><strong>Soil / medium</strong></td>
+  <td>Ordinary soil works</td>
+  <td>Loose soil floats away; special pillows or hydroponics needed</td>
+  <td>Soil stays put, but water management must be careful</td>
+</tr>
+<tr>
+  <td><strong>What a gardener feels</strong></td>
+  <td>Normal weight</td>
+  <td>Weightless (free-fall)</td>
+  <td>About one-sixth normal weight</td>
+</tr>
+</tbody>
+</table>
+</div>
+
+<div class="plant-impacts">
+  <div class="impact-card">
+    <h4>On the ISS</h4>
+    <p>Because there is no “down”, water must be delivered by wicks or carefully controlled systems. Roots cannot use gravity to find the right direction, so light (and sometimes mechanical cues) become the main guides. Fans replace the missing breeze.</p>
+  </div>
+  <div class="impact-card">
+    <h4>On the Moon</h4>
+    <p>A gentle downward pull still exists, so conventional drainage and root growth are possible in principle. The slower fall of water and the reduced convection of air, however, mean that over-watering or stagnant humidity can still become problems. Future lunar greenhouses will need their own engineering solutions.</p>
+  </div>
+</div>
+
+<div class="added-note">
+<strong>Why this matters for the rest of the article</strong>
+<p>When you read about Veggie’s clay pillows, LED lighting and fans, remember that those inventions were designed for the floating world of the ISS. A garden on the Moon would face a different (though still challenging) set of physics. Understanding the distinction helps us appreciate both the cleverness of today’s space gardens and the new questions that will arise when humans try to farm on other worlds.</p>
+</div>
+<!-- ========== END FURTHER ADDED MATERIAL ========== -->
+
+</section>
+
+
+<h2>2. Why ordinary garden soil is a problem</h2>
+<ul>
+<li><strong>Loose particles drift.</strong> Dust and grit could reach eyes, equipment and air filters.</li>
+<li><strong>Water does not drain.</strong> Without a useful "downward" pull, surface tension dominates. Water clings to surfaces and gathers into blobs.</li>
+<li><strong>Roots need oxygen.</strong> Too much water around a root suffocates it; too little leaves it dry.<sup><a href="#r2">2</a></sup></li>
+<li><strong>Soil is alive.</strong> Many of its bacteria and fungi are helpful, but uncontrolled microbes are a concern in a closed cabin.</li>
+</ul>
+<p>So the challenge is not that plants <em>cannot</em> grow in space. It is delivering water, air and nutrients in the right balance.</p>
+
+<h2>3. The clay that isn't playdough</h2>
+<p>A <strong>substrate</strong> is whatever roots grow in. When I first read "clay-based substrate", I pictured the squishy stuff toddlers play with. The space version is quite different: <strong>calcined clay</strong>, clay heated strongly until it becomes hard, porous granules. It is similar to material used on baseball fields.<sup><a href="#r4">4</a></sup></p>
+<p>Its pores and the gaps between granules help share water and air around the roots. Water moves through small spaces by <strong>capillary action</strong>, the same effect that draws a spill into a paper towel, and it works without gravity's help.</p>
+
+<h2>4. Meet Veggie, a space garden</h2>
+<p>NASA's Vegetable Production System, <strong>Veggie</strong>, is about the size of carry-on luggage and typically holds six plants. Each grows in a fabric "pillow" filled with clay-based growing medium and fertilizer.<sup><a href="#r2">2</a></sup> The fertilizer is released slowly, and water wicks into the pillows from a reservoir.<sup><a href="#r5">5</a></sup> Astronauts still tend the plants and add water.<sup><a href="#r4">4</a></sup></p>
+
+<figure>
+<svg viewBox="0 0 360 310" role="img" aria-label="Diagram of a plant in a Veggie pillow: LED light above, plant, pillow of clay granules, water reservoir below">
+<rect x="70" y="10" width="220" height="26" rx="5" fill="#c2429a"/>
+<text x="180" y="54" text-anchor="middle">LED light (red, blue, green)</text>
+<path d="M180 160V95" stroke="#3d9a5f" stroke-width="5" fill="none"/>
+<ellipse cx="158" cy="105" rx="26" ry="11" fill="#3d9a5f" transform="rotate(25 158 105)"/>
+<ellipse cx="202" cy="90" rx="26" ry="11" fill="#3d9a5f" transform="rotate(-25 202 90)"/>
+<rect x="90" y="160" width="180" height="70" rx="22" fill="#b9825a"/>
+<path d="M180 160q-5 25-35 45M180 160q8 30 32 48M180 160v55" stroke="#fff3e0" stroke-width="2" fill="none"/>
+<path d="M120 260v-26M240 260v-26" stroke="#4a90c8" stroke-width="5" stroke-dasharray="6 4"/>
+<rect x="55" y="235" width="250" height="19" style="fill:var(--bg)"/>
+<text x="180" y="248" text-anchor="middle">Pillow: clay granules + fertilizer</text>
+<rect x="70" y="260" width="220" height="20" rx="4" fill="#4a90c8"/>
+<text x="180" y="300" text-anchor="middle">Water reservoir (wicks upward)</text>
+</svg>
+<figcaption>Simplified schematic, not to scale.</figcaption>
+</figure>
+
+<h3>Light replaces the Sun, and helps show the way</h3>
+<p>On Earth, roots tend to grow downward in response to gravity, a behavior called <strong>gravitropism</strong>. In orbit that cue is largely missing, and plants rely on others, such as light, to orient their growth.<sup><a href="#r2">2</a></sup> LEDs supply mostly the red and blue light that plants use heavily, so the chamber often glows magenta.<sup><a href="#r2">2</a></sup> Green LEDs are included too,<sup><a href="#r4">4</a></sup> and help the plants look more natural to the crew.</p>
+
+<h3>Fans replace the breeze</h3>
+<p>In microgravity, warm air does not rise as it does on Earth. Fans keep air moving so leaves get fresh carbon dioxide and moisture does not linger around the plants.</p>
+
+<h2>5. Beyond the pillow</h2>
+<div class="scroll"><table>
+<tr><th>System</th><th>How roots are supplied</th><th>What it is for</th></tr>
+<tr><td><strong>Veggie</strong></td><td>Clay-filled pillows and wicking</td><td>Research and fresh food</td></tr>
+<tr><td><strong>Advanced Plant Habitat</strong></td><td>Porous clay with slow-release fertilizer</td><td>Enclosed, automated research with 180+ sensors<sup><a href="#r2">2</a></sup></td></tr>
+<tr><td><strong>XROOTS</strong> (test system)</td><td><em>Hydroponics</em> (nutrient solution) and <em>aeroponics</em> (nutrient mist)</td><td>Testing ways to grow larger crops without soil or other media<sup><a href="#r6">6</a></sup></td></tr>
+</table></div>
+
+<h2>6. A short harvest diary</h2>
+<ul>
+<li><strong>2015:</strong> The crew grew lettuce in Veggie and got to eat it.<sup><a href="#r3">3</a></sup></li>
+<li><strong>2016:</strong> Astronaut Scott Kelly nursed struggling zinnias back to health, and they flowered.<sup><a href="#r2">2</a></sup></li>
+<li><strong>2021:</strong> Chile peppers (my favorite!) grew for 137 days in the Advanced Plant Habitat. The crew enjoyed some in tacos.<sup><a href="#r7">7</a></sup></li>
+<li><strong>2022–2023:</strong> Dwarf tomatoes grew in Veggie. Watering difficulties and low humidity limited the harvest to 12 ripe fruits, all returned to Earth for study.<sup><a href="#r8">8</a></sup></li>
+<li><strong>October 2026:</strong> A study called MVP Plant-02 arrived to examine how plants' genes respond to microgravity.<sup><a href="#r9">9</a></sup></li>
+</ul>
+<p>Other crops include Chinese cabbage, mizuna mustard, kale and radishes.<sup><a href="#r2">2</a>,<a href="#r3">3</a></sup></p>
+
+<h2>7. And the fish?</h2>
+<p>I joked to myself about bringing fish along, but scientists got there first! Japanese rice fish, called <em>medaka</em>, mated aboard the space shuttle Columbia in 1994, and their eggs developed and hatched. In 2012, medaka lived for two months in an aquarium on the ISS, helping researchers study bone changes in microgravity.<sup><a href="#r10">10</a></sup> Chickens are still waiting for their invitation. 🐔</p>
+
+<h2>Why it matters</h2>
+<p>Missions far from Earth cannot depend on frequent grocery deliveries, and some vitamins in packaged food break down over time. Fresh crops could help keep crews healthy, and gardening may lift their spirits.<sup><a href="#r2">2</a></sup> Space botany does not recreate Earth exactly. It identifies what a plant needs (light, water, air, nutrients and a way to orient) and engineers each one. As a mathematician, I find that delightful: change one condition, and a whole familiar system has to be solved again. 🚀🌱</p>
+
+<h2>References</h2>
+<ol class="refs">
+<li id="r1"><a href="https://www.nasa.gov/learning-resources/for-kids-and-students/what-is-microgravity-grades-5-8/">NASA, What Is Microgravity? (Grades 5–8)</a></li>
+<li id="r2"><a href="https://www.nasa.gov/content/growing-plants-in-space">NASA, Growing Plants in Space</a></li>
+<li id="r3"><a href="https://www.nasa.gov/mission_pages/station/research/science_in_space_10Jul23">NASA, Science in Space: week of 10 July 2023</a></li>
+<li id="r4"><a href="https://science.nasa.gov/directorates/smd/astronauts-plant-seed-pillows-in-new-space-agriculture-study/">NASA, Astronauts Plant Seed Pillows in New Space Agriculture Study</a></li>
+<li id="r5"><a href="https://www.nasa.gov/wp-content/uploads/2019/04/veggie_fact_sheet_508.pdf">NASA, Veggie fact sheet</a></li>
+<li id="r6"><a href="https://science.nasa.gov/?p=19999">NASA, eXposed Root On-Orbit Test System (XROOTS)</a></li>
+<li id="r7"><a href="https://www.nasa.gov/feature/nasa-s-second-pepper-harvest-sets-record-on-space-station">NASA, Second Pepper Harvest Sets Record on Space Station</a></li>
+<li id="r8"><a href="https://ntrs.nasa.gov/citations/20230008751">NASA Technical Reports Server, Veg-05 tomato crop production</a></li>
+<li id="r9"><a href="https://www.nasa.gov/image-detail/amf-iss075e0226045/">NASA, MVP Plant-02 investigation image and caption</a></li>
+<li id="r10"><a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC4591011">PLOS ONE (2015), Japanese medaka sampled aboard the ISS</a></li>
+</ol>
+</main>
+</body>
+</html>
