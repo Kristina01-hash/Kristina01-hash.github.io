@@ -40,6 +40,12 @@
   <ol>
     <li>
       <span class="post-icon" aria-hidden="true">🎪</span>
+      <a class="post-link" href="https://kristina01-hash.github.io/clown-network/chronicles/27112026_space-botany.html"> Gardening While Falling: The Science of Space Botany
+</a>
+      <span class="badge new">NEW: November 27th Edition</span>
+      <p class="excerpt"> How do you grow a chili pepper when water won't pour and "down" has gone missing? You may will find the answer here. I'm a mathematician who got a bit bored and wanted to try something new. Please join in on the fun, at your own risk! 😉
+    <li>
+      <span class="post-icon" aria-hidden="true">🎪</span>
       <a class="post-link" href="https://kristina01-hash.github.io/clown-network/chronicles/17112026_Choosing_c_in_Multiview_Kmeans.html"> Choosing the number of clusters in multi-view K-means
 </a>
       <span class="badge new">NEW: November 17th Edition</span>
